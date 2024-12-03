@@ -1,6 +1,7 @@
 home {
   --hero-height: clamp(300px, 60vh, 400px);
   min-height: calc(100vh - var(--menu-height) - var(--header-height));
+  min-height: calc(100dvh - var(--menu-height) - var(--header-height));
   display: flex;
   flex-direction: column;
   gap: clamp(0.8rem, 2vh, 3rem);
