@@ -1,0 +1,28 @@
+{
+  "name": "denovitepreact",
+  "version": "0.0.1",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev-client & npm run dev-server",
+    "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx",
+    "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx --dev",
+    "dev-client": "vite client --host",
+    "preview": "npm run build & npm run prod-server",
+    "build": "npm run create-index && vite build client --outDir dist --watch",
+    "final": "deno pack server or deno bundle server",
+    "deploy": "npm run build && npm run final",
+    "publish": "rm -d -r ./node_modules && rm package-lock.json && rm server/deno.lock && git publish && npm i",
+    "create-index": "echo '<script rel=\"preconnect\" type=\"module\" crossorigin src=\"./main.jsx\"></script><link rel=\"stylesheet\" href=\"./index.css\" />' > ./client/index.html",
+    "delete-index": "rm ./client/index.html && rm ./client/assets/dist/index.html"
+  },
+  "dependencies": {
+    "preact": "^10.24.3",
+    "preact-render-to-string": "^6.5.11",
+    "lightweight-router": "^1.0.7"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.1",
+    "vite": "^5"
+  }
+}
