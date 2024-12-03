@@ -12,11 +12,11 @@ globalThis.dev = args.dev;
 const serverConfig = {
   RootComponent: App,
   renderFunction: render,
-  staticAssetsDirectory: "client/",
+  staticAssetsDirectory: new URL("../client", import.meta.url).pathname,
   devMiddleware: globalThis.dev ? refresh() : null,
   routingConfig: {
-    apiEndpointsPath: new URL(".", import.meta.url).pathname + "api",
-    pagesDirectory: new URL(".", import.meta.url).pathname + "../client",
+    apiEndpointsPath: new URL("./api", import.meta.url).pathname,
+    pagesDirectory: new URL("../client", import.meta.url).pathname,
     isDevelopmentMode: globalThis.dev,
   },
 };

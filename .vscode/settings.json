@@ -1,0 +1,34 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".vscode": true,
+    ".github": true,
+    "LICENSE": true,
+    "README.md": true,
+    "lib": true,
+    "server/deno.json": true,
+    "client/vite.config.js": true,
+    "client/index.html": true,
+    "server/deno.lock": true,
+    "package.json": true,
+    "node_modules": true
+  },
+"hide-files.files": [
+  ".vscode",
+  ".github",
+  "LICENSE",
+  "README.md",
+  "lib",
+  "server/deno.json",
+  "client/vite.config.js",
+  "client/index.html",
+  "server/deno.lock",
+  "package.json",
+  "node_modules"
+]
+}
