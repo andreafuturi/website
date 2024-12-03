@@ -1,5 +1,6 @@
 about {
   min-height: calc(100vh - var(--menu-height) - var(--header-height));
+  min-height: calc(100svh - var(--menu-height) - var(--header-height));
   background-image: url("images/fractal.webp");
   background-size: cover;
   background-position: center;
