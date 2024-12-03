@@ -13,10 +13,7 @@
     "lib": true,
     "server/deno.json": true,
     "client/vite.config.js": true,
-    "client/index.html": true,
-    "server/deno.lock": true,
-    "package.json": true,
-    "node_modules": true
+    "package.json": true
   },
 "hide-files.files": [
   ".vscode",
@@ -26,9 +23,6 @@
   "lib",
   "server/deno.json",
   "client/vite.config.js",
-  "client/index.html",
-  "server/deno.lock",
-  "package.json",
-  "node_modules"
+  "package.json"
 ]
 }
