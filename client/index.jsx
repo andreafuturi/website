@@ -8,6 +8,7 @@ export default function Index({ children }) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="theme-color" content="#dbdbdb" />
         <IndexCss isDev={globalThis.dev} />
         <MainJsx isDev={globalThis.dev} />
         <Title>Andrea Futuri</Title>
