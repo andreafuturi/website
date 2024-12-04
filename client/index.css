@@ -73,8 +73,8 @@ svg {
   --header-padding: clamp(0.7rem, 2vh, 2rem);
   --header-padding: clamp(0.7rem, 2svh, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
-  --home-height: calc(85vh - var(--menu-height) - var(--header-height));
-  --home-height-svh: calc(85svh - var(--menu-height) - var(--header-height));
+  --home-height: calc(90vh - var(--menu-height) - var(--header-height));
+  --home-height-svh: calc(90svh - var(--menu-height) - var(--header-height));
 }
 
 /* STYLES RESET */
