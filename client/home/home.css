@@ -1,8 +1,8 @@
 home {
   --hero-height: clamp(300px, 60vh, 400px);
   --hero-height: clamp(300px, 60svh, 400px);
-  min-height: calc(100vh - var(--menu-height) - var(--header-height));
-  min-height: calc(100svh - var(--menu-height) - var(--header-height));
+  min-height: var(--home-height);
+  min-height: var(--home-height);
   display: flex;
   flex-direction: column;
   gap: clamp(0.8rem, 2vh, 3rem);
@@ -46,13 +46,6 @@ home {
     gap: 1rem;
     justify-content: space-evenly;
   }
-  .scroll-to-about {
-    color: var(--fake-black);
-    gap: 0.5rem;
-    flex: 2;
-    padding: clamp(0.3rem, 1vh, 0.8rem);
-    padding: clamp(0.3rem, 1svh, 0.8rem);
-  }
   companies {
     display: flex;
     flex-direction: column;
@@ -68,5 +61,9 @@ home {
     gap: clamp(0.1rem, 1vh, 1rem);
     gap: clamp(0.1rem, 1svh, 1rem);
     flex: 1;
+  }
+  cta {
+    flex: 1;
+    align-self: center;
   }
 }

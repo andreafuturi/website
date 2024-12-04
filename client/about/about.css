@@ -1,9 +1,33 @@
 about {
   min-height: calc(100vh - var(--menu-height) - var(--header-height));
   min-height: calc(100svh - var(--menu-height) - var(--header-height));
-  background-image: url("images/fractal.webp");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/fractal.webp");
   background-size: cover;
   background-position: center;
   display: block;
   margin: 0 clamp(-2rem, -5vw, -1rem);
+
+  .scroll-to-about {
+    --scroll-to-about-padding: clamp(0.3rem, 1vh, 0.8rem);
+    --scroll-to-about-padding: clamp(0.3rem, 1svh, 0.8rem);
+    color: var(--fake-white);
+    gap: 0.7rem;
+    flex: 2;
+    padding: var(--scroll-to-about-padding);
+    padding: var(--scroll-to-about-padding);
+    height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
+    height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
+    svg {
+      animation: alternate-reverse 1s infinite scroll-to-about-arrow;
+    }
+  }
+}
+
+@keyframes scroll-to-about-arrow {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(0.3rem);
+  }
 }
