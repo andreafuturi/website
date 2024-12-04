@@ -24,8 +24,8 @@ home {
     max-height: 60svh;
   }
   texteffect {
-    max-height: 20vh;
-    max-height: 20svh;
+    max-height: 25vh;
+    max-height: 25svh;
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
@@ -49,7 +49,7 @@ home {
   .scroll-to-about {
     color: var(--fake-black);
     gap: 0.5rem;
-    flex: 1;
+    flex: 2;
     padding: clamp(0.3rem, 1vh, 0.8rem);
     padding: clamp(0.3rem, 1svh, 0.8rem);
   }
