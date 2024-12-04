@@ -51,7 +51,8 @@ home {
     color: var(--fake-black);
     gap: 0.5rem;
     flex: 1;
-    padding: clamp(0.3rem, 2vh, 1rem);
+    padding: clamp(0.3rem, 1vh, 0.8rem);
+    padding: clamp(0.3rem, 1svh, 0.8rem);
   }
   companies {
     display: flex;

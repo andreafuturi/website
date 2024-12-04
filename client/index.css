@@ -68,8 +68,8 @@ svg {
   --light-gray: #8e8e93;
   --menu-height: clamp(4rem, 8vh, 5rem);
   --menu-height-svh: clamp(4rem, 8svh, 5rem);
-  --logo-height: clamp(1.5rem, 3vh, 2rem);
-  --logo-height: clamp(1.5rem, 3svh, 2rem);
+  --logo-height: clamp(1.5rem, 3.5vh, 2.5rem);
+  --logo-height: clamp(1.5rem, 3.5svh, 2.5rem);
   --header-padding: clamp(0.7rem, 2vh, 2rem);
   --header-padding: clamp(0.7rem, 2svh, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
