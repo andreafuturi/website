@@ -8,7 +8,7 @@ function Home() {
   return (
     <home>
       {inlineImport({ src: "home.css" })}
-      <img width={403} height={407} src="./images/hero-mobile.webp" alt="hero" />
+      <img width={403} height={407} src="./images/hero.webp" alt="hero" />
       <herotexts>
         <texteffect>
           Ανδρέα φουτούρι <br />
