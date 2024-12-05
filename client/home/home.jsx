@@ -14,14 +14,10 @@ function Home() {
           Ανδρέα φουτούρι <br />
           アンドレア フトゥリ <br />
           Андреа Футури <br />
-          안드레아 푸투리
-          <br />
-          Andrea Futuri
-          <br />
-          אנדראה פוטורי
-          <br />
-          แอนเดรีย ฟูตูรี
-          <br />
+          Andrea Futuri <br />
+          אנדראה פוטורי <br />
+          안드레아 푸투리 <br />
+          แอนเดรีย ฟูตูรี <br />
           ‎فوتوري ‎أندريا <br />
           आन्द्रेआ फुटुरी
         </texteffect>
@@ -37,7 +33,7 @@ function Home() {
       <cta>
         <a class="cta">Book a call now</a>
       </cta>
-      {inlineImport({ src: initTextScramble, selfExecute: true })}
+      {/* {inlineImport({ src: initTextScramble, selfExecute: true })} */}
     </home>
   );
 }
