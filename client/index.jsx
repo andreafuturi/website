@@ -8,7 +8,7 @@ export default function Index({ children }) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="theme-color" content="#D9D9D9" />
+        <meta name="theme-color" content="#EEEEEE" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <IndexCss isDev={globalThis.dev} />
         <MainJsx isDev={globalThis.dev} />
