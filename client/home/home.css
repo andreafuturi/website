@@ -22,7 +22,7 @@ home {
     max-height: 60svh;
     min-height: 300px;
   }
-  texteffect {
+  .texteffect {
     max-height: 25vh;
     height: clamp(6rem, 20svh, 11rem);
     font-weight: 700;
@@ -34,16 +34,13 @@ home {
     mask-image: linear-gradient(0deg, rgba(166, 166, 166, 0) 0%, rgba(115, 115, 115, 0.5) 5%, #737373 86%, #737373 41%, rgba(217, 217, 217, 0) 100%);
     -webkit-mask-size: cover;
     mask-size: cover;
-    ul {
-      height: 100%;
-      overflow-y: scroll;
-      scroll-snap-type: y mandatory;
-      scrollbar-width: none;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
-    li {
+    > li {
       scroll-snap-align: start;
     }
   }
@@ -70,10 +67,8 @@ home {
     justify-content: center;
     gap: clamp(0.1rem, 1vh, 1rem);
     gap: clamp(0.1rem, 1svh, 1rem);
-    flex: 1;
   }
   cta {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1vh;
@@ -89,7 +84,12 @@ home {
   }
 }
 @media (min-height: 750px) {
-  home texteffect {
-    /* flex: 1; */
+  home {
+    herotexts {
+      flex: 1;
+    }
+    cta {
+      flex: 1;
+    }
   }
 }

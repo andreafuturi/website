@@ -10,20 +10,18 @@ function Home() {
       {inlineImport({ src: "home.css" })}
       <img width={565} height={440} src="./images/hero.webp" alt="hero" />
       <herotexts>
-        <texteffect>
-          <ul role="list" aria-label="Rotating names in different languages">
-            <li>アンドレア フトゥリ</li>
-            <li>Ανδρέα φουτούρι</li>
-            <li>Андреа Футури</li>
-            <li>Andrea Futuri</li>
-            <li>אנדראה פוטורי</li>
-            <li>안드레아 푸투리</li>
-            <li>แอนเดรีย ฟูตูรี</li>
-            <li>‎فوتوري ‎أندريا</li>
-            <li>आन्द्रेआ फुटुरी</li>
-            <li>Ανδρέα φουτούρι</li>
-          </ul>
-        </texteffect>
+        <ul class="texteffect" role="list" aria-label="Rotating names in different languages">
+          <li>アンドレア フトゥリ</li>
+          <li>Ανδρέα φουτούρι</li>
+          <li>Андреа Футури</li>
+          <li>Andrea Futuri</li>
+          <li>אנדראה פוטורי</li>
+          <li>안드레아 푸투리</li>
+          <li>แอนเดรีย ฟูตูรี</li>
+          <li>‎فوتوري ‎أندريا</li>
+          <li>आन्द्रेआ फुटुरी</li>
+          <li>Ανδρέα φουτούρι</li>
+        </ul>
         <h1>
           APPS <br /> WEBSITES <br /> AI AUTOMATIONS
         </h1>
@@ -45,7 +43,7 @@ function Home() {
 
 // Simplified text scramble animation 🎭
 function initTextScroll() {
-  const ul = document.querySelector("texteffect ul");
+  const ul = document.querySelector("ul.texteffect");
   if (!ul) return;
   const height = ul.clientHeight;
 
@@ -57,7 +55,7 @@ function initTextScroll() {
       ul.appendChild(firstItem);
       ul.children[0].remove();
     }
-    ul.scrollBy({ top: height / 11 });
+    ul.scrollBy({ top: height / 10 });
   }
   // Initial setup
   ul.style.scrollBehavior = "smooth";
