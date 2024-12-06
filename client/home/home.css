@@ -2,7 +2,6 @@ home {
   --hero-height: clamp(300px, 60vh, 400px);
   --hero-height: clamp(300px, 60svh, 400px);
   min-height: var(--home-height);
-  min-height: var(--home-height);
   display: flex;
   flex-direction: column;
   gap: clamp(0.8rem, 2vh, 3rem);
@@ -21,10 +20,11 @@ home {
     /* height: var(--hero-height); */
     max-height: 60vh;
     max-height: 60svh;
+    min-height: 300px;
   }
   texteffect {
     max-height: 25vh;
-    max-height: 25svh;
+    height: clamp(6rem, 20svh, 11rem);
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
@@ -34,6 +34,18 @@ home {
     mask-image: linear-gradient(0deg, rgba(166, 166, 166, 0) 0%, rgba(115, 115, 115, 0.5) 5%, #737373 86%, #737373 41%, rgba(217, 217, 217, 0) 100%);
     -webkit-mask-size: cover;
     mask-size: cover;
+    ul {
+      height: 100%;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    li {
+      scroll-snap-align: start;
+    }
   }
   svg {
     overflow: visible;
@@ -50,7 +62,6 @@ home {
     flex-direction: column;
     gap: clamp(0.1rem, 1vh, 1rem);
     gap: clamp(0.1rem, 1svh, 1rem);
-    flex: 1;
     justify-content: center;
   }
   herotexts {
@@ -63,6 +74,22 @@ home {
   }
   cta {
     flex: 1;
-    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    gap: 1svh;
+    padding: clamp(0.3rem, 1vh, 0.8rem) 0;
+    padding: clamp(0.3rem, 1svh, 0.8rem) 0;
+  }
+}
+/* Texteffects is shorted when viewwport height is sorter */
+@media (max-height: 650px) {
+  home texteffect {
+    height: clamp(4rem, 15svh, 11rem);
+  }
+}
+@media (min-height: 750px) {
+  home texteffect {
+    /* flex: 1; */
   }
 }
