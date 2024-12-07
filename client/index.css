@@ -85,6 +85,10 @@ svg {
     100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) * 2 -
       var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
+  --home-height: calc(
+    100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
+      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
+  );
 }
 
 /* STYLES RESET */

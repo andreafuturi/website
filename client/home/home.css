@@ -23,7 +23,7 @@ home {
     /* height: var(--hero-height); */
     max-height: 60vh;
     max-height: 60svh;
-    min-height: 300px;
+    min-height: 335px;
   }
   .texteffect {
     max-height: 25vh;
