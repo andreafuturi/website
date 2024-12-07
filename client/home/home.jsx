@@ -20,7 +20,6 @@ function Home() {
         <li>แอนเดรีย ฟูตูรี</li>
         <li>‎فوتوري ‎أندريا</li>
         <li>आन्द्रेआ फुटुरी</li>
-        <li>Ανδρέα φουτούρι</li>
       </ul>
       <h1>
         APPS <br /> WEBSITES <br /> AI AUTOMATIONS
@@ -38,27 +37,47 @@ function Home() {
   );
 }
 
-// Infinite text scroll animation with batch cloning 🎭
+// Infinite text scroll animation with batch management 🎭
 function initTextScroll() {
   const ul = document.querySelector("ul.texteffect");
   if (!ul) return;
   const height = ul.clientHeight;
+  const originalItemCount = ul.children.length;
 
-  async function scroll() {
-    // Check if we're near the end (75% scrolled)
+  // Handle infinite scroll logic 🔄
+  function handleInfiniteScroll() {
     const isNearEnd = ul.scrollTop + ul.clientHeight >= ul.scrollHeight - height;
 
     if (isNearEnd) {
-      // Clone all items at once and append them 🔄
-      const clone = Array.from(ul.children).map(item => item.cloneNode(true));
+      // Clone items
+      const clone = Array.from(ul.children)
+        .slice(-originalItemCount)
+        .map(item => item.cloneNode(true))
+        .reverse();
+      clone.shift();
       ul.append(...clone);
+
+      // Cleanup old items
+      if (ul.children.length > originalItemCount * 5) {
+        Array.from(ul.children)
+          .slice(0, originalItemCount)
+          .forEach(item => item.remove());
+        ul.scrollTop -= height * (originalItemCount / 10);
+      }
     }
+  }
+
+  // Handle automatic scrolling ⚡
+  function autoScroll() {
     ul.scrollBy({ top: height / 10 });
   }
 
   // Initial setup ⚙️
   ul.style.scrollBehavior = "smooth";
-  setInterval(scroll, 3000);
+
+  ul.addEventListener("scroll", handleInfiniteScroll);
+
+  setInterval(autoScroll, 3000);
 }
 
 export default Home;

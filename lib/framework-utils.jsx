@@ -47,13 +47,7 @@ export const inlineImport = withoutHydration(({ src, selfExecute, perInstance = 
     globalThis.importedResources.add(resourceKey);
 
     // Handle different import types
-    if (typeof src === "function")
-      return (
-        <script>
-          {src.toString().replaceAll('"', "'")}
-          {selfExecute && `${src.name}()`}
-        </script>
-      );
+    if (typeof src === "function") return <script dangerouslySetInnerHTML={{ __html: src.toString() + (selfExecute ? `${src.name}()` : "") }} />;
     if (src.startsWith("http")) return <script rel="preconnect" type="module" src={src} />;
 
     // Handle file imports with error handling 🛡️
