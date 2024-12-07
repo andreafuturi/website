@@ -26,8 +26,7 @@ home {
     min-height: 335px;
   }
   .texteffect {
-    max-height: 25vh;
-    height: clamp(1rem, 20svh, 11rem);
+    height: clamp(1rem, 25svh, 11rem);
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
