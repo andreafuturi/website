@@ -8,12 +8,8 @@ about {
   margin: 0 clamp(-2rem, -5vw, -1rem);
 
   .scroll-to-about {
-    --scroll-to-about-padding: clamp(0.3rem, 1vh, 0.8rem);
-    --scroll-to-about-padding: clamp(0.3rem, 1svh, 0.8rem);
     color: var(--fake-white);
-    gap: 0.7rem;
-    flex: 2;
-    padding: var(--scroll-to-about-padding);
+    gap: var(--scroll-to-about-gap);
     padding: var(--scroll-to-about-padding);
     height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
     height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);

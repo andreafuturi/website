@@ -24,7 +24,7 @@ home {
   }
   .texteffect {
     max-height: 25vh;
-    height: clamp(6rem, 20svh, 11rem);
+    height: clamp(1rem, 20svh, 11rem);
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
@@ -78,19 +78,19 @@ home {
   }
 }
 /* Texteffects is shorted when viewwport height is sorter */
-@media (max-height: 650px) {
+/* @media (max-height: 650px) {
   home texteffect {
     height: clamp(4rem, 15svh, 11rem);
   }
-}
-@media (min-height: 750px) {
-  home {
-    herotexts {
-      flex: 1;
-    }
-    cta {
-      flex: 1;
-      justify-content: center;
-    }
+} */
+/* @media (min-height: 750px) { */
+home {
+  herotexts {
+    flex: 1;
+  }
+  cta {
+    flex: 1;
+    justify-content: center;
   }
 }
+/* } */
