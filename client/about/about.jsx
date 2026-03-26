@@ -1,8 +1,9 @@
-import { inlineImport } from "../../lib/framework-utils.jsx";
+import { inlineImport, Title } from "../../lib/framework-utils.jsx";
 
 export default function About() {
   return (
-    <about>
+    <about id="about">
+      <Title>About</Title>
       {inlineImport({ src: "./about.css" })}
       <a class="center scroll-to-about flex-col" href="/about">
         <svg fill="currentColor" width="17" height="11" viewBox="0 0 17 11" xmlns="http://www.w3.org/2000/svg">
