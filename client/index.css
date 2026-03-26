@@ -50,11 +50,15 @@ header {
   margin: 0 clamp(-2rem, -5vw, -1rem);
   /* background: linear-gradient(to bottom, rgb(165 165 165), rgba(0, 187, 255, 0)); */
 }
+/* router doesn't need display contents */
 static,
 interactive,
-router,
-route {
+router {
   display: contents;
+}
+/* Home route only: scrollIntoView({ block: "start" }) would hide the header; other scroll routes can sit flush 📐 */
+route[scroll][path="/"] {
+  scroll-margin-top: var(--header-height);
 }
 svg {
   shape-rendering: geometricPrecision;
@@ -82,13 +86,24 @@ svg {
   --scroll-to-about-icon-height: 11px;
 
   --home-height: calc(
-    100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) * 2 -
-      var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
+    100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
+      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
   --home-height: calc(
     100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
       2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-bottom: var(--menu-height);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* STYLES RESET */

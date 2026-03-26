@@ -1,7 +1,7 @@
 import { inlineImport, MainJsx, Title } from "../lib/framework-utils.jsx";
 import About from "./about/about.jsx";
 import Menu from "./components/menu.jsx";
-
+import Home from "./home/home.jsx";
 export default function Index({ children }) {
   return (
     <html lang="en">
@@ -17,9 +17,11 @@ export default function Index({ children }) {
       <body>
         <header>{logo}</header>
         <router>
-          <route path={globalThis.location.pathname}>{children}</route>
-          <route path="/about">
-            <About />
+          <route scroll path="/">
+            {globalThis.location.pathname === "/" ? children : <Home />}
+          </route>
+          <route scroll path="/about">
+            {globalThis.location.pathname === "/about" ? children : <About />}
           </route>
         </router>
         <Menu />
