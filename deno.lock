@@ -1,0 +1,19 @@
+{
+  "version": "4",
+  "redirects": {
+    "https://esm.sh/preact-render-to-string?deps=preact": "https://esm.sh/preact-render-to-string@6.6.6?deps=preact"
+  },
+  "remote": {
+    "https://esm.sh/preact-render-to-string@6.6.6/X-ZHByZWFjdEAxMC4yOS4w/denonext/preact-render-to-string.mjs": "d38b4aac62a70375b29c051e6338f0d9872cf4e4a65180d2d221e6e9f6aaeb91",
+    "https://esm.sh/preact-render-to-string@6.6.6?deps=preact": "532efa11e4d3d69ea24f57ef0cec4fc9a8f0213673bbf9becaa138efe8b152ae",
+    "https://esm.sh/preact@10.29.0/denonext/preact.mjs": "a8381b8ae6391298439ec004d138a49487e60d232e364abadb59ed39deb50d22"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@preact/preset-vite@^2.9.2",
+        "npm:vite@^6.0.2"
+      ]
+    }
+  }
+}
