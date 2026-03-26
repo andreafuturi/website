@@ -95,17 +95,6 @@ svg {
   );
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-padding-bottom: var(--menu-height);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 /* STYLES RESET */
 
 * {
