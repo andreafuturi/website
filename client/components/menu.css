@@ -35,3 +35,36 @@ body[class="portfolio"] a[href="/portfolio"],
 body[class="my-story"] a[href="/my-story"] {
   color: var(--primary-color);
 }
+
+/* On `/`, nav tracks scroll into <about> (same range as blur / teaser link) */
+@supports (animation-timeline: view()) {
+  @keyframes about-nav-from-scroll {
+    from {
+      color: var(--fake-white);
+    }
+    to {
+      color: var(--primary-color);
+    }
+  }
+
+  @keyframes home-nav-dim-for-about {
+    from {
+      color: var(--primary-color);
+    }
+    to {
+      color: var(--fake-white);
+    }
+  }
+
+  body:not(.about) nav a[href="/about"] {
+    animation: about-nav-from-scroll linear both;
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+
+  body[class=""] nav a[href="/"] {
+    animation: home-nav-dim-for-about linear both;
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+}

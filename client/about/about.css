@@ -9,18 +9,19 @@ about::before {
   background-position: center;
   transform: scale(1.06);
   filter: blur(0);
-  transition: filter 0.55s ease;
 }
 
-body.about about::before {
-  filter: blur(18px);
+/* Route-based blur only when view timelines aren’t used (avoids fighting + “snap” when class toggles) */
+@supports not (animation-timeline: view()) {
+  body.about about::before {
+    filter: blur(18px);
+  }
 }
 
 about > * {
   position: relative;
   z-index: 1;
 }
-
 
 about {
   position: relative;
@@ -30,6 +31,10 @@ about {
   min-height: 100svh;
   display: block;
   margin: 0 clamp(-2rem, -5vw, -1rem);
+  view-timeline-name: --about;
+  view-timeline-axis: block;
+  /* block-end: ignore bottom strip of viewport (home is shorter than 100vh → about peeks in early) */
+  view-timeline-inset: 0 var(--about-view-inset-block-end);
 
   .scroll-to-about {
     opacity: 1;
@@ -45,8 +50,14 @@ about {
 }
 
 body.about .scroll-to-about {
-  opacity: 0;
   pointer-events: none;
+}
+
+@supports not (animation-timeline: view()) {
+  body.about .scroll-to-about {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 @keyframes scroll-to-about-animation {
   from {
@@ -54,5 +65,56 @@ body.about .scroll-to-about {
   }
   to {
     transform: translateY(0.3rem);
+  }
+}
+
+/* Scroll-driven: transitions finish as <about> settles into view (same timeline for blur, link, nav) 🎯 */
+@supports (animation-timeline: view()) {
+  @keyframes about-fractal-blur {
+    from {
+      filter: blur(0);
+    }
+    to {
+      filter: blur(18px);
+    }
+  }
+
+  @keyframes about-link-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  about::before {
+    animation: about-fractal-blur linear both;
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+
+  /* Don’t use animation:none here: removing scroll-driven animations when .about is added causes a visible jump 🎯 */
+
+  about .scroll-to-about {
+    /* Ready for route change: opacity can interpolate when scroll animations are cleared 🎬 */
+    transition: opacity 0.4s ease;
+    animation-name: scroll-to-about-animation, about-link-fade;
+    animation-duration: 1s, auto;
+    animation-timing-function: ease-in-out, linear;
+    animation-iteration-count: infinite, 1;
+    animation-direction: alternate-reverse, normal;
+    animation-fill-mode: none, both;
+    animation-timeline: auto, --about;
+    animation-range:
+      normal,
+      entry 0% contain 55%;
+  }
+
+  /* End state on /about: drop scroll keyframes — opacity then interpolates (don’t set visibility:hidden here or it kills the fade) */
+  body.about about .scroll-to-about {
+    animation: none;
+    opacity: 0;
   }
 }

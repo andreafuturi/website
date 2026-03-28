@@ -58,6 +58,13 @@ interactive {
 html {
   scroll-snap-type: y mandatory;
 }
+
+/* Expose <about>’s view timeline to siblings (e.g. nav) for scroll-driven UI ✨ */
+@supports (animation-timeline: view()) {
+  body {
+    timeline-scope: --about;
+  }
+}
 home,
 about {
   scroll-snap-align: start;
@@ -99,6 +106,9 @@ svg {
     100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
       2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
+
+  /* Shrinks the view timeline scrollport from the bottom so a peek of <about> under home doesn’t start blur/nav early 📐 */
+  --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
 }
 
 /* STYLES RESET */
