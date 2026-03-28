@@ -108,22 +108,6 @@ const fastrefresh = `((l) => {
 
   s();
 })(location);`;
-
-function updateDocumentTitle() {
-  try {
-    const site = document.querySelector('meta[name="application-name"]')?.getAttribute("content")?.trim() || "App Name";
-    document.title = addRouteTitle(site);
-  } catch (err) {
-    console.error("🚨 Failed to update document title:", err);
-  }
-}
-function handleRouteChange() {
-  try {
-    globalThis.addEventListener("popstate", updateDocumentTitle);
-  } catch (err) {
-    console.error("🚨 Failed to add route change handler:", err);
-  }
-}
 function addRouteTitle(appTitle) {
   let path = globalThis.location.pathname.split("/").filter(Boolean);
   let title = path.length ? path[0] : "home";
@@ -133,8 +117,6 @@ const Title = ({ children }) => (
   <>
     <title>{addRouteTitle(children)}</title>
     {inlineImport({ src: addRouteTitle })}
-    {inlineImport({ src: updateDocumentTitle })}
-    {inlineImport({ src: handleRouteChange, selfExecute: true })}
   </>
 );
 //Error component
