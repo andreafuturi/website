@@ -116,7 +116,6 @@ function addRouteTitle(appTitle) {
 const Title = ({ children }) => (
   <>
     <title>{addRouteTitle(children)}</title>
-    {inlineImport({ src: addRouteTitle })}
   </>
 );
 //Error component

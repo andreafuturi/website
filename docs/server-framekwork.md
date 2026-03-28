@@ -109,7 +109,7 @@ function Index({children) {
 export default Index;
 ```
 
-Title is an optional special component that let you have a dyamic title that changes for each route example when we're in about title will be About - App title
+Title is an optional special (server side) component that let you have a dyamic title that changes for each route example when we're in about title will be About - App title [lightweight-router is used to handle this on the client side]
 When your app is ready for production you can compile it with "npm run build" or "npm run preview" which will also start the server in prod mode for you to test everything.
 When everything is working properly you will soon be able to deploy to denodeploy with "npm run deploy"
 
