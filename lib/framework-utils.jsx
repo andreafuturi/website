@@ -111,7 +111,8 @@ const fastrefresh = `((l) => {
 
 function updateDocumentTitle() {
   try {
-    document.title = addRouteTitle("App Name");
+    const site = document.querySelector('meta[name="application-name"]')?.getAttribute("content")?.trim() || "App Name";
+    document.title = addRouteTitle(site);
   } catch (err) {
     console.error("🚨 Failed to update document title:", err);
   }
@@ -146,4 +147,9 @@ function ErrorComponent({ error }) {
     </div>
   );
 }
+/** Route pathname → single body class token (no leading `/`; home is `""`). */
+export function pathToBodyClass(pathname) {
+  return pathname === "/" ? "" : pathname.slice(1);
+}
+
 export { ClientOnly, IndexCss, MainJsx, Title, ErrorComponent };

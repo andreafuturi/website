@@ -1,8 +1,9 @@
-import { inlineImport, MainJsx, Title } from "../lib/framework-utils.jsx";
+import { inlineImport, MainJsx, pathToBodyClass, Title } from "../lib/framework-utils.jsx";
 import About from "./about/about.jsx";
 import Menu from "./components/menu.jsx";
 import Home from "./home/home.jsx";
 export default function Index({ children }) {
+  const currentPath = globalThis.location.pathname;
   return (
     <html lang="en">
       <head>
@@ -14,14 +15,14 @@ export default function Index({ children }) {
         {inlineImport({ src: `${!globalThis.dev ? "dist/assets/" : ""}index.css` })}
         <Title>Andrea Futuri</Title>
       </head>
-      <body>
+      <body class={pathToBodyClass(currentPath)}>
         <header>{logo}</header>
         <router>
-          <route scroll path="/">
-            {globalThis.location.pathname === "/" ? children : <Home />}
+          <route scroll path="/" style={currentPath !== "/" && "display: none;"}>
+            {currentPath === "/" ? children : <Home />}
           </route>
           <route scroll path="/about">
-            {globalThis.location.pathname === "/about" ? children : <About />}
+            {currentPath === "/about" ? children : <About />}
           </route>
         </router>
         <Menu />

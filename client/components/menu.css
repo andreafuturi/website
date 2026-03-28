@@ -17,10 +17,9 @@ nav {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-  }
-  a:not(.active) {
     color: var(--fake-white);
   }
+
   svg {
     height: 1.25rem;
     height: auto;
@@ -28,4 +27,11 @@ nav {
   path {
     fill: currentColor;
   }
+}
+body[class=""] a[href="/"],
+body[class="about"] nav a[href="/about"],
+body[class="services"] a[href="/services"],
+body[class="portfolio"] a[href="/portfolio"],
+body[class="my-story"] a[href="/my-story"] {
+  color: var(--primary-color);
 }

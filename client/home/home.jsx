@@ -7,7 +7,6 @@ const gustirariLogo = inlineImport({ src: "../components/companies/gustirari.svg
 function Home() {
   return (
     <home id="home">
-      <Title>Home</Title>
       {inlineImport({ src: "home.css" })}
       <img width={565} height={440} src="./images/hero.webp" alt="hero" />
 

@@ -52,12 +52,18 @@ header {
 }
 /* router doesn't need display contents */
 static,
-interactive,
-router {
+interactive {
   display: contents;
 }
+html {
+  scroll-snap-type: y mandatory;
+}
+home,
+about {
+  scroll-snap-align: start;
+}
 /* Home route only: scrollIntoView({ block: "start" }) would hide the header; other scroll routes can sit flush 📐 */
-route[scroll][path="/"] {
+home {
   scroll-margin-top: var(--header-height);
 }
 svg {

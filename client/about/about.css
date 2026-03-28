@@ -1,13 +1,40 @@
-about {
-  min-height: 100vh;
-  min-height: 100svh;
+/* Fractal layer only — blur on /about without affecting foreground ✨ */
+about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/fractal.webp");
   background-size: cover;
   background-position: center;
+  transform: scale(1.06);
+  filter: blur(0);
+  transition: filter 0.55s ease;
+}
+
+body.about about::before {
+  filter: blur(18px);
+}
+
+about > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+about {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
   display: block;
   margin: 0 clamp(-2rem, -5vw, -1rem);
 
   .scroll-to-about {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out;
     color: var(--fake-white);
     gap: var(--scroll-to-about-gap);
     padding: var(--scroll-to-about-padding);
@@ -17,6 +44,10 @@ about {
   }
 }
 
+body.about .scroll-to-about {
+  opacity: 0;
+  pointer-events: none;
+}
 @keyframes scroll-to-about-animation {
   from {
     transform: translateY(0);
