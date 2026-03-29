@@ -91,8 +91,7 @@ header .header-cta {
     transform: translate(0, -50%);
   }
   header .header-cta {
-    transition:
-      opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
   }
   body.about header {
     box-shadow: var(--header-bar-shadow);

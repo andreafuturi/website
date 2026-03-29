@@ -4,7 +4,8 @@ about {
   --fractal-veil-opacity-end: 0.78;
   /* ::before fractal — scroll end === route fallback (scale ≈ old 180% bg zoom, cover unchanged) */
   --about-fractal-blur-end: 18px;
-  --about-fractal-scale-end: 1.908; /* ~1.06 × 1.8 vs cover */
+  --about-fractal-scale-start: 1.06;
+  --about-fractal-scale-end: 1.5; /* ~1.06 × 1.8 vs cover */
   /* h1 + p — scroll end === route fallback (plateau so opacity lands exactly at 1) */
   --about-content-opacity-start: 0;
   --about-content-opacity-end: 1;
@@ -52,7 +53,7 @@ about::before {
   background-image: url("images/fractal.webp");
   background-size: cover;
   background-position: center;
-  transform: scale(1.06);
+  transform: scale(var(--about-fractal-scale-start));
   transform-origin: center bottom;
   filter: blur(0);
   margin: -30px;
@@ -125,7 +126,7 @@ body.about .scroll-to-about {
   @keyframes about-fractal-blur {
     from {
       filter: blur(0);
-      transform: scale(1.06);
+      transform: scale(var(--about-fractal-scale-start));
     }
     to {
       filter: blur(var(--about-fractal-blur-end));
