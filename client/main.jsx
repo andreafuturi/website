@@ -7,8 +7,9 @@ const interactiveComponents = [];
 startRouter({
   debug: false,
   onRouteChange: currentPath => {
+    //not needed?
     globalThis.dispatchEvent(new CustomEvent("app:route", { detail: { path: currentPath } }));
-    document.body.className = pathToBodyClass(currentPath);
+    document.body.className = currentPath === "/" ? "" : currentPath.slice(1);
     hydrateInteractiveComponents(document.querySelector(`route[path="${currentPath}"]`), interactiveComponents);
   },
 });

@@ -1,4 +1,4 @@
-import { inlineImport, MainJsx, pathToBodyClass, Title } from "../lib/framework-utils.jsx";
+import { inlineImport, MainJsx, Title } from "../lib/framework-utils.jsx";
 import About from "./about/about.jsx";
 import Menu from "./components/menu.jsx";
 import Home from "./home/home.jsx";
@@ -15,7 +15,7 @@ export default function Index({ children }) {
         {inlineImport({ src: `${!globalThis.dev ? "dist/assets/" : ""}index.css` })}
         <Title>Andrea Futuri</Title>
       </head>
-      <body class={pathToBodyClass(currentPath)}>
+      <body class={currentPath === "/" ? "" : currentPath.slice(1)}>
         <header>
           <a href="/">{logo}</a>
           <a class="header-cta" href="/cv.pdf" download aria-label="Download CV as PDF">
