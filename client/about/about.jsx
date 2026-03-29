@@ -1,5 +1,6 @@
 import { inlineImport } from "../../lib/framework-utils.jsx";
 const creativityIcon = inlineImport({ src: "../components/icons/creativity.svg" });
+const innovationIcon = inlineImport({ src: "../components/icons/innovation.svg" });
 export default function About() {
   return (
     <about id="about">
@@ -12,11 +13,21 @@ export default function About() {
       </a>
       <h1>About me</h1>
       <p>My Values</p>
-      <value>
-        {creativityIcon}
-        <h3>Creativity</h3>
-        <p>Crafting the future by mastering the power of chaos.</p>
-      </value>
+      <values>
+        <value>
+          {creativityIcon}
+          <h3>Creativity</h3>
+          <p>Crafting the future by mastering the power of chaos.</p>
+        </value>
+        <value>
+          {innovationIcon}
+          <h3>Innovation</h3>
+          <p>
+            With an open mind and adaptable approach, I design solutions that reimagine what's possible and lead the way to new standards.ing the power of
+            chaos.
+          </p>
+        </value>
+      </values>
     </about>
   );
 }
