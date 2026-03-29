@@ -16,7 +16,12 @@ export default function Index({ children }) {
         <Title>Andrea Futuri</Title>
       </head>
       <body class={pathToBodyClass(currentPath)}>
-        <header>{logo}</header>
+        <header>
+          <a href="/">{logo}</a>
+          <a class="header-cta" href="/cv.pdf" download aria-label="Download CV as PDF">
+            DOWNLOAD AS CV
+          </a>
+        </header>
         <router>
           <route scroll path="/" style={currentPath !== "/" && "display: none;"}>
             {currentPath === "/" ? children : <Home />}
@@ -33,7 +38,7 @@ export default function Index({ children }) {
 
 const logo = (
   <svg
-    class="center2 logo"
+    class="logo"
     width="130"
     height="36"
     viewBox="0 0 130 36"

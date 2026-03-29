@@ -2,7 +2,7 @@
 body {
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
-  padding: 0 clamp(1rem, 5vw, 2rem);
+  padding: var(--header-height) var(--header-inline) 0;
   color: var(--fake-black);
   background: linear-gradient(to bottom, var(--fake-white), #fff);
 }
@@ -44,11 +44,157 @@ small {
 }
 .logo {
   height: var(--logo-height);
+  color: var(--fake-black);
+  width: auto;
 }
 header {
-  padding: var(--header-padding);
-  margin: 0 clamp(-2rem, -5vw, -1rem);
-  /* background: linear-gradient(to bottom, rgb(165 165 165), rgba(0, 187, 255, 0)); */
+  box-sizing: border-box;
+  min-height: var(--header-height);
+  padding-inline: var(--header-inline);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  box-shadow: none;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+}
+
+header .logo {
+  position: absolute;
+  top: 50%;
+}
+header .header-cta {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: var(--header-inline);
+  left: auto;
+  transform: translateY(-50%);
+}
+
+/* No view timelines: route class + transitions (same end-state tokens as scroll keyframes) ✨ */
+@supports not (animation-timeline: view()) {
+  header {
+    transition:
+      box-shadow var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+      background-color var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+      backdrop-filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+      -webkit-backdrop-filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+  header .logo {
+    transition:
+      left var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+      transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+    left: var(--header-inline);
+    transform: translate(0, -50%);
+  }
+  header .header-cta {
+    transition:
+      opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+  body.about header {
+    box-shadow: var(--header-bar-shadow);
+    background-color: var(--header-bar-bg);
+    backdrop-filter: blur(var(--header-bar-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--header-bar-backdrop-blur));
+  }
+  body:not(.about) header .logo {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  header .header-cta {
+    opacity: 0;
+    pointer-events: none;
+  }
+  body.about header .header-cta {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  /*
+   * Interpolate from same-hue transparent → solid. Plain `transparent` is rgba(0,0,0,0),
+   * so linear blends look muddy and never quite read “full” until progress is exactly 1.
+   * Plateau from ~45% so the bar is solid for the rest of the scroll range (not stuck shy of white).
+   */
+  @keyframes header-bar-from-scroll {
+    from {
+      box-shadow: none;
+      background-color: color-mix(in srgb, var(--fake-white) 0%, transparent);
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+    }
+    45%,
+    100% {
+      box-shadow: var(--header-bar-shadow);
+      background-color: var(--header-bar-bg);
+      backdrop-filter: blur(var(--header-bar-backdrop-blur));
+      -webkit-backdrop-filter: blur(var(--header-bar-backdrop-blur));
+    }
+  }
+
+  @keyframes logo-center-to-left {
+    from {
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* Arrive early — position must be pixel-exact even if scroll progress never quite hits 100% */
+    80%,
+    to {
+      left: var(--header-inline);
+      transform: translate(0, -50%);
+    }
+  }
+
+  @keyframes header-cta-fade {
+    from {
+      opacity: 0;
+      pointer-events: none;
+    }
+    to {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  /* Same timeline on `/` and `/about` so the bar doesn’t snap on navigation 🎯 */
+  header {
+    animation: header-bar-from-scroll linear both;
+  }
+
+  header .logo {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: logo-center-to-left linear both;
+  }
+
+  header .header-cta {
+    animation: header-cta-fade linear both;
+  }
+
+  header,
+  header .logo,
+  header .header-cta {
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+}
+
+.header-cta {
+  margin: 0;
+  padding: 0.5rem;
+  letter-spacing: 0.03rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--fake-black);
+  font-weight: 800;
+  font-size: 0.765rem;
+  text-decoration: none;
+  white-space: nowrap;
 }
 /* router doesn't need display contents */
 static,
@@ -80,6 +226,7 @@ svg {
 /* Variables */
 :root {
   --primary-color: #00bbff;
+  --secondary-color: #ffc200;
   --fake-white: #eeeeee;
   --fake-black: #121212;
   --dark-gray: #282828;
@@ -91,6 +238,7 @@ svg {
   --header-padding: clamp(0.7rem, 2vh, 2rem);
   --header-padding: clamp(0.7rem, 2svh, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
+  --header-inline: clamp(1rem, 5vw, 2rem);
   --scroll-to-about-padding: clamp(0.3rem, 3vh, 2rem);
   --scroll-to-about-padding: clamp(0.3rem, 3svh, 2rem);
   --scroll-to-about-fontsize: 1rem;
@@ -109,6 +257,14 @@ svg {
 
   /* Shrinks the view timeline scrollport from the bottom so a peek of <about> under home doesn’t start blur/nav early 📐 */
   --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
+
+  /* Scroll keyframe end state === route fallback (header) */
+  --header-bar-bg: var(--fake-white);
+  --header-bar-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  --header-bar-backdrop-blur: 10px;
+  /* Route-only transitions when view timelines unavailable */
+  --scroll-ui-transition-duration: 0.3s;
+  --scroll-ui-transition-easing: ease-in-out;
 }
 
 /* STYLES RESET */
