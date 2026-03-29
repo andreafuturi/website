@@ -36,9 +36,16 @@ body[class="my-story"] a[href="/my-story"] {
   color: var(--primary-color);
 }
 
+/* Path changes: smooth color (scroll branch uses animation instead) */
+@supports not (animation-timeline: view()) {
+  nav a {
+    transition: color var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+}
+
 /* On `/`, nav tracks scroll into <about> (same range as blur / teaser link) */
 @supports (animation-timeline: view()) {
-  @keyframes about-nav-from-scroll {
+  @keyframes nav-color-to-active {
     from {
       color: var(--fake-white);
     }
@@ -47,24 +54,14 @@ body[class="my-story"] a[href="/my-story"] {
     }
   }
 
-  @keyframes home-nav-dim-for-about {
-    from {
-      color: var(--primary-color);
-    }
-    to {
-      color: var(--fake-white);
-    }
-  }
-
-  body:not(.about) nav a[href="/about"] {
-    animation: about-nav-from-scroll linear both;
+  body:not(.about) nav a[href="/about"],
+  body[class=""] nav a[href="/"] {
+    animation: nav-color-to-active linear both;
     animation-timeline: --about;
     animation-range: entry 0% contain 55%;
   }
 
   body[class=""] nav a[href="/"] {
-    animation: home-nav-dim-for-about linear both;
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-direction: reverse;
   }
 }

@@ -2,9 +2,7 @@ home {
   --hero-height: clamp(300px, 60vh, 400px);
   --hero-height: clamp(300px, 60svh, 400px);
   min-height: var(--home-height);
-  /* 
-  gap: clamp(0.8rem, 2vh, 3rem);
-  gap: clamp(0.8rem, 2svh, 3rem); */
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: clamp(0.1rem, 1vh, 1rem);
@@ -66,24 +64,11 @@ home {
   cta {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    justify-content: center;
     gap: 1vh;
     gap: 1svh;
     padding: clamp(0.3rem, 1vh, 0.8rem) 0;
     padding: clamp(0.3rem, 1svh, 0.8rem) 0;
   }
 }
-/* Texteffects is shorted when viewwport height is sorter */
-/* @media (max-height: 650px) {
-  home texteffect {
-    height: clamp(4rem, 15svh, 11rem);
-  }
-} */
-/* @media (min-height: 750px) { */
-home {
-  flex: 1;
-  cta {
-    flex: 1;
-    justify-content: center;
-  }
-}
-/* } */
