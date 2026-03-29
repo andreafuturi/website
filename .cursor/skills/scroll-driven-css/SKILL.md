@@ -45,7 +45,7 @@ about {
 header .logo { position: absolute; top: 50%; }
 
 @supports not (animation-timeline: view()) {
-  header .logo { left: var(--header-inline); transform: translate(0, -50%); }
+  header .logo { left: var(--global-padding-inline); transform: translate(0, -50%); }
 }
 @supports (animation-timeline: view()) {
   header .logo { left: 50%; transform: translate(-50%, -50%); animation: logo-center-to-left linear both; }

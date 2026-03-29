@@ -1,5 +1,5 @@
 import { inlineImport } from "../../lib/framework-utils.jsx";
-
+const creativityIcon = inlineImport({ src: "../components/icons/creativity.svg" });
 export default function About() {
   return (
     <about id="about">
@@ -12,6 +12,11 @@ export default function About() {
       </a>
       <h1>About me</h1>
       <p>My Values</p>
+      <value>
+        {creativityIcon}
+        <h3>Creativity</h3>
+        <p>Crafting the future by mastering the power of chaos.</p>
+      </value>
     </about>
   );
 }

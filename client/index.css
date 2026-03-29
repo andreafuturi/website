@@ -2,7 +2,7 @@
 body {
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
-  padding: var(--header-height) var(--header-inline) 0;
+  padding: var(--header-height) 0 0;
   color: var(--fake-black);
   background: linear-gradient(to bottom, var(--fake-white), #fff);
 }
@@ -50,7 +50,7 @@ small {
 header {
   box-sizing: border-box;
   min-height: var(--header-height);
-  padding-inline: var(--header-inline);
+  padding-inline: var(--global-padding-inline);
   position: fixed;
   top: 0;
   left: 0;
@@ -69,7 +69,7 @@ header .header-cta {
   position: absolute;
   z-index: 2;
   top: 50%;
-  right: var(--header-inline);
+  right: var(--global-padding-inline);
   left: auto;
   transform: translateY(-50%);
 }
@@ -87,7 +87,7 @@ header .header-cta {
     transition:
       left var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
       transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-    left: var(--header-inline);
+    left: var(--global-padding-inline);
     transform: translate(0, -50%);
   }
   header .header-cta {
@@ -143,7 +143,7 @@ header .header-cta {
     /* Arrive early — position must be pixel-exact even if scroll progress never quite hits 100% */
     80%,
     to {
-      left: var(--header-inline);
+      left: var(--global-padding-inline);
       transform: translate(0, -50%);
     }
   }
@@ -193,7 +193,7 @@ header .header-cta {
   font-weight: 800;
   font-size: 0.765rem;
   text-decoration: none;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 /* router doesn't need display contents */
 static,
@@ -213,6 +213,7 @@ html {
 home,
 about {
   scroll-snap-align: start;
+  padding-inline: var(--global-padding-inline);
 }
 /* Home route only: scrollIntoView({ block: "start" }) would hide the header; other scroll routes can sit flush 📐 */
 home {
@@ -237,7 +238,7 @@ svg {
   --header-padding: clamp(0.7rem, 2vh, 2rem);
   --header-padding: clamp(0.7rem, 2svh, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
-  --header-inline: clamp(1rem, 5vw, 2rem);
+  --global-padding-inline: clamp(1rem, 5vw, 2rem);
   --scroll-to-about-padding: clamp(0.3rem, 3vh, 2rem);
   --scroll-to-about-padding: clamp(0.3rem, 3svh, 2rem);
   --scroll-to-about-fontsize: 1rem;
