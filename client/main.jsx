@@ -1,5 +1,4 @@
 import { startRouter } from "https://esm.sh/lightweight-router?debug=true";
-import { pathToBodyClass } from "../lib/framework-utils.jsx";
 import hydrateInteractiveComponents from "../lib/hydration.jsx";
 
 const interactiveComponents = [];
