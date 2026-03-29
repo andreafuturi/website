@@ -1,25 +1,13 @@
-/* Fractal layer only — blur on /about without affecting foreground ✨ */
-about::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("images/fractal.webp");
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.06);
-  filter: blur(0);
-  margin: -30px;
-}
-
-/* Route-based blur only when view timelines aren’t used (avoids fighting + “snap” when class toggles) */
-@supports not (animation-timeline: view()) {
-  body.about about::before {
-    filter: blur(18px);
-  }
-}
-
 about {
+  /* Black ::after veil — opacity animates cheaply (GPU-friendly path) 🌑 */
+  --fractal-veil-opacity-start: 0.3;
+  --fractal-veil-opacity-end: 0.78;
+  /* ::before fractal — scroll end === route fallback (scale ≈ old 180% bg zoom, cover unchanged) */
+  --about-fractal-blur-end: 18px;
+  --about-fractal-scale-end: 1.908; /* ~1.06 × 1.8 vs cover */
+  /* h1 + p — scroll end === route fallback (plateau so opacity lands exactly at 1) */
+  --about-content-opacity-start: 0;
+  --about-content-opacity-end: 1;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -31,17 +19,86 @@ about {
   view-timeline-axis: block;
   /* block-end: ignore bottom strip of viewport (home is shorter than 100vh → about peeks in early) */
   view-timeline-inset: 0 var(--about-view-inset-block-end);
-
+  color: var(--fake-white);
+  text-align: center;
   .scroll-to-about {
+    color: var(--fake-white);
+
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease-in-out;
-    color: var(--fake-white);
+    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
     gap: var(--scroll-to-about-gap);
     padding: var(--scroll-to-about-padding);
     height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
     height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
     animation: alternate-reverse 1s infinite scroll-to-about-animation;
+  }
+  h1 {
+    padding-bottom: 0.5rem;
+  }
+
+  h1,
+  p {
+    opacity: var(--about-content-opacity-start);
+  }
+}
+
+/* Fractal image only (blur / zoom scroll-driven) ✨ */
+about::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("images/fractal.webp");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.06);
+  transform-origin: center bottom;
+  filter: blur(0);
+  margin: -30px;
+}
+
+/* Solid veil — darkness = opacity */
+about::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  margin: -30px;
+  background: #000;
+  opacity: var(--fractal-veil-opacity-start);
+  pointer-events: none;
+}
+
+/* Route-based: mirror scroll end state + smooth on path change (no view timelines) */
+@supports not (animation-timeline: view()) {
+  about::before {
+    transition:
+      filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+      transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+
+  about::after {
+    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+
+  body.about about::before {
+    filter: blur(var(--about-fractal-blur-end));
+    transform: scale(var(--about-fractal-scale-end));
+  }
+
+  body.about about::after {
+    opacity: var(--fractal-veil-opacity-end);
+  }
+
+  about h1,
+  about p {
+    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+  }
+
+  body.about about h1,
+  body.about about p {
+    opacity: var(--about-content-opacity-end);
   }
 }
 
@@ -68,9 +125,20 @@ body.about .scroll-to-about {
   @keyframes about-fractal-blur {
     from {
       filter: blur(0);
+      transform: scale(1.06);
     }
     to {
-      filter: blur(18px);
+      filter: blur(var(--about-fractal-blur-end));
+      transform: scale(var(--about-fractal-scale-end));
+    }
+  }
+
+  @keyframes about-fractal-veil {
+    from {
+      opacity: var(--fractal-veil-opacity-start);
+    }
+    to {
+      opacity: var(--fractal-veil-opacity-end);
     }
   }
 
@@ -84,8 +152,32 @@ body.about .scroll-to-about {
     }
   }
 
+  /* Plateau so opacity reaches exactly 1 before range end (same idea as header-bar / logo keyframes) */
+  @keyframes about-content-fade-in {
+    from {
+      opacity: var(--about-content-opacity-start);
+    }
+    80%,
+    100% {
+      opacity: var(--about-content-opacity-end);
+    }
+  }
+
   about::before {
     animation: about-fractal-blur linear both;
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+
+  about::after {
+    animation: about-fractal-veil linear both;
+    animation-timeline: --about;
+    animation-range: entry 0% contain 55%;
+  }
+
+  about h1,
+  about p {
+    animation: about-content-fade-in linear both;
     animation-timeline: --about;
     animation-range: entry 0% contain 55%;
   }

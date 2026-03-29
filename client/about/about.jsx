@@ -10,6 +10,8 @@ export default function About() {
         </svg>
         About
       </a>
+      <h1>About me</h1>
+      <p>My Values</p>
     </about>
   );
 }
