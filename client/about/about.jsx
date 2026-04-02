@@ -1,7 +1,15 @@
 import { inlineImport } from "../../lib/framework-utils.jsx";
+import Layout from "../components/tools/Layout.jsx";
+import CahoticSpiral from "../components/patterns/cahoticSprial.jsx";
+import OrderedSpiral from "../components/patterns/orderedSpiral.jsx";
+
 const creativityIcon = inlineImport({ src: "../components/icons/creativity.svg" });
 const innovationIcon = inlineImport({ src: "../components/icons/innovation.svg" });
+
 export default function About() {
+  const chaoticPath = CahoticSpiral();
+  const orderedPath = OrderedSpiral();
+
   return (
     <about id="about">
       {inlineImport({ src: "./about.css" })}
@@ -13,6 +21,11 @@ export default function About() {
       </a>
       <h1>About me</h1>
       <p>My Values</p>
+      <layout class="flex">
+      <Layout width="50%" class="spiral-morph" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight>
+        <path d={chaoticPath.props.d} data-to={orderedPath.props.d} />
+      </Layout>
+      {inlineImport({ src: initSpiralMorph, selfExecute: true })}
       <values>
         <value>
           {creativityIcon}
@@ -28,6 +41,28 @@ export default function About() {
           </p>
         </value>
       </values>
+      </layout>
     </about>
   );
+}
+
+/** Scroll-driven SVG path morph via WAAPI + ViewTimeline 🌀 */
+function initSpiralMorph() {
+  if (typeof ViewTimeline === "undefined") return;
+  requestAnimationFrame(() => {
+    const about = document.querySelector("about");
+    if (!about) return;
+    const path = about.querySelector(".spiral-morph path[data-to]");
+    if (!path) return;
+
+    path.animate(
+      [{ d: `path("${path.getAttribute("d")}")` }, { d: `path("${path.dataset.to}")` }],
+      {
+        timeline: new ViewTimeline({ subject: about }),
+        rangeStart: "entry 0%",
+        rangeEnd: "contain 55%",
+        fill: "both",
+      }
+    );
+  });
 }

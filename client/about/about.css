@@ -58,6 +58,9 @@ about {
   p {
     opacity: var(--about-content-opacity-start);
   }
+  svg  {
+    fill: var(--fake-white);
+  }
 }
 
 /* Fractal image only (blur / zoom scroll-driven) ✨ */
