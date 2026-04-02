@@ -13,6 +13,7 @@ export default function About() {
   const orderedPath = OrderedSpiral();
 
   return (
+    <>
     <about id="about">
       {inlineImport({ src: "./about.css" })}
         <a class="center scroll-to-about flex-col" href="/about">
@@ -43,21 +44,22 @@ export default function About() {
             </value>
           </values>
         </layout>
-        <layout class="flex">
-          <values> 
-          <value>
-          {minimalismIcon}
-            <h3>Minimalism</h3>
-            <p>Achieving more with less through thoughtful reduction and iterations.</p>
-          </value>
-          <value>
-            {precisionIcon}
-            <h3>Precision</h3>
-            <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
-          </value>
-          </values>
-        </layout>
     </about>
+      <about2>
+      <values> 
+      <value>
+      {minimalismIcon}
+        <h3>Minimalism</h3>
+        <p>Achieving more with less through thoughtful reduction and iterations.</p>
+      </value>
+      <value>
+        {precisionIcon}
+        <h3>Precision</h3>
+        <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
+      </value>
+      </values>
+    </about2>
+    </>
   );
 }
 
