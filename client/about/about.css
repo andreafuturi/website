@@ -58,8 +58,8 @@ about {
   p {
     opacity: var(--about-content-opacity-start);
   }
-  svg  {
-    fill: var(--fake-white);
+  .spiral {
+      fill: var(--fake-white);
   }
 }
 

@@ -215,6 +215,10 @@ about {
   scroll-snap-align: start;
   padding-inline: var(--global-padding-inline);
 }
+
+about-phase {
+  scroll-snap-align: start;
+}
 /* Home route only: scrollIntoView({ block: "start" }) would hide the header; other scroll routes can sit flush 📐 */
 home {
   scroll-margin-top: var(--header-height);
