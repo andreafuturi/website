@@ -1,7 +1,24 @@
+import { toChildArray } from "preact";
 import { inlineImport } from "../../lib/framework-utils.jsx";
 import Layout from "../components/tools/Layout.jsx";
 import CahoticSpiral from "../components/patterns/cahoticSprial.jsx";
 import OrderedSpiral from "../components/patterns/orderedSpiral.jsx";
+
+/** Pairs chaotic → ordered `d` by index (same scroll morph for every path) 🌀 */
+function spiralPathMorphPairs(chaoticFragment, orderedFragment) {
+  const fromPaths = toChildArray(chaoticFragment.props.children);
+  const toPaths = toChildArray(orderedFragment.props.children);
+  const n = Math.min(fromPaths.length, toPaths.length);
+  if (fromPaths.length !== toPaths.length && typeof console !== "undefined" && console.warn) {
+    console.warn(
+      `[about] spiral path count mismatch: chaotic ${fromPaths.length} vs ordered ${toPaths.length}; morphing first ${n}`
+    );
+  }
+  return Array.from({ length: n }, (_, i) => ({
+    from: fromPaths[i].props.d,
+    to: toPaths[i].props.d,
+  }));
+}
 
 const creativityIcon = inlineImport({ src: "../components/icons/creativity.svg" });
 const innovationIcon = inlineImport({ src: "../components/icons/innovation.svg" });
@@ -74,8 +91,7 @@ function AboutFractalMirrorCell() {
 }
 
 export default function About() {
-  const chaoticPath = CahoticSpiral();
-  const orderedPath = OrderedSpiral();
+  const spiralPairs = spiralPathMorphPairs(CahoticSpiral, OrderedSpiral);
 
   return (
     <about>
@@ -122,7 +138,9 @@ export default function About() {
         <p>My Values</p>
         <layout class="flex">
           <Layout class="spiral" width="100%" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight={false}>
-            <path d={chaoticPath.props.d} data-to={orderedPath.props.d} />
+            {spiralPairs.map(({ from, to }, i) => (
+              <path key={i} d={from} data-to={to} />
+            ))}
           </Layout>
           <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
           {inlineImport({ src: initSpiralMorph, selfExecute: true })}
@@ -172,24 +190,23 @@ function initSpiralMorph() {
   requestAnimationFrame(() => {
     const aboutEl = document.querySelector("about");
     if (!aboutEl) return;
-    const path = aboutEl.querySelector(".spiral path[data-to]");
-    if (!path) return;
+    const paths = aboutEl.querySelectorAll(".spiral path[data-to]");
+    if (!paths.length) return;
 
     const cs = getComputedStyle(aboutEl);
     const rangeStart = `cover ${cs.getPropertyValue("--about-phase2-cover-start").trim() || "32%"}`;
-    const rangeEnd = `cover ${cs.getPropertyValue("--about-phase2-cover-end").trim() || "62%"}`;
+    const rangeEnd = `cover ${cs.getPropertyValue("--about-phase2-cover-end").trim() || "58%"}`;
 
     const blockEnd = getComputedStyle(document.documentElement).getPropertyValue("--about-view-inset-block-end").trim();
     const inset = cs.getPropertyValue("view-timeline-inset").trim() || (blockEnd ? `0 ${blockEnd}` : "auto");
 
-    path.animate(
-      [{ d: `path("${path.getAttribute("d")}")` }, { d: `path("${path.dataset.to}")` }],
-      {
-        timeline: new ViewTimeline({ subject: aboutEl, axis: "block", inset }),
-        rangeStart,
-        rangeEnd,
-        fill: "both",
-      }
-    );
+    const timeline = new ViewTimeline({ subject: aboutEl, axis: "block", inset });
+    const animOpts = { timeline, rangeStart, rangeEnd, fill: "both" };
+
+    for (const path of paths) {
+      const fromD = path.getAttribute("d");
+      const toD = path.dataset.to;
+      path.animate([{ d: `path("${fromD}")` }, { d: `path("${toD}")` }], animOpts);
+    }
   });
 }

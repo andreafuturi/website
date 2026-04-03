@@ -39,7 +39,7 @@ about {
   view-timeline-inset: 0 var(--about-view-inset-block-end);
   /* Phase-2 band (WAAPI reads these). animation-range must use literals — var() breaks in animation-range in several browsers */
   --about-phase2-cover-start: 32%;
-  --about-phase2-cover-end: 62%;
+  --about-phase2-cover-end: 58%;
   color: var(--fake-white);
   text-align: center;
   /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
@@ -302,7 +302,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 22% cover 62%;
+      cover 22% cover 58%;
   }
 
   about::after {
@@ -312,7 +312,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 32% cover 62%;
+      cover 32% cover 58%;
   }
 
   /* Phase-2 dark transition: color drives both text and SVG fill (via currentColor on .spiral) */
@@ -320,7 +320,7 @@ body.about .scroll-to-about {
   first-values .spiral {
     animation: about-to-dark linear both;
     animation-timeline: --route-scroll;
-    animation-range: cover 32% cover 62%;
+    animation-range: cover 32% cover 58%;
   }
 
   first-values h1,

@@ -67,7 +67,7 @@ body[class="my-story"] a[href="/my-story"] {
     animation-direction: reverse;
   }
 
-  /* Inactive links → fake-black in phase 2 (same band as about.css cover 38%–62%) */
+  /* Inactive links → fake-black in phase 2 (same band as about.css cover 38%–58%) */
   @keyframes nav-inactive-to-dark-on-about {
     from {
       color: var(--fake-white);
