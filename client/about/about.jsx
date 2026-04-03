@@ -11,18 +11,67 @@ const precisionIcon = inlineImport({ src: "../components/icons/precision.svg" })
 /** Texture URL for the tiled fractal (same folder as this module) 🖼️ */
 const ABOUT_FRACTAL_IMAGE_SRC = "./images/fractal.webp";
 /**
- * Pattern tile size in SVG user units (½ of file pixels for denser repeat). Refresh when the asset changes:
- * run `bash client/about/images/print-fractal-dimensions.sh` and halve width/height here.
+ * Bitmap pixel size — refresh with `bash client/about/images/print-fractal-dimensions.sh`
+ * (script prints values for pasting here).
  */
-const ABOUT_FRACTAL_WIDTH = 512;
-const ABOUT_FRACTAL_HEIGHT = 512;
-/** One pattern cell = 2×2 mirrored copies at intrinsic size 🪞 */
-const ABOUT_FRACTAL_PATTERN_W = ABOUT_FRACTAL_WIDTH * 2;
-const ABOUT_FRACTAL_PATTERN_H = ABOUT_FRACTAL_HEIGHT * 2;
+const ABOUT_FRACTAL_FILE_W = 853;
+const ABOUT_FRACTAL_FILE_H = 1363;
+/**
+ * How big each repeat is in SVG space (only knob for density). `1` ≈ 1 file pixel → 1 user unit.
+ * ↑ larger motifs / fewer tiles; ↓ denser. Keeps FILE_* in sync with the bitmap; scaling never breaks mirrors.
+ */
+const ABOUT_FRACTAL_TILE_SCALE = 0.7;
 /** Bleed into neighbor quadrants so raster anti-aliasing doesn’t leave a hairline at mirror seams 🪒 */
 const ABOUT_FRACTAL_SEAM_BLEED = 1;
-const ABOUT_FRACTAL_IMG_W = ABOUT_FRACTAL_WIDTH + ABOUT_FRACTAL_SEAM_BLEED;
-const ABOUT_FRACTAL_IMG_H = ABOUT_FRACTAL_HEIGHT + ABOUT_FRACTAL_SEAM_BLEED;
+/** One quadrant in user units = ½ file × scale (each <image> is slice-fit into this box) */
+const ABOUT_FRACTAL_QUAD_W = (ABOUT_FRACTAL_FILE_W / 2) * ABOUT_FRACTAL_TILE_SCALE;
+const ABOUT_FRACTAL_QUAD_H = (ABOUT_FRACTAL_FILE_H / 2) * ABOUT_FRACTAL_TILE_SCALE;
+const ABOUT_FRACTAL_IMG_W = ABOUT_FRACTAL_QUAD_W + ABOUT_FRACTAL_SEAM_BLEED;
+const ABOUT_FRACTAL_IMG_H = ABOUT_FRACTAL_QUAD_H + ABOUT_FRACTAL_SEAM_BLEED;
+/** Mirror-cell: [A][flipH A] over [flipV][flipHV] — spans full bitmap once in a 2×2 mirror 🪞 */
+const ABOUT_FRACTAL_CELL_W = ABOUT_FRACTAL_FILE_W * ABOUT_FRACTAL_TILE_SCALE;
+const ABOUT_FRACTAL_CELL_H = ABOUT_FRACTAL_FILE_H * ABOUT_FRACTAL_TILE_SCALE;
+/** Repeat period = 2× cell on X and Y so each edge meets a mirror, not a copy of the same edge (avoids “restart” seam) */
+const ABOUT_FRACTAL_PATTERN_W = ABOUT_FRACTAL_CELL_W * 2;
+const ABOUT_FRACTAL_PATTERN_H = ABOUT_FRACTAL_CELL_H * 2;
+
+/** One mirror-cell: four quadrant images (same bitmap, flipH / flipV / both) */
+function AboutFractalMirrorCell() {
+  const src = ABOUT_FRACTAL_IMAGE_SRC;
+  const w = ABOUT_FRACTAL_IMG_W;
+  const h = ABOUT_FRACTAL_IMG_H;
+  const cw = ABOUT_FRACTAL_CELL_W;
+  const ch = ABOUT_FRACTAL_CELL_H;
+  return (
+    <>
+      <image href={src} xlinkHref={src} width={w} height={h} x="0" y="0" preserveAspectRatio="xMidYMid slice" />
+      <image
+        href={src}
+        xlinkHref={src}
+        width={w}
+        height={h}
+        preserveAspectRatio="xMidYMid slice"
+        transform={`translate(${cw},0) scale(-1,1)`}
+      />
+      <image
+        href={src}
+        xlinkHref={src}
+        width={w}
+        height={h}
+        preserveAspectRatio="xMidYMid slice"
+        transform={`translate(0,${ch}) scale(1,-1)`}
+      />
+      <image
+        href={src}
+        xlinkHref={src}
+        width={w}
+        height={h}
+        preserveAspectRatio="xMidYMid slice"
+        transform={`translate(${cw},${ch}) scale(-1,-1)`}
+      />
+    </>
+  );
+}
 
 export default function About() {
   const chaoticPath = CahoticSpiral();
@@ -48,39 +97,16 @@ export default function About() {
             height={ABOUT_FRACTAL_PATTERN_H}
             overflow="visible"
           >
-            <image
-              href={ABOUT_FRACTAL_IMAGE_SRC}
-              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
-              width={ABOUT_FRACTAL_IMG_W}
-              height={ABOUT_FRACTAL_IMG_H}
-              x="0"
-              y="0"
-              preserveAspectRatio="xMidYMid slice"
-            />
-            <image
-              href={ABOUT_FRACTAL_IMAGE_SRC}
-              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
-              width={ABOUT_FRACTAL_IMG_W}
-              height={ABOUT_FRACTAL_IMG_H}
-              preserveAspectRatio="xMidYMid slice"
-              transform={`translate(${ABOUT_FRACTAL_PATTERN_W},0) scale(-1,1)`}
-            />
-            <image
-              href={ABOUT_FRACTAL_IMAGE_SRC}
-              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
-              width={ABOUT_FRACTAL_IMG_W}
-              height={ABOUT_FRACTAL_IMG_H}
-              preserveAspectRatio="xMidYMid slice"
-              transform={`translate(0,${ABOUT_FRACTAL_PATTERN_H}) scale(1,-1)`}
-            />
-            <image
-              href={ABOUT_FRACTAL_IMAGE_SRC}
-              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
-              width={ABOUT_FRACTAL_IMG_W}
-              height={ABOUT_FRACTAL_IMG_H}
-              preserveAspectRatio="xMidYMid slice"
-              transform={`translate(${ABOUT_FRACTAL_PATTERN_W},${ABOUT_FRACTAL_PATTERN_H}) scale(-1,-1)`}
-            />
+            <AboutFractalMirrorCell />
+            <g transform={`matrix(-1, 0, 0, 1, ${ABOUT_FRACTAL_PATTERN_W}, 0)`}>
+              <AboutFractalMirrorCell />
+            </g>
+            <g transform={`matrix(1, 0, 0, -1, 0, ${ABOUT_FRACTAL_PATTERN_H})`}>
+              <AboutFractalMirrorCell />
+              <g transform={`matrix(-1, 0, 0, 1, ${ABOUT_FRACTAL_PATTERN_W}, 0)`}>
+                <AboutFractalMirrorCell />
+              </g>
+            </g>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#about-fractal-mirror-checker)" />
@@ -95,7 +121,7 @@ export default function About() {
         <h1>About me</h1>
         <p>My Values</p>
         <layout class="flex">
-          <Layout class="spiral spiral-morph" width="50%" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight>
+          <Layout class="spiral" width="100%" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight={false}>
             <path d={chaoticPath.props.d} data-to={orderedPath.props.d} />
           </Layout>
           {inlineImport({ src: initSpiralMorph, selfExecute: true })}

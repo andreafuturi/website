@@ -83,6 +83,8 @@ about {
   }
   .spiral {
       fill: var(--fake-white);
+      position: absolute;
+    opacity: 0.1;
   }
    
 }
@@ -99,6 +101,9 @@ about {
 second-values {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100svh - var(--header-height));
+  value {
+    text-align: left;
+  }
 }
 /*
  * Keep <about> as a snap target when body.about is set (URL /about or IO sync).

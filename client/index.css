@@ -220,7 +220,7 @@ about {
 home {
   scroll-margin-top: var(--header-height);
 }
-svg {
+svg:not(.about-fractal-bg) {
   shape-rendering: geometricPrecision;
 }
 

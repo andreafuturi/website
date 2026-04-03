@@ -14,9 +14,7 @@ if [[ -z "$W" || -z "$H" ]]; then
   exit 1
 fi
 echo "File: $W $H"
-WH=$((W / 2))
-HH=$((H / 2))
 echo ""
-echo "Paste into client/about/about.jsx (½ file px — matches about.jsx convention):"
-echo "const ABOUT_FRACTAL_WIDTH = $WH;"
-echo "const ABOUT_FRACTAL_HEIGHT = $HH;"
+echo "Paste into client/about/about.jsx:"
+echo "const ABOUT_FRACTAL_FILE_W = $W;"
+echo "const ABOUT_FRACTAL_FILE_H = $H;"
