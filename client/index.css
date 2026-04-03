@@ -177,8 +177,8 @@ header .header-cta {
   header,
   header .logo,
   header .header-cta {
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-timeline: --first-values;
+    animation-range: entry 0% cover 22%;
   }
 }
 
@@ -204,10 +204,10 @@ html {
   scroll-snap-type: y mandatory;
 }
 
-/* Expose <about>’s view timeline to siblings (e.g. nav) for scroll-driven UI ✨ */
+/* Expose <first-values> scroll timeline to siblings (header, nav, about::before/::after) ✨ */
 @supports (animation-timeline: view()) {
   body {
-    timeline-scope: --about;
+    timeline-scope: --first-values;
   }
 }
 home,

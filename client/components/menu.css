@@ -43,7 +43,7 @@ body[class="my-story"] a[href="/my-story"] {
   }
 }
 
-/* On `/`, nav tracks scroll into <about> (same range as blur / teaser link) */
+/* On `/`, nav tracks scroll into <about> (same range as header / fractal — cover 22%) */
 @supports (animation-timeline: view()) {
   @keyframes nav-color-to-active {
     from {
@@ -57,8 +57,8 @@ body[class="my-story"] a[href="/my-story"] {
   body:not(.about) nav a[href="/about"],
   body[class=""] nav a[href="/"] {
     animation: nav-color-to-active linear both;
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-timeline: --first-values;
+    animation-range: entry 0% cover 22%;
   }
 
   body[class=""] nav a[href="/"] {

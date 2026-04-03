@@ -8,6 +8,22 @@ const innovationIcon = inlineImport({ src: "../components/icons/innovation.svg" 
 const minimalismIcon = inlineImport({ src: "../components/icons/minimalism.svg" });
 const precisionIcon = inlineImport({ src: "../components/icons/precision.svg" });
 
+/** Texture URL for the tiled fractal (same folder as this module) 🖼️ */
+const ABOUT_FRACTAL_IMAGE_SRC = "./images/fractal.webp";
+/**
+ * Pattern tile size in SVG user units (½ of file pixels for denser repeat). Refresh when the asset changes:
+ * run `bash client/about/images/print-fractal-dimensions.sh` and halve width/height here.
+ */
+const ABOUT_FRACTAL_WIDTH = 512;
+const ABOUT_FRACTAL_HEIGHT = 512;
+/** One pattern cell = 2×2 mirrored copies at intrinsic size 🪞 */
+const ABOUT_FRACTAL_PATTERN_W = ABOUT_FRACTAL_WIDTH * 2;
+const ABOUT_FRACTAL_PATTERN_H = ABOUT_FRACTAL_HEIGHT * 2;
+/** Bleed into neighbor quadrants so raster anti-aliasing doesn’t leave a hairline at mirror seams 🪒 */
+const ABOUT_FRACTAL_SEAM_BLEED = 1;
+const ABOUT_FRACTAL_IMG_W = ABOUT_FRACTAL_WIDTH + ABOUT_FRACTAL_SEAM_BLEED;
+const ABOUT_FRACTAL_IMG_H = ABOUT_FRACTAL_HEIGHT + ABOUT_FRACTAL_SEAM_BLEED;
+
 export default function About() {
   const chaoticPath = CahoticSpiral();
   const orderedPath = OrderedSpiral();
@@ -15,6 +31,60 @@ export default function About() {
   return (
     <about>
       {inlineImport({ src: "./about.css" })}
+      <svg
+        class="about-fractal-bg"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <pattern
+            id="about-fractal-mirror-checker"
+            patternUnits="userSpaceOnUse"
+            width={ABOUT_FRACTAL_PATTERN_W}
+            height={ABOUT_FRACTAL_PATTERN_H}
+            overflow="visible"
+          >
+            <image
+              href={ABOUT_FRACTAL_IMAGE_SRC}
+              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
+              width={ABOUT_FRACTAL_IMG_W}
+              height={ABOUT_FRACTAL_IMG_H}
+              x="0"
+              y="0"
+              preserveAspectRatio="xMidYMid slice"
+            />
+            <image
+              href={ABOUT_FRACTAL_IMAGE_SRC}
+              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
+              width={ABOUT_FRACTAL_IMG_W}
+              height={ABOUT_FRACTAL_IMG_H}
+              preserveAspectRatio="xMidYMid slice"
+              transform={`translate(${ABOUT_FRACTAL_PATTERN_W},0) scale(-1,1)`}
+            />
+            <image
+              href={ABOUT_FRACTAL_IMAGE_SRC}
+              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
+              width={ABOUT_FRACTAL_IMG_W}
+              height={ABOUT_FRACTAL_IMG_H}
+              preserveAspectRatio="xMidYMid slice"
+              transform={`translate(0,${ABOUT_FRACTAL_PATTERN_H}) scale(1,-1)`}
+            />
+            <image
+              href={ABOUT_FRACTAL_IMAGE_SRC}
+              xlinkHref={ABOUT_FRACTAL_IMAGE_SRC}
+              width={ABOUT_FRACTAL_IMG_W}
+              height={ABOUT_FRACTAL_IMG_H}
+              preserveAspectRatio="xMidYMid slice"
+              transform={`translate(${ABOUT_FRACTAL_PATTERN_W},${ABOUT_FRACTAL_PATTERN_H}) scale(-1,-1)`}
+            />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#about-fractal-mirror-checker)" />
+      </svg>
       <first-values>
         <a class="center scroll-to-about flex-col" href="/about">
           <svg fill="currentColor" width="17" height="11" viewBox="0 0 17 11" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +129,7 @@ export default function About() {
               <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
             </value>
           </values>
-          <svg width="100%" height="100%" viewBox="0 0 100 100"></svg>
+          <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
         </layout>
       </second-values>
     </about>
@@ -70,17 +140,17 @@ export default function About() {
 function initSpiralMorph() {
   if (typeof ViewTimeline === "undefined") return;
   requestAnimationFrame(() => {
-    const about = document.querySelector("about");
-    if (!about) return;
-    const path = about.querySelector(".spiral-morph path[data-to]");
+    const aboutEl = document.querySelector("about");
+    if (!aboutEl) return;
+    const path = aboutEl.querySelector(".spiral-morph path[data-to]");
     if (!path) return;
 
     path.animate(
       [{ d: `path("${path.getAttribute("d")}")` }, { d: `path("${path.dataset.to}")` }],
       {
-        timeline: new ViewTimeline({ subject: about }),
+        timeline: new ViewTimeline({ subject: aboutEl }),
         rangeStart: "entry 0%",
-        rangeEnd: "contain 55%",
+        rangeEnd: "cover 22%",
         fill: "both",
       }
     );

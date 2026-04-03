@@ -1,10 +1,10 @@
 about {
   /* Black ::after veil — opacity animates cheaply (GPU-friendly path) 🌑 */
-  --fractal-veil-opacity-start: 0.3;
+  --fractal-veil-opacity-start: 0.5;
   --fractal-veil-opacity-end: 0.78;
-  /* ::before fractal — scroll end === route fallback (scale ≈ old 180% bg zoom, cover unchanged) */
+  /* Fractal <svg.about-fractal-bg> — scroll end === route fallback (scale ~ old 180% bg zoom; tiled mirror pattern) */
   --about-fractal-blur-end: 18px;
-  --about-fractal-scale-start: 1.06;
+  --about-fractal-scale-start: 1.01;
   --about-fractal-scale-end: 1.5; /* ~1.06 × 1.8 vs cover */
   /* h1 + p — scroll end === route fallback (plateau so opacity lands exactly at 1) */
   --about-content-opacity-start: 0;
@@ -14,9 +14,8 @@ about {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  view-timeline-name: --about;
+  view-timeline-name: --first-values;
   view-timeline-axis: block;
-  /* block-end: ignore bottom strip of viewport (home is shorter than 100vh → about peeks in early) */
   view-timeline-inset: 0 var(--about-view-inset-block-end);
   color: var(--fake-white);
   text-align: center;
@@ -78,8 +77,8 @@ about {
   h1 {
     padding-bottom: 0.3rem;
   }
-  h1,
-  p {
+  first-values h1,
+  first-values p {
     opacity: var(--about-content-opacity-start);
   }
   .spiral {
@@ -111,19 +110,16 @@ body.about about first-values > layout:first-of-type {
   scroll-margin-top: calc(var(--header-height) + var(--about-scroll-teaser-height) + var(--about-title-stack-height));
 }
 
-/* Fractal image only (blur / zoom scroll-driven) ✨ */
-about::before {
-  content: "";
+/* Fractal — inline <svg.about-fractal-bg> in about.jsx (2×2 mirrored pattern) 🪞 */
+about > svg.about-fractal-bg {
   position: absolute;
   inset: 0;
   z-index: -2;
-  background-image: url("images/fractal.webp");
-  background-size: cover;
-  background-position: center;
+  display: block;
+  pointer-events: none;
   transform: scale(var(--about-fractal-scale-start));
   transform-origin: center bottom;
   filter: blur(0);
-  margin: -30px;
 }
 
 /* Solid veil — darkness = opacity */
@@ -140,7 +136,7 @@ about::after {
 
 /* Route-based: mirror scroll end state + smooth on path change (no view timelines) */
 @supports not (animation-timeline: view()) {
-  about::before {
+  about > svg.about-fractal-bg {
     transition:
       filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
       transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
@@ -150,7 +146,7 @@ about::after {
     transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
   }
 
-  body.about about::before {
+  body.about about > svg.about-fractal-bg {
     filter: blur(var(--about-fractal-blur-end));
     transform: scale(var(--about-fractal-scale-end));
   }
@@ -159,13 +155,13 @@ about::after {
     opacity: var(--fractal-veil-opacity-end);
   }
 
-  about h1,
-  about p {
+  first-values h1,
+  first-values p {
     transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
   }
 
-  body.about about h1,
-  body.about about p {
+  body.about first-values h1,
+  body.about first-values p {
     opacity: var(--about-content-opacity-end);
   }
 }
@@ -188,7 +184,7 @@ body.about .scroll-to-about {
   }
 }
 
-/* Scroll-driven: transitions finish as <about> settles into view (same timeline for blur, link, nav) 🎯 */
+/* Scroll-driven: --first-values on <about>. Use `cover` ranges (not `contain`) so tall sections still progress; add --second-values on <second-values> later 🎯 */
 @supports (animation-timeline: view()) {
   @keyframes about-fractal-blur {
     from {
@@ -231,23 +227,23 @@ body.about .scroll-to-about {
     }
   }
 
-  about::before {
+  about > svg.about-fractal-bg {
     animation: about-fractal-blur linear both;
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-timeline: --first-values;
+    animation-range: entry 0% cover 22%;
   }
 
   about::after {
     animation: about-fractal-veil linear both;
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-timeline: --first-values;
+    animation-range: entry 0% cover 22%;
   }
 
-  about h1,
-  about p {
+  first-values h1,
+  first-values p {
     animation: about-content-fade-in linear both;
-    animation-timeline: --about;
-    animation-range: entry 0% contain 55%;
+    animation-timeline: --first-values;
+    animation-range: entry 0% cover 22%;
   }
 
   /* Don’t use animation:none here: removing scroll-driven animations when .about is added causes a visible jump 🎯 */
@@ -261,9 +257,9 @@ body.about .scroll-to-about {
     animation-iteration-count: infinite, 1;
     animation-direction: alternate-reverse, normal;
     animation-fill-mode: none, both;
-    animation-timeline: auto, --about;
+    animation-timeline: auto, --first-values;
     animation-range:
       normal,
-      entry 0% contain 100%;
+      entry 0% cover 32%;
   }
 }
