@@ -20,12 +20,12 @@ about {
   }
 
   /* Black ::after veil — opacity animates cheaply (GPU-friendly path) 🌑 */
-  --fractal-veil-opacity-start: 0.5;
+  --fractal-veil-opacity-start: 0.78;
   --fractal-veil-opacity-end: 0.78;
   /* Fractal <svg.about-fractal-bg> — scroll end === route fallback (scale ~ old 180% bg zoom; tiled mirror pattern) */
   --about-fractal-blur-end: 18px;
   --about-fractal-scale-start: 1.01;
-  --about-fractal-scale-end: 1.5; /* ~1.06 × 1.8 vs cover */
+  --about-fractal-scale-end: 1.05; /* ~1.06 × 1.8 vs cover */
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
   --about-fractal-blur-phase2-end: 26px;
   --about-fractal-scale-phase2-end: 1.92;
