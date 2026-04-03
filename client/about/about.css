@@ -9,11 +9,6 @@ about {
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
   --about-fractal-blur-phase2-end: 26px;
   --about-fractal-scale-phase2-end: 1.92;
-  --fractal-veil-bg-start: #000;
-  /* Phase-2 UI band: --about-phase2-cover-* (see literals in @supports) */
-  /* h1 + p — scroll end === route fallback (plateau so opacity lands exactly at 1) */
-  --about-content-opacity-start: 0;
-  --about-content-opacity-end: 1;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -87,18 +82,18 @@ about {
   }
   first-values h1,
   first-values p {
-    opacity: var(--about-content-opacity-start);
+    opacity: 0;
   }
   .spiral {
-    fill: var(--fake-white);
+    color: var(--fake-white);
+    fill: currentColor;
     position: absolute;
     top: 8vh;
     top: 8svh;
     opacity: 0.3;
   }
-   
 }
- /* Second fold: next snap stop on page scroll (snap container is html) 📍 */
+/* Second fold: next snap stop on page scroll (snap container is html) 📍 */
  second-values,
  layout {
   flex: 1;
@@ -145,7 +140,7 @@ about::after {
   inset: 0;
   z-index: -1;
   margin: -30px;
-  background: var(--fractal-veil-bg-start);
+  background: #000;
   opacity: var(--fractal-veil-opacity-start);
   pointer-events: none;
 }
@@ -178,7 +173,7 @@ about::after {
 
   body.about first-values h1,
   body.about first-values p {
-    opacity: var(--about-content-opacity-end);
+    opacity: 1;
   }
 }
 
@@ -235,11 +230,11 @@ body.about .scroll-to-about {
   /* Plateau so opacity reaches exactly 1 before range end (same idea as header-bar / logo keyframes) */
   @keyframes about-content-fade-in {
     from {
-      opacity: var(--about-content-opacity-start);
+      opacity: 0;
     }
     80%,
     100% {
-      opacity: var(--about-content-opacity-end);
+      opacity: 1;
     }
   }
 
@@ -258,28 +253,19 @@ body.about .scroll-to-about {
   /* Same veil opacity as phase 1 end; tint black → fake-white ✨ */
   @keyframes about-fractal-veil-to-light {
     from {
-      background-color: var(--fractal-veil-bg-start);
+      background-color: #000;
     }
     to {
       background-color: var(--fake-white);
     }
   }
 
-  @keyframes about-second-values-color {
+  @keyframes about-to-dark {
     from {
       color: var(--fake-white);
     }
     to {
       color: var(--fake-black);
-    }
-  }
-
-  @keyframes about-spiral-fill {
-    from {
-      fill: var(--fake-white);
-    }
-    to {
-      fill: var(--fake-black);
     }
   }
 
@@ -304,19 +290,10 @@ body.about .scroll-to-about {
       cover 38% cover 62%;
   }
 
-  /* Spiral path morph: initSpiralMorph() reads --about-phase2-cover-* + ViewTimeline(axis,inset) */
-  second-values {
-    animation-name: about-second-values-color;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: --route-scroll;
-    animation-range: cover 38% cover 62%;
-  }
-
-  first-values .spiral path {
-    animation-name: about-spiral-fill;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
+  /* Phase-2 dark transition: color drives both text and SVG fill (via currentColor on .spiral) */
+  second-values,
+  first-values .spiral {
+    animation: about-to-dark linear both;
     animation-timeline: --route-scroll;
     animation-range: cover 38% cover 62%;
   }
