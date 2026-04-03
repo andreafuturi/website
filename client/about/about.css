@@ -12,8 +12,6 @@ about {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 100vh;
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
   view-timeline-name: --about;
@@ -39,12 +37,18 @@ about {
     animation: alternate-reverse 1s infinite scroll-to-about-animation;
     flex-shrink: 0;
   }
-  > h1,
-  > p {
+  first-values {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  first-values > h1,
+  first-values > p {
     flex-shrink: 0;
   }
   /* flex:1 alone won’t grow when <about> is taller than the screen (siblings set parent height) — pin first fold to viewport 📐 */
-  > layout:first-of-type {
+  first-values > layout:first-of-type {
     flex: 1;
     align-items: stretch;
     margin-top: 3svh;
@@ -84,7 +88,8 @@ about {
    
 }
  /* Second fold: next snap stop on page scroll (snap container is html) 📍 */
- about2, layout {
+ second-values,
+ layout {
   flex: 1;
   align-items: stretch;
   scroll-snap-align: start;
@@ -92,7 +97,7 @@ about {
   scroll-margin-top: var(--header-height);
   display: flex;
 }
-about2 {
+second-values {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100svh - var(--header-height));
 }
@@ -100,7 +105,7 @@ about2 {
  * Keep <about> as a snap target when body.about is set (URL /about or IO sync).
  * Removing scroll-snap-align here used to re-snap mandatory html → jump back to <home> mid-scroll / during scrollIntoView 🎯
  */
-body.about about > layout:first-of-type {
+body.about about first-values > layout:first-of-type {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   scroll-margin-top: calc(var(--header-height) + var(--about-scroll-teaser-height) + var(--about-title-stack-height));
