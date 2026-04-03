@@ -162,21 +162,31 @@ export default function About() {
   );
 }
 
-/** Scroll-driven SVG path morph via WAAPI + ViewTimeline 🌀 */
+/**
+ * Scroll-driven SVG path morph via WAAPI + ViewTimeline 🌀
+ * ⚠️ Must be self-contained — inlineImport serialises only this function via .toString()
+ */
 function initSpiralMorph() {
   if (typeof ViewTimeline === "undefined") return;
   requestAnimationFrame(() => {
     const aboutEl = document.querySelector("about");
     if (!aboutEl) return;
-    const path = aboutEl.querySelector(".spiral-morph path[data-to]");
+    const path = aboutEl.querySelector(".spiral path[data-to]");
     if (!path) return;
+
+    const cs = getComputedStyle(aboutEl);
+    const rangeStart = `cover ${cs.getPropertyValue("--about-phase2-cover-start").trim() || "38%"}`;
+    const rangeEnd = `cover ${cs.getPropertyValue("--about-phase2-cover-end").trim() || "62%"}`;
+
+    const blockEnd = getComputedStyle(document.documentElement).getPropertyValue("--about-view-inset-block-end").trim();
+    const inset = cs.getPropertyValue("view-timeline-inset").trim() || (blockEnd ? `0 ${blockEnd}` : "auto");
 
     path.animate(
       [{ d: `path("${path.getAttribute("d")}")` }, { d: `path("${path.dataset.to}")` }],
       {
-        timeline: new ViewTimeline({ subject: aboutEl }),
-        rangeStart: "entry 0%",
-        rangeEnd: "cover 22%",
+        timeline: new ViewTimeline({ subject: aboutEl, axis: "block", inset }),
+        rangeStart,
+        rangeEnd,
         fill: "both",
       }
     );

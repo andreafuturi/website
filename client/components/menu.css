@@ -57,11 +57,29 @@ body[class="my-story"] a[href="/my-story"] {
   body:not(.about) nav a[href="/about"],
   body[class=""] nav a[href="/"] {
     animation: nav-color-to-active linear both;
-    animation-timeline: --first-values;
+    animation-timeline: --route-scroll;
     animation-range: entry 0% cover 22%;
   }
 
   body[class=""] nav a[href="/"] {
     animation-direction: reverse;
+  }
+
+  /* Inactive links → fake-black in phase 2 (same band as about.css cover 38%–62%) */
+  @keyframes nav-inactive-to-dark-on-about {
+    from {
+      color: var(--fake-white);
+    }
+    to {
+      color: var(--fake-black);
+    }
+  }
+
+  body.about nav a:not([href="/about"]) {
+    animation-name: nav-inactive-to-dark-on-about;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --route-scroll;
+    animation-range: cover 38% cover 62%;
   }
 }

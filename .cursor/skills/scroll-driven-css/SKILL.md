@@ -10,16 +10,17 @@ description: >-
 ## Setup (3 pieces)
 
 ```css
-/* 1️⃣ Subject: define named timeline */
+/* 1️⃣ Subject: one shared timeline name per site — whichever route is mounted defines it on its scroll root
+      (e.g. <about> today; future <services> uses the same name so header/nav don’t need per-route renames) */
 about {
-  view-timeline-name: --about;
+  view-timeline-name: --route-scroll;
   view-timeline-axis: block;
   view-timeline-inset: 0 var(--about-view-inset-block-end); /* trim early-peek 📐 */
 }
 
 /* 2️⃣ Ancestor: expose to siblings (header, nav…) */
 @supports (animation-timeline: view()) {
-  body { timeline-scope: --about; }
+  body { timeline-scope: --route-scroll; }
 }
 
 /* 3️⃣ Consumer: subscribe */
@@ -29,7 +30,7 @@ about {
   /* ⚠️ ALWAYS set animation-timeline/range AFTER the animation shorthand —
      the shorthand resets animation-timeline to `auto` if declared later */
   header, header .logo, header .header-cta {
-    animation-timeline: --about;
+    animation-timeline: --route-scroll;
     animation-range: entry 0% contain 55%;
   }
 }
@@ -147,7 +148,7 @@ about {
 | File | Role |
 |------|------|
 | `client/index.css` | `timeline-scope`, header scroll animation, `:root` scroll/header tokens |
-| `client/about/about.css` | `--about` definition, fractal tokens, blur/link ranges |
-| `client/components/menu.css` | Nav colors driven by `--about` |
+| `client/about/about.css` | `view-timeline-name: --route-scroll` on `<about>`, fractal tokens, ranges |
+| `client/components/menu.css` | Nav colors driven by `--route-scroll` |
 
-> **Mental model:** view timeline = single progress source → multiple consumers subscribe with same `animation-timeline` + `animation-range`. Body class = fallback / non-scroll state only. **Custom properties = single source of truth** between scroll end state and route fallback.
+> **Mental model:** one **named** view progress source (`--route-scroll`) per document — the active route’s scroll subject defines it; fixed UI subscribes with the same `animation-timeline` + different `animation-range` values. Body class = fallback / non-scroll state only. **Custom properties = single source of truth** between scroll end state and route fallback.

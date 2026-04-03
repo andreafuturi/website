@@ -6,6 +6,11 @@ about {
   --about-fractal-blur-end: 18px;
   --about-fractal-scale-start: 1.01;
   --about-fractal-scale-end: 1.5; /* ~1.06 × 1.8 vs cover */
+  /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
+  --about-fractal-blur-phase2-end: 26px;
+  --about-fractal-scale-phase2-end: 1.92;
+  --fractal-veil-bg-start: #000;
+  /* Phase-2 UI band: --about-phase2-cover-* (see literals in @supports) */
   /* h1 + p — scroll end === route fallback (plateau so opacity lands exactly at 1) */
   --about-content-opacity-start: 0;
   --about-content-opacity-end: 1;
@@ -14,9 +19,12 @@ about {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  view-timeline-name: --first-values;
+  view-timeline-name: --route-scroll;
   view-timeline-axis: block;
   view-timeline-inset: 0 var(--about-view-inset-block-end);
+  /* Phase-2 band (WAAPI reads these). animation-range must use literals — var() breaks in animation-range in several browsers */
+  --about-phase2-cover-start: 38%;
+  --about-phase2-cover-end: 62%;
   color: var(--fake-white);
   text-align: center;
   /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
@@ -82,9 +90,11 @@ about {
     opacity: var(--about-content-opacity-start);
   }
   .spiral {
-      fill: var(--fake-white);
-      position: absolute;
-    opacity: 0.1;
+    fill: var(--fake-white);
+    position: absolute;
+    top: 8vh;
+    top: 8svh;
+    opacity: 0.3;
   }
    
 }
@@ -105,6 +115,7 @@ second-values {
     text-align: left;
   }
 }
+
 /*
  * Keep <about> as a snap target when body.about is set (URL /about or IO sync).
  * Removing scroll-snap-align here used to re-snap mandatory html → jump back to <home> mid-scroll / during scrollIntoView 🎯
@@ -134,7 +145,7 @@ about::after {
   inset: 0;
   z-index: -1;
   margin: -30px;
-  background: #000;
+  background: var(--fractal-veil-bg-start);
   opacity: var(--fractal-veil-opacity-start);
   pointer-events: none;
 }
@@ -189,7 +200,7 @@ body.about .scroll-to-about {
   }
 }
 
-/* Scroll-driven: --first-values on <about>. Use `cover` ranges (not `contain`) so tall sections still progress; add --second-values on <second-values> later 🎯 */
+/* Primary scroll timeline: view-timeline-name on <about>; fixed chrome uses animation-timeline: --route-scroll (see index.css comment) */
 @supports (animation-timeline: view()) {
   @keyframes about-fractal-blur {
     from {
@@ -232,22 +243,88 @@ body.about .scroll-to-about {
     }
   }
 
+  /* Continue zoom + blur while scrolling into second-values 🌀 */
+  @keyframes about-fractal-phase2 {
+    from {
+      filter: blur(var(--about-fractal-blur-end));
+      transform: scale(var(--about-fractal-scale-end));
+    }
+    to {
+      filter: blur(var(--about-fractal-blur-phase2-end));
+      transform: scale(var(--about-fractal-scale-phase2-end));
+    }
+  }
+
+  /* Same veil opacity as phase 1 end; tint black → fake-white ✨ */
+  @keyframes about-fractal-veil-to-light {
+    from {
+      background-color: var(--fractal-veil-bg-start);
+    }
+    to {
+      background-color: var(--fake-white);
+    }
+  }
+
+  @keyframes about-second-values-color {
+    from {
+      color: var(--fake-white);
+    }
+    to {
+      color: var(--fake-black);
+    }
+  }
+
+  @keyframes about-spiral-fill {
+    from {
+      fill: var(--fake-white);
+    }
+    to {
+      fill: var(--fake-black);
+    }
+  }
+
+  /* Fractal: two ranges on --route-scroll; track 2 uses forwards only (not both) so phase-2 blur is not applied before cover 22% */
   about > svg.about-fractal-bg {
-    animation: about-fractal-blur linear both;
-    animation-timeline: --first-values;
-    animation-range: entry 0% cover 22%;
+    animation-name: about-fractal-blur, about-fractal-phase2;
+    animation-timing-function: linear, linear;
+    animation-fill-mode: both, forwards;
+    animation-timeline: --route-scroll, --route-scroll;
+    animation-range:
+      entry 0% cover 22%,
+      cover 22% cover 62%;
   }
 
   about::after {
-    animation: about-fractal-veil linear both;
-    animation-timeline: --first-values;
-    animation-range: entry 0% cover 22%;
+    animation-name: about-fractal-veil, about-fractal-veil-to-light;
+    animation-timing-function: linear, linear;
+    animation-fill-mode: both, both;
+    animation-timeline: --route-scroll, --route-scroll;
+    animation-range:
+      entry 0% cover 22%,
+      cover 38% cover 62%;
+  }
+
+  /* Spiral path morph: initSpiralMorph() reads --about-phase2-cover-* + ViewTimeline(axis,inset) */
+  second-values {
+    animation-name: about-second-values-color;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --route-scroll;
+    animation-range: cover 38% cover 62%;
+  }
+
+  first-values .spiral path {
+    animation-name: about-spiral-fill;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --route-scroll;
+    animation-range: cover 38% cover 62%;
   }
 
   first-values h1,
   first-values p {
     animation: about-content-fade-in linear both;
-    animation-timeline: --first-values;
+    animation-timeline: --route-scroll;
     animation-range: entry 0% cover 22%;
   }
 
@@ -262,7 +339,7 @@ body.about .scroll-to-about {
     animation-iteration-count: infinite, 1;
     animation-direction: alternate-reverse, normal;
     animation-fill-mode: none, both;
-    animation-timeline: auto, --first-values;
+    animation-timeline: auto, --route-scroll;
     animation-range:
       normal,
       entry 0% cover 32%;

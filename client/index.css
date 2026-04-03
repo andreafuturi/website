@@ -177,7 +177,7 @@ header .header-cta {
   header,
   header .logo,
   header .header-cta {
-    animation-timeline: --first-values;
+    animation-timeline: --route-scroll;
     animation-range: entry 0% cover 22%;
   }
 }
@@ -204,10 +204,14 @@ html {
   scroll-snap-type: y mandatory;
 }
 
-/* Expose <first-values> scroll timeline to siblings (header, nav, about::before/::after) ✨ */
+/*
+ * Hoist the active route’s primary view timeline so header/nav (siblings) can use animation-timeline: --route-scroll.
+ * Convention: one shared name — the mounted route sets view-timeline-name on its scroll subject (<about> today;
+ * future <services>, <portfolio>, … should use the same name on their root). Only one subject should define it per document.
+ */
 @supports (animation-timeline: view()) {
   body {
-    timeline-scope: --first-values;
+    timeline-scope: --route-scroll;
   }
 }
 home,
