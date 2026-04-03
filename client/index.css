@@ -238,6 +238,8 @@ svg:not(.about-fractal-bg) {
   --light-gray: #8e8e93;
   --menu-height: clamp(4rem, 8vh, 5rem);
   --menu-height: clamp(4rem, 8svh, 5rem);
+  /* Reserve space for fixed bottom nav + home indicator (use for padding-bottom, not only min-height) */
+  --fixed-menu-clearance: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px) + 1px);
   --logo-height: clamp(1.5rem, 3.5vh, 2.5rem);
   --logo-height: clamp(1.5rem, 3.5svh, 2.5rem);
   --header-padding: clamp(0.7rem, 2vh, 2rem);

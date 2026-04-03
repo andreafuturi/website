@@ -9,7 +9,9 @@ nav {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  height: var(--menu-height);
+  box-sizing: border-box;
+  min-height: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   font-weight: 400;
   font-size: 0.725rem;
   a {

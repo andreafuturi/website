@@ -1,4 +1,24 @@
 about {
+  /*
+   * Values UI — tune both folds (override on about first-values / about second-values):
+   *   --about-values-row-align, --about-values-row-justify → layout.flex (beats index .flex)
+   *   --about-values-pack → vertical pack inside <values> (column justify-content)
+   *   --about-value-flex-grow → 0 = pack tight; 1 = share extra space between cards
+   *   --about-value-text-align → each <value>
+   *   --about-second-fold-bottom-gap → extra air above fixed nav (second fold only)
+   */
+  --about-second-fold-bottom-gap: clamp(1.25rem, 4svh, 2.25rem);
+  --about-values-row-align: stretch;
+  --about-values-row-justify: center;
+  --about-values-pack: flex-start;
+  --about-value-flex-grow: 0;
+  --about-value-text-align: right;
+
+  & layout.flex {
+    align-items: var(--about-values-row-align);
+    justify-content: var(--about-values-row-justify);
+  }
+
   /* Black ::after veil — opacity animates cheaply (GPU-friendly path) 🌑 */
   --fractal-veil-opacity-start: 0.5;
   --fractal-veil-opacity-end: 0.78;
@@ -18,7 +38,7 @@ about {
   view-timeline-axis: block;
   view-timeline-inset: 0 var(--about-view-inset-block-end);
   /* Phase-2 band (WAAPI reads these). animation-range must use literals — var() breaks in animation-range in several browsers */
-  --about-phase2-cover-start: 38%;
+  --about-phase2-cover-start: 32%;
   --about-phase2-cover-end: 62%;
   color: var(--fake-white);
   text-align: center;
@@ -52,7 +72,6 @@ about {
   /* flex:1 alone won’t grow when <about> is taller than the screen (siblings set parent height) — pin first fold to viewport 📐 */
   first-values > layout:first-of-type {
     flex: 1;
-    align-items: stretch;
     margin-top: 3svh;
     margin-top: 3vh;
     min-height: max(
@@ -69,13 +88,15 @@ about {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: var(--about-values-pack);
+    min-height: 0;
   }
   value {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    flex: 1;
-    text-align: right;
+    flex: var(--about-value-flex-grow) 1 auto;
+    text-align: var(--about-value-text-align);
   }
   h1 {
     padding-bottom: 0.3rem;
@@ -89,13 +110,13 @@ about {
     fill: currentColor;
     position: absolute;
     top: 8vh;
-    top: 8svh;
+    top: 10%;
     opacity: 0.3;
   }
 }
-/* Second fold: next snap stop on page scroll (snap container is html) 📍 */
- second-values,
- layout {
+/* Second fold: next snap stop on page scroll (snap container is html) */
+about second-values,
+about layout {
   flex: 1;
   align-items: stretch;
   scroll-snap-align: start;
@@ -103,12 +124,16 @@ about {
   scroll-margin-top: var(--header-height);
   display: flex;
 }
-second-values {
+about second-values {
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-end;
+  --about-values-pack: flex-end;
+  --about-value-text-align: left;
+  /* Clearance for fixed nav + a little breathing room */
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100svh - var(--header-height));
-  value {
-    text-align: left;
-  }
+  padding-bottom: calc(var(--fixed-menu-clearance) + var(--about-second-fold-bottom-gap));
 }
 
 /*
@@ -287,7 +312,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 38% cover 62%;
+      cover 32% cover 62%;
   }
 
   /* Phase-2 dark transition: color drives both text and SVG fill (via currentColor on .spiral) */
@@ -295,7 +320,7 @@ body.about .scroll-to-about {
   first-values .spiral {
     animation: about-to-dark linear both;
     animation-timeline: --route-scroll;
-    animation-range: cover 38% cover 62%;
+    animation-range: cover 32% cover 62%;
   }
 
   first-values h1,
