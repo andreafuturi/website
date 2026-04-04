@@ -82,6 +82,7 @@ about {
       0px,
       calc(100svh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
     );
+    position: relative;
   }
 
   values {
@@ -109,43 +110,57 @@ about {
     color: var(--fake-white);
     fill: currentColor;
     position: absolute;
-    top: 8vh;
-    top: 10%;
+    top: 75%;
+    scale: 2;
 
-    & path {
+    /* & path {
       opacity: 0.4;
-    }
+    } */
 
     & path:last-of-type {
       opacity: 1;
     }
   }
 
-  /* Fractal light — radial vignette; same gray ramp as home hero, stronger corner/edge falloff 🌑 */
-  first-values > layout:first-of-type img {
-        scale: 4;
-    transform: translateY(15%);
-    -webkit-mask-image: radial-gradient(
-      ellipse 32% 38% at 50% 50%,
-      #737373 0%,
-      #737373 4%,
-      rgba(115, 115, 115, 0.55) 14%,
-      rgba(115, 115, 115, 0.12) 26%,
-      rgba(166, 166, 166, 0) 46%
-    );
-    mask-image: radial-gradient(
-      ellipse 32% 38% at 50% 50%,
-      #737373 0%,
-      #737373 4%,
-      rgba(115, 115, 115, 0.55) 14%,
-      rgba(115, 115, 115, 0.12) 26%,
-      rgba(166, 166, 166, 0) 46%
-    );
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    object-fit: cover;
+  /* Fractal light under decoration SVG;
+   * Slot height comes from in-flow SVG (height:auto) — avoids flex+aspect-ratio+%height loops → 2500px img */
+  first-values > layout:first-of-type .about-fractal-slot {
+    position: relative;
+    flex: 0 0 50%;
+    width: 50%;
+    max-width: 50%;
+    min-width: 0;
+    min-height: 0;
+    align-self: center;
+    overflow: hidden;
+    /* Same idea as margin-left: -40px — ties to route padding (index.css about { padding-inline }) */
+    margin-inline-start: calc(-1 * var(--global-padding-inline));
+  }
+
+  first-values > layout:first-of-type .about-fractal-light {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    transform: translateX(-30%);
+  }
+
+  first-values > layout:first-of-type .about-values-decoration {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 960px) {
+    first-values > layout:first-of-type .about-fractal-light {
+      transform: scale(2.25) translateY(12%);
+    }
   }
 }
 /* Second fold: next snap stop on page scroll (snap container is html) */
@@ -158,6 +173,9 @@ about layout {
   scroll-margin-top: var(--header-height);
   display: flex;
 }
+
+
+
 about second-values {
   box-sizing: border-box;
   flex-direction: column;
@@ -382,8 +400,8 @@ body.about .scroll-to-about {
       cover 30% cover 55%;
   }
 
-  /* Fade img + value cards only — spiral stays visible for the phase-2 morph 🌀 */
-  first-values > layout:first-of-type > img,
+  /* Slot (light + line art) + value cards share one fade; spiral stays a sibling for phase-2 (same range as h1/p out) 🌀 */
+  first-values > layout:first-of-type .about-fractal-slot,
   first-values > layout:first-of-type > values {
     animation: about-first-fold-fade-out linear both;
     animation-timeline: --route-scroll;
