@@ -1,24 +1,6 @@
-import { toChildArray } from "preact";
 import { inlineImport } from "../../lib/framework-utils.jsx";
 import Layout from "../components/tools/Layout.jsx";
-import CahoticSpiral from "../components/patterns/cahoticSprial.jsx";
-import OrderedSpiral from "../components/patterns/orderedSpiral.jsx";
-
-/** Pairs chaotic → ordered `d` by index (same scroll morph for every path) 🌀 */
-function spiralPathMorphPairs(chaoticFragment, orderedFragment) {
-  const fromPaths = toChildArray(chaoticFragment.props.children);
-  const toPaths = toChildArray(orderedFragment.props.children);
-  const n = Math.min(fromPaths.length, toPaths.length);
-  if (fromPaths.length !== toPaths.length && typeof console !== "undefined" && console.warn) {
-    console.warn(
-      `[about] spiral path count mismatch: chaotic ${fromPaths.length} vs ordered ${toPaths.length}; morphing first ${n}`
-    );
-  }
-  return Array.from({ length: n }, (_, i) => ({
-    from: fromPaths[i].props.d,
-    to: toPaths[i].props.d,
-  }));
-}
+import AboutSpiralPaths from "../components/patterns/spiral.jsx";
 
 const creativityIcon = inlineImport({ src: "../components/icons/creativity.svg" });
 const innovationIcon = inlineImport({ src: "../components/icons/innovation.svg" });
@@ -91,8 +73,6 @@ function AboutFractalMirrorCell() {
 }
 
 export default function About() {
-  const spiralPairs = spiralPathMorphPairs(CahoticSpiral, OrderedSpiral);
-
   return (
     <about>
       {inlineImport({ src: "./about.css" })}
@@ -138,9 +118,7 @@ export default function About() {
         <p>My Values</p>
         <layout class="flex">
           <Layout class="spiral" width="100%" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight={false}>
-            {spiralPairs.map(({ from, to }, i) => (
-              <path key={i} d={from} data-to={to} />
-            ))}
+            <AboutSpiralPaths />
           </Layout>
           <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
           {inlineImport({ src: initSpiralMorph, selfExecute: true })}
