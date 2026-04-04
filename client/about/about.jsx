@@ -117,10 +117,12 @@ export default function About() {
         <h1>About me</h1>
         <p>My Values</p>
         <layout class="flex">
-          <Layout class="spiral" width="100%" viewBoxWidth={862778} viewBoxHeight={929594} cover withLight={false}>
+          <svg viewBox="0 0 862778 929594" style="margin:undefinedpx" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral"><g transform="translate(404523, 434021)">
             <AboutSpiralPaths />
-          </Layout>
-          <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
+          </g>
+          </svg>
+          <img src="/about/images/fractal-light.webp" alt="About Image" width="50%" height="100%" />
+
           {inlineImport({ src: initSpiralMorph, selfExecute: true })}
           <values>
             <value>
