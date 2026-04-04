@@ -25,10 +25,9 @@ about {
   /* Fractal <svg.about-fractal-bg> — scroll end === route fallback (scale ~ old 180% bg zoom; tiled mirror pattern) */
   --about-fractal-blur-end: 18px;
   --about-fractal-scale-start: 1.01;
-  --about-fractal-scale-end: 1.05; /* ~1.06 × 1.8 vs cover */
+  --about-fractal-scale-end: 1.1; /* ~1.06 × 1.8 vs cover */
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
   --about-fractal-blur-phase2-end: 26px;
-  --about-fractal-scale-phase2-end: 1.92;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -151,8 +150,8 @@ about {
   first-values > layout:first-of-type .about-values-decoration {
     position: relative;
     z-index: 1;
+    width: 80%;
     display: block;
-    width: 100%;
     height: auto;
     flex-shrink: 0;
   }
@@ -206,7 +205,6 @@ about > svg.about-fractal-bg {
   display: block;
   pointer-events: none;
   transform: scale(var(--about-fractal-scale-start));
-  transform-origin: center bottom;
   filter: blur(0);
 }
 
