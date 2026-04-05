@@ -67,6 +67,8 @@ about {
   /* flex:1 alone won’t grow when <about> is taller than the screen (siblings set parent height) — pin first fold to viewport 📐 */
   first-values > layout:first-of-type {
     flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin-top: 3vh;
     margin-top: 3svh;
     min-height: max(
@@ -78,6 +80,22 @@ about {
       calc(100svh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
     );
     position: relative;
+  }
+
+  /* Line-art overlay (no bitmap): full grid + abs offset — class-based so DOM order can put it after .about-values-graphic 🌀 */
+  first-values > layout:first-of-type > svg.about-spiral-backdrop {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    position: absolute;
+    top: 75%;
+    scale: 2;
+    z-index: 0;
+  }
+
+  first-values > layout:first-of-type > values {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
   }
 
   values {
@@ -101,57 +119,34 @@ about {
   first-values p {
     opacity: 0;
   }
+  /* Shared spiral paths (morph + fill); positioning lives on backdrop svg only ☝️ */
   .spiral {
     color: var(--fake-white);
     fill: currentColor;
-    position: absolute;
-    top: 75%;
-    scale: 2;
 
     & path:last-of-type {
       opacity: 1;
     }
   }
 
-  /* Fractal light under decoration SVG;
-   * Slot height comes from in-flow SVG (height:auto) — avoids flex+aspect-ratio+%height loops → 2500px img */
-  first-values > layout:first-of-type .about-fractal-slot {
+  /* % width is 80% of grid column 1 (= half row), same visual as old inner wrapper 🌀 */
+  /* first-values > layout:first-of-type > svg.about-values-graphic {
+    grid-column: 1;
+    grid-row: 1;
     position: relative;
-    flex: 0 0 50%;
-    width: 50%;
-    min-width: 0;
-    min-height: 0;
-    align-self: center;
-    overflow: hidden;
-    /* Same idea as margin-left: -40px — ties to route padding (index.css about { padding-inline }) */
-    margin-inline-start: calc(-1 * var(--global-padding-inline));
-  }
-
-  first-values > layout:first-of-type .about-fractal-light {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    pointer-events: none;
-    transform: translateX(-30%);
-  }
-
-  first-values > layout:first-of-type .about-values-decoration {
-    position: relative;
+    top: auto;
+    scale: 1;
     z-index: 1;
+    align-self: center;
+    justify-self: center;
     width: 80%;
+    max-width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    margin-inline-start: calc(-1 * var(--global-padding-inline));
     display: block;
     height: auto;
-    flex-shrink: 0;
-  }
-
-  @media (min-width: 960px) {
-    first-values > layout:first-of-type .about-fractal-light {
-      transform: scale(2.25) translateY(12%);
-    }
-  }
+  } */
 }
 /* Second fold: next snap stop on page scroll (snap container is html) */
 about second-values,
@@ -384,14 +379,7 @@ body.about .scroll-to-about {
       cover 30% cover 55%;
   }
 
-  /* Slot (light + line art) + value cards share one fade; spiral stays a sibling for phase-2 (same range as h1/p out) 🌀 */
-  first-values > layout:first-of-type .about-fractal-slot,
-  first-values > layout:first-of-type > values {
-    animation: about-first-fold-fade-out linear both;
-    animation-timeline: --route-scroll;
-    animation-range: cover 30% cover 55%;
-  }
-
+  /* Fractal+spiral SVG + value cards share one fade (same range as h1/p out) 🌀 */
   /* Don’t use animation:none here: removing scroll-driven animations when .about is added causes a visible jump 🎯 */
 
   about .scroll-to-about {
