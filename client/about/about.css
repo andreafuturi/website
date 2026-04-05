@@ -54,11 +54,17 @@ about {
     animation: alternate-reverse 1s infinite scroll-to-about-animation;
     flex-shrink: 0;
   }
+  values {
+    z-index: 2;
+  }
   first-values {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     min-height: 100svh;
+    /* Fluid nudge left on narrow viewports — no @media (0 until line crosses zero, caps at max) 📐 */
+    /* ↑ vw coeff / rem offset ratio ≈ constant → same “start sliding” width, stronger reaction to width changes */
+    --about-values-graphic-slide: clamp(0px, 30rem - 52vw, 7rem);
   }
   first-values > h1,
   first-values > p {
@@ -118,6 +124,11 @@ about {
   first-values h1,
   first-values p {
     opacity: 0;
+  }
+  .about-values-graphic {
+    width: 50%;
+    overflow: visible;
+    transform: translateX(calc(-1 * var(--about-values-graphic-slide)));
   }
   /* Shared spiral paths (morph + fill); positioning lives on backdrop svg only ☝️ */
   .spiral {

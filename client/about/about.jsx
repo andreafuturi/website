@@ -114,8 +114,7 @@ export default function About() {
           </svg>
           {/* About */}
         </a>
-        <h1>About me</h1>
-        <p>My Values</p>
+        <h1>My Values</h1>
         <layout class="flex">
           <svg
             class="spiral about-values-graphic"
