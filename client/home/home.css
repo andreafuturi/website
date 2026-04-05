@@ -1,6 +1,4 @@
 home {
-  --hero-height: clamp(300px, 60vh, 400px);
-  --hero-height: clamp(300px, 60svh, 400px);
   min-height: var(--home-height);
   flex: 1;
   display: flex;
@@ -18,7 +16,6 @@ home {
     z-index: -1;
     object-position: top;
     object-fit: cover;
-    /* height: var(--hero-height); */
     max-height: 60vh;
     max-height: 60svh;
     min-height: 335px;

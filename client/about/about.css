@@ -1,12 +1,5 @@
 about {
-  /*
-   * Values UI — tune both folds (override on about first-values / about second-values):
-   *   --about-values-row-align, --about-values-row-justify → layout.flex (beats index .flex)
-   *   --about-values-pack → vertical pack inside <values> (column justify-content)
-   *   --about-value-flex-grow → 0 = pack tight; 1 = share extra space between cards
-   *   --about-value-text-align → each <value>
-   *   --about-second-fold-bottom-gap → extra air above fixed nav (second fold only)
-   */
+  /* Tune via --about-values-*, --about-second-fold-bottom-gap on first-values / second-values */
   --about-second-fold-bottom-gap: clamp(1.25rem, 4svh, 2.25rem);
   --about-values-row-align: stretch;
   --about-values-row-justify: center;
@@ -28,6 +21,7 @@ about {
   --about-fractal-scale-end: 1.1; /* ~1.06 × 1.8 vs cover */
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
   --about-fractal-blur-phase2-end: 26px;
+  --about-fractal-scale-phase2-end: 1.5;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -71,8 +65,8 @@ about {
   /* flex:1 alone won’t grow when <about> is taller than the screen (siblings set parent height) — pin first fold to viewport 📐 */
   first-values > layout:first-of-type {
     flex: 1;
-    margin-top: 3svh;
     margin-top: 3vh;
+    margin-top: 3svh;
     min-height: max(
       0px,
       calc(100vh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
@@ -111,10 +105,6 @@ about {
     position: absolute;
     top: 75%;
     scale: 2;
-
-    /* & path {
-      opacity: 0.4;
-    } */
 
     & path:last-of-type {
       opacity: 1;
@@ -187,10 +177,7 @@ about second-values {
   padding-bottom: calc(var(--fixed-menu-clearance) + var(--about-second-fold-bottom-gap));
 }
 
-/*
- * Keep <about> as a snap target when body.about is set (URL /about or IO sync).
- * Removing scroll-snap-align here used to re-snap mandatory html → jump back to <home> mid-scroll / during scrollIntoView 🎯
- */
+/* Keeps <about> a snap target when body.about is set (avoids mandatory snap jumping back to <home>) */
 body.about about first-values > layout:first-of-type {
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -297,7 +284,7 @@ body.about .scroll-to-about {
       opacity: 1;
     }
     to {
-      opacity: -1;
+      opacity: 0;
       pointer-events: none;
     }
   }
@@ -409,7 +396,6 @@ body.about .scroll-to-about {
   /* Don’t use animation:none here: removing scroll-driven animations when .about is added causes a visible jump 🎯 */
 
   about .scroll-to-about {
-    /* Ready for route change: opacity can interpolate when scroll animations are cleared 🎬 */
     transition: opacity 0.4s ease;
     animation-name: scroll-to-about-animation, about-link-fade;
     animation-duration: 1s, auto;
@@ -421,5 +407,11 @@ body.about .scroll-to-about {
     animation-range:
       normal,
       entry 0% cover 32%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  about .scroll-to-about {
+    animation: none !important;
   }
 }

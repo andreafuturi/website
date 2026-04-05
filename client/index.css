@@ -4,11 +4,15 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
   padding: var(--header-height) 0 0;
   color: var(--fake-black);
-  background: linear-gradient(to bottom, var(--fake-white), #fff);
+  background: linear-gradient(to bottom, var(--fake-white), var(--page-bg-end));
 }
 a {
   color: var(--primary-color);
   text-decoration: none;
+}
+a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 h1 {
   font-weight: 900;
@@ -24,17 +28,20 @@ p {
 }
 .cta {
   background-color: var(--primary-color);
-  color: #fff;
+  color: var(--on-primary);
   text-transform: uppercase;
   border: none;
   padding: 0.6rem;
-  /* margin: 0 auto; */
   font-weight: 800;
   font-size: 1.184rem;
   letter-spacing: 0.09em;
   cursor: pointer;
   text-align: center;
   display: block;
+}
+.cta:focus-visible {
+  outline: 2px solid var(--on-primary);
+  outline-offset: 2px;
 }
 small {
   font-weight: 100;
@@ -74,7 +81,6 @@ header .header-cta {
   transform: translateY(-50%);
 }
 
-/* No view timelines: route class + transitions (same end-state tokens as scroll keyframes) ✨ */
 @supports not (animation-timeline: view()) {
   header {
     transition:
@@ -92,6 +98,8 @@ header .header-cta {
   }
   header .header-cta {
     transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+    opacity: 0;
+    pointer-events: none;
   }
   body.about header {
     box-shadow: var(--header-bar-shadow);
@@ -102,10 +110,6 @@ header .header-cta {
   body:not(.about) header .logo {
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  header .header-cta {
-    opacity: 0;
-    pointer-events: none;
   }
   body.about header .header-cta {
     opacity: 1;
@@ -193,9 +197,11 @@ header .header-cta {
   font-weight: 800;
   font-size: 0.765rem;
   text-decoration: none;
-  /* white-space: nowrap; */
 }
-/* router doesn't need display contents */
+.header-cta:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+}
 static,
 interactive {
   display: contents;
@@ -204,11 +210,7 @@ html {
   scroll-snap-type: y mandatory;
 }
 
-/*
- * Hoist the active route’s primary view timeline so header/nav (siblings) can use animation-timeline: --route-scroll.
- * Convention: one shared name — the mounted route sets view-timeline-name on its scroll subject (<about> today;
- * future <services>, <portfolio>, … should use the same name on their root). Only one subject should define it per document.
- */
+/* timeline-scope: mounted route sets view-timeline-name on its scroll root (e.g. <about>) */
 @supports (animation-timeline: view()) {
   body {
     timeline-scope: --route-scroll;
@@ -220,7 +222,6 @@ about {
   padding-inline: var(--global-padding-inline);
 }
 
-/* Home route only: scrollIntoView({ block: "start" }) would hide the header; other scroll routes can sit flush 📐 */
 home {
   scroll-margin-top: var(--header-height);
 }
@@ -228,7 +229,6 @@ svg:not(.about-fractal-bg) {
   shape-rendering: geometricPrecision;
 }
 
-/* Variables */
 :root {
   --primary-color: #00bbff;
   --secondary-color: #ffc200;
@@ -236,17 +236,14 @@ svg:not(.about-fractal-bg) {
   --fake-black: #121212;
   --dark-gray: #282828;
   --light-gray: #8e8e93;
-  --menu-height: clamp(4rem, 8vh, 5rem);
+  --page-bg-end: #fff;
+  --on-primary: #fff;
   --menu-height: clamp(4rem, 8svh, 5rem);
-  /* Reserve space for fixed bottom nav + home indicator (use for padding-bottom, not only min-height) */
   --fixed-menu-clearance: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px) + 1px);
-  --logo-height: clamp(1.5rem, 3.5vh, 2.5rem);
   --logo-height: clamp(1.5rem, 3.5svh, 2.5rem);
-  --header-padding: clamp(0.7rem, 2vh, 2rem);
   --header-padding: clamp(0.7rem, 2svh, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
   --global-padding-inline: clamp(1rem, 5vw, 2rem);
-  --scroll-to-about-padding: clamp(0.3rem, 3vh, 2rem);
   --scroll-to-about-padding: clamp(0.3rem, 3svh, 2rem);
   --scroll-to-about-fontsize: 1rem;
   --scroll-to-about-lineheight: 1.2;
@@ -254,34 +251,24 @@ svg:not(.about-fractal-bg) {
   --scroll-to-about-icon-height: 11px;
 
   --home-height: calc(
-    100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
-      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
-  );
-  --home-height: calc(
     100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
       2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
 
-  /* Shrinks the view timeline scrollport from the bottom so a peek of <about> under home doesn’t start blur/nav early 📐 */
-  --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
+  --about-view-inset-block-end: clamp(4rem, 22svh, 14rem);
 
   /* Scroll keyframe end state === route fallback (header) */
   --header-bar-bg: var(--fake-white);
   --header-bar-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   --header-bar-backdrop-blur: 10px;
-  /* Route-only transitions when view timelines unavailable */
   --scroll-ui-transition-duration: 0.3s;
   --scroll-ui-transition-easing: ease-in-out;
 }
-
-/* STYLES RESET */
 
 * {
   margin: 0;
   padding: 0;
 }
-
-/* HELPERS */
 
 .flex {
   display: flex;
@@ -301,4 +288,9 @@ svg:not(.about-fractal-bg) {
 .center2 {
   margin: auto;
   display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none;
+  }
 }
