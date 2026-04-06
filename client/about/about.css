@@ -37,9 +37,15 @@ about {
   --about-phase2-cover-end: 58%;
   color: var(--fake-white);
   text-align: center;
-  /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
-  --about-scroll-teaser-height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
-  --about-scroll-teaser-height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
+  /* Teaser link block — cap its height so the arrow area stays compact and frees space for first-fold content 📏 */
+  --about-scroll-teaser-height: min(
+    calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2),
+    clamp(3rem, 10vh, 6rem)
+  );
+  --about-scroll-teaser-height: min(
+    calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2),
+    clamp(3rem, 10svh, 6rem)
+  );
   /* h1 + “My Values” (approx — tweak if typography changes) */
   --about-title-stack-height: clamp(3.25rem, 11vh, 4.5rem);
   --about-title-stack-height: clamp(3.25rem, 11svh, 4.5rem);
