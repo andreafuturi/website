@@ -88,15 +88,7 @@ about {
     position: relative;
   }
 
-  /* Line-art overlay (no bitmap): full grid + abs offset — class-based so DOM order can put it after .about-values-graphic 🌀 */
-  first-values > layout:first-of-type > svg.about-spiral-backdrop {
-    grid-column: 1 / -1;
-    grid-row: 1 / -1;
-    position: absolute;
-    top: 75%;
-    scale: 2;
-    z-index: 0;
-  }
+  /* Removed duplicated spiral backdrop; single SVG animates between folds 🌀 */
 
   first-values > layout:first-of-type > values {
     grid-column: 2;
@@ -125,10 +117,61 @@ about {
   first-values p {
     opacity: 0;
   }
-  .about-values-graphic {
-    width: 50%;
+  /* Single spiral SVG. Starts left (first-values), then flies to top-center of second-values. */
+  .about-spiral-fly {
+    position: fixed;
+    z-index: 1;
+    pointer-events: none;
     overflow: visible;
-    transform: translateX(calc(-1 * var(--about-values-graphic-slide)));
+    width: min(52vw, 520px);
+    height: auto;
+    left: calc(var(--global-padding-inline) - var(--about-values-graphic-slide));
+    top: calc(var(--header-height) + var(--menu-height) + 10svh);
+    transform-origin: center;
+  }
+  @supports (animation-timeline: view()) {
+    @keyframes about-spiral-fly {
+      from {
+        left: calc(var(--global-padding-inline) - var(--about-values-graphic-slide));
+        top: calc(var(--header-height) + var(--menu-height) + 10svh);
+        width: min(52vw, 520px);
+      }
+      to {
+        left: 50vw;
+        top: var(--about-spiral-fly-target-top, calc(var(--header-height) + (100svh - var(--header-height)) * 0.25));
+        width: min(46vw, 460px);
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Fly during phase-2 (same band as morph + veil-to-light + text color shift) */
+    about > svg.about-spiral-fly {
+      animation: about-spiral-fly linear both;
+      animation-timeline: --route-scroll;
+      animation-range: cover 32% cover 58%;
+    }
+  }
+
+  @supports not (animation-timeline: view()) {
+    /* Route-based fallback: when /about is the current route (body.about), snap to second-fold placement. */
+    body.about about > svg.about-spiral-fly {
+      left: 50vw;
+      top: var(--about-spiral-fly-target-top, calc(var(--header-height) + (100svh - var(--header-height)) * 0.25));
+      width: min(46vw, 460px);
+      transform: translateX(-50%);
+      transition:
+        top var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+        left var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+        width var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
+        transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    about > svg.about-spiral-fly {
+      animation: none !important;
+      transition: none !important;
+    }
   }
   /* Shared spiral paths (morph + fill); positioning lives on backdrop svg only ☝️ */
   .spiral {
@@ -180,6 +223,37 @@ about second-values {
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100svh - var(--header-height));
   padding-bottom: calc(var(--fixed-menu-clearance) + var(--about-second-fold-bottom-gap));
+}
+
+/* Scroll flight: fixed-position spiral moves from first fold → second fold 📍 */
+@supports (animation-timeline: view()) {
+  @keyframes about-spiral-flight {
+    from {
+      left: calc(var(--global-padding-inline) - var(--about-values-graphic-slide));
+      top: calc(var(--header-height) + var(--menu-height) + 10svh);
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      left: 50vw;
+      /* between header end and the vertical center of second values */
+      top: calc(var(--header-height) + (100svh - var(--header-height)) * 0.22);
+      transform: translate3d(-50%, 0, 0) scale(1.05);
+    }
+  }
+
+  about .about-spiral-fly {
+    animation: about-spiral-flight linear both;
+    animation-timeline: --route-scroll;
+    /* align with phase-2 band already used for morph (cover 32% → 58%) */
+    animation-range: cover 32% cover 58%;
+  }
+}
+
+/* Fallback (no view timelines): keep spiral on first fold, hide on about route to avoid overlap */
+@supports not (animation-timeline: view()) {
+  body.about about .about-spiral-fly {
+    opacity: 0;
+  }
 }
 
 /* Keeps <about> a snap target when body.about is set (avoids mandatory snap jumping back to <home>) */

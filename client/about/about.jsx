@@ -77,6 +77,29 @@ export default function About() {
     <about>
       {inlineImport({ src: "./about.css" })}
       <svg
+        class="spiral about-spiral-fly"
+        viewBox="0 0 862778 929594"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <g class="about-fractal-light">
+          <image
+            href="/about/images/fractal-nobg.webp"
+            xlinkHref="/about/images/fractal-nobg.webp"
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+          />
+        </g>
+        <g transform="translate(404523, 434021)">
+          <AboutSpiralPaths />
+        </g>
+      </svg>
+      <svg
         class="about-fractal-bg"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
@@ -116,31 +139,8 @@ export default function About() {
         </a>
         <h1>My Values</h1>
         <layout class="flex">
-          <svg
-            class="spiral about-values-graphic"
-            viewBox="0 0 862778 929594"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            preserveAspectRatio="xMidYMid slice"
-            aria-hidden="true"
-          >
-            <g class="about-fractal-light">
-              <image
-                href="/about/images/fractal-nobg.webp"
-                xlinkHref="/about/images/fractal-nobg.webp"
-                x="0"
-                y="0"
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMidYMid meet"
-              />
-            </g>
-            <g transform="translate(404523, 434021)">
-              <AboutSpiralPaths />
-            </g>
-          </svg>
-
           {inlineImport({ src: initSpiralMorph, selfExecute: true })}
+          {inlineImport({ src: initSpiralFly, selfExecute: true })}
           <values>
             <value>
               {creativityIcon}
@@ -155,10 +155,6 @@ export default function About() {
               </p>
             </value>
           </values>
-          <svg viewBox="0 0 862778 929594" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral about-spiral-backdrop" aria-hidden="true"><g transform="translate(404523, 434021)">
-            <AboutSpiralPaths />
-          </g>
-          </svg>
         </layout>
       </first-values>
       <second-values>
@@ -175,7 +171,6 @@ export default function About() {
               <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
             </value>
           </values>
-          <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
         </layout>
       </second-values>
     </about>
@@ -209,5 +204,45 @@ function initSpiralMorph() {
       const toD = path.dataset.to;
       path.animate([{ d: `path("${fromD}")` }, { d: `path("${toD}")` }], animOpts);
     }
+  });
+}
+
+/**
+ * Scroll-driven spiral positioning 🌀
+ * Computes the end "target" so the spiral (and its last/logo path) lands centered
+ * between the header and the second-values content, without duplicating the SVG.
+ * ⚠️ Must be self-contained — inlineImport serialises only this function via .toString()
+ */
+function initSpiralFly() {
+  requestAnimationFrame(() => {
+    const aboutEl = document.querySelector("about");
+    const spiral = document.querySelector("about > svg.about-spiral-fly");
+    const secondValues = document.querySelector("about second-values");
+    if (!aboutEl || !spiral || !secondValues) return;
+
+    const rootCs = getComputedStyle(document.documentElement);
+    const headerH = parseFloat(rootCs.getPropertyValue("--header-height")) || 0;
+    const menuH = parseFloat(rootCs.getPropertyValue("--menu-height")) || 0;
+    const topChrome = headerH + menuH;
+
+    const update = () => {
+      const secondValuesRect = secondValues.getBoundingClientRect();
+      const secondValuesLayout = secondValues.querySelector("layout");
+      const values = secondValues.querySelector("values");
+      const valuesRect = (values || secondValuesLayout || secondValues).getBoundingClientRect();
+
+      // End target: vertical center between top chrome and the top of the second-values cards.
+      // Clamp inside viewport so it never overlaps the header.
+      const gapTop = Math.max(topChrome + 8, secondValuesRect.top);
+      const gapBottom = Math.max(gapTop + 48, valuesRect.top);
+      const targetY = Math.round((gapTop + gapBottom) / 2);
+
+      spiral.style.setProperty("--about-spiral-target-top", `${targetY}px`);
+    };
+
+    // Initial + on resize + on scroll (cheap: only rect reads + one style write).
+    update();
+    addEventListener("resize", update, { passive: true });
+    addEventListener("scroll", update, { passive: true });
   });
 }
