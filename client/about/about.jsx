@@ -174,7 +174,7 @@ export default function About() {
               <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
             </value>
           </values>
-          <svg width="50%" height="100%" viewBox="0 0 100 100"></svg>
+          {/* <svg width="50%" height="100%" viewBox="0 0 100 100"></svg> */}
         </layout>
       </second-values>
     </about>

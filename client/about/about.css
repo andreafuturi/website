@@ -18,7 +18,7 @@ about {
   --fractal-veil-opacity-start: 0.78;
   --fractal-veil-opacity-end: 0.78;
   /* Fractal <svg.about-fractal-bg> — scroll end === route fallback (scale ~ old 180% bg zoom; tiled mirror pattern) */
-  --about-fractal-blur-end: 18px;
+  --about-fractal-blur-end: 15px;
   --about-fractal-scale-start: 1.01;
   --about-fractal-scale-end: 1.1; /* ~1.06 × 1.8 vs cover */
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
