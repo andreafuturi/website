@@ -20,7 +20,8 @@ Andrea Futuri's portfolio site — a Deno SSR + Preact framework ("Singularity")
 | Lint | `npm run lint` | Runs `deno lint` on `server/` and `lib/`. Config in root `deno.json`. Pre-existing warnings exist (6 issues — all in original code). |
 | Test | `npm run test` | Runs Deno tests in `tests/`. **Requires dev servers running** on ports 8000 + 3456 (`npm start`). |
 | Build | `npm run build` | Vite client build → `client/dist/`. Also exercised by the build test. |
-| CodeRabbit | `cr review --prompt-only -t uncommitted` | Requires `CODERABBIT_API_KEY` env var or `cr auth login`. Installed via `curl -fsSL https://cli.coderabbit.ai/install.sh \| sh`. **Requires an active CodeRabbit subscription with CLI access** (free tier has limited reviews/hour). |
+
+> **Note:** CodeRabbit CLI is not available in this environment (requires active subscription).
 
 ### Non-obvious caveats
 
