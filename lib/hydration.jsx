@@ -1,4 +1,4 @@
-import { hydrate } from "https://esm.sh/preact";
+import { hydrate } from "preact";
 import { registerComponent } from "./framework-utils.jsx";
 
 const interactiveComponents = [];
