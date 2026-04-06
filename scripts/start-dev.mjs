@@ -11,8 +11,17 @@ let shuttingDown = false;
 
 const serverUrl = "http://localhost:8000";
 
+const stripAnsi = line =>
+  line.replace(/\u001b\[[0-9;]*m/g, "");
+
+const normalizeLine = line =>
+  stripAnsi(line).trim();
+
 const isViteAddressLine = line =>
-  /^\s*(Local|Network):\s+http:\/\//.test(line) || /^\s*➜\s+/.test(line);
+  /^(Local|Network):\s+http:\/\//.test(normalizeLine(line)) ||
+  /^➜\s+/.test(normalizeLine(line)) ||
+  /http:\/\/(localhost|127\.0\.0\.1):\d+/i.test(normalizeLine(line)) &&
+    !/http:\/\/(localhost|127\.0\.0\.1):8000\b/i.test(normalizeLine(line));
 
 const isClientReadyLine = line =>
   /\bready in\b/i.test(line) || /\b(vite)\b/i.test(line) && /\b(dev server running|server running)\b/i.test(line);
