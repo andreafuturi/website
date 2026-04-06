@@ -74,7 +74,8 @@ about {
   first-values > layout:first-of-type {
     flex: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Skew toward <values>: was 1fr 1fr (half each); wider copy column, especially on phones 📱 */
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     margin-top: 3vh;
     margin-top: 3svh;
     min-height: max(
@@ -126,7 +127,6 @@ about {
     opacity: 0;
   }
   .about-values-graphic {
-    width: 50%;
     overflow: visible;
     transform: translateX(calc(-1 * var(--about-values-graphic-slide)));
   }

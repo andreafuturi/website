@@ -123,18 +123,17 @@ export default function About() {
             xmlnsXlink="http://www.w3.org/1999/xlink"
             preserveAspectRatio="xMidYMid slice"
             aria-hidden="true"
+            width="40%"
           >
-            <g class="about-fractal-light">
-              <image
-                href="/about/images/fractal-nobg.webp"
-                xlinkHref="/about/images/fractal-nobg.webp"
-                x="0"
-                y="0"
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMidYMid meet"
-              />
-            </g>
+            <image
+              href="/about/images/fractal-nobg.webp"
+              xlinkHref="/about/images/fractal-nobg.webp"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid meet"
+            />
             <g transform="translate(404523, 434021)">
               <AboutSpiralPaths />
             </g>
