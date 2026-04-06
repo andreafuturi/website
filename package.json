@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "npm install && node ./scripts/start-dev.mjs",
-    "lint": "deno lint",
-    "test": "deno test --allow-net --allow-read --allow-run --allow-env tests/",
+    "lint": "deno lint --config server/deno.json",
+    "test": "deno test --config server/deno.json --allow-net --allow-read --allow-run --allow-env tests/",
     "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx",
     "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx --dev",
     "dev-client": "vite client --host",

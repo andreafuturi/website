@@ -3,5 +3,14 @@
     "jsx": "react-jsx",
     "jsxImportSource": "https://esm.sh/preact"
   },
-  "importMap": "importMap.json"
+  "importMap": "importMap.json",
+  "lint": {
+    "include": ["../server/", "../lib/"],
+    "rules": {
+      "exclude": ["no-import-prefix"]
+    }
+  },
+  "test": {
+    "include": ["../tests/"]
+  }
 }

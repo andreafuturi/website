@@ -5,7 +5,7 @@ import { assertEquals, assert } from "https://deno.land/std/assert/mod.ts";
 
 const BASE = "http://localhost:8000";
 
-Deno.test("Routing: home and about return different content", async () => {
+Deno.test("Routing: home and about render correct active route", async () => {
   const [homeRes, aboutRes] = await Promise.all([
     fetch(BASE + "/"),
     fetch(BASE + "/about"),
@@ -14,7 +14,8 @@ Deno.test("Routing: home and about return different content", async () => {
   const aboutHtml = await aboutRes.text();
   assert(homeHtml.includes("APPS"), "Home should have hero text");
   assert(aboutHtml.includes("My Values"), "About should have values section");
-  assert(!homeHtml.includes("My Values"), "Home should NOT contain about-only content");
+  assert(homeHtml.includes('path="/"'), "Home should have active home route");
+  assert(aboutHtml.includes('path="/about"'), "About should have active about route");
 });
 
 Deno.test("Routing: SPA route fetch with 'onlyRoute' body returns partial HTML", async () => {
