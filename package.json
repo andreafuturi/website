@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": false,
   "type": "module",
+  "packageManager": "npm@10.9.4",
   "scripts": {
    "start": "npm install && npm run dev-client & npm run dev-server",
     "lint": "deno lint --config server/deno.json",
