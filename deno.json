@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "https://esm.sh/preact"
+  },
+  "importMap": "server/importMap.json",
+  "lint": {
+    "include": ["server/", "lib/"],
+    "rules": {
+      "exclude": ["no-import-prefix"]
+    }
+  },
+  "test": {
+    "include": ["tests/"]
+  }
+}
