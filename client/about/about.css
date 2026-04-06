@@ -15,14 +15,14 @@ about {
   }
 
   /* Black ::after veil — opacity animates cheaply (GPU-friendly path) 🌑 */
-  --fractal-veil-opacity-start: 0.78;
+  --fractal-veil-opacity-start: 0.38;
   --fractal-veil-opacity-end: 0.78;
   /* Fractal <svg.about-fractal-bg> — scroll end === route fallback (scale ~ old 180% bg zoom; tiled mirror pattern) */
   --about-fractal-blur-end: 15px;
   --about-fractal-scale-start: 1.01;
   --about-fractal-scale-end: 1.1; /* ~1.06 × 1.8 vs cover */
   /* Fractal phase-2 blur/scale (same <about> view timeline, later range) */
-  --about-fractal-blur-phase2-end: 26px;
+  --about-fractal-blur-phase2-end: 100px;
   --about-fractal-scale-phase2-end: 1.5;
   position: relative;
   isolation: isolate;
@@ -95,7 +95,8 @@ about {
     grid-row: 1 / -1;
     position: absolute;
     top: 75%;
-    scale: 2;
+    /* scale: 2; */
+    scale: 2.5;
     z-index: 0;
   }
 
@@ -188,7 +189,9 @@ body.about about first-values > layout:first-of-type {
   scroll-snap-stop: always;
   scroll-margin-top: calc(var(--header-height) + var(--about-scroll-teaser-height) + var(--about-title-stack-height));
 }
-
+first-values values svg {
+  margin-left: auto;
+}
 /* Fractal — inline <svg.about-fractal-bg> in about.jsx (2×2 mirrored pattern) 🪞 */
 about > svg.about-fractal-bg {
   position: absolute;
@@ -305,15 +308,17 @@ body.about .scroll-to-about {
     }
   }
 
-  /* Continue zoom + blur while scrolling into second-values 🌀 */
+  /* Continue zoom + blur while scrolling into second-values; fractal fades out fully by range end 🌀 */
   @keyframes about-fractal-phase2 {
     from {
       filter: blur(var(--about-fractal-blur-end));
       transform: scale(var(--about-fractal-scale-end));
+      opacity: 1;
     }
     to {
       filter: blur(var(--about-fractal-blur-phase2-end));
       transform: scale(var(--about-fractal-scale-phase2-end));
+      opacity: 0.5;
     }
   }
 

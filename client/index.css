@@ -204,7 +204,7 @@ header .header-cta {
   outline-offset: 2px;
 }
 static,
-interactive {
+interactive, figure {
   display: contents;
 }
 html {
