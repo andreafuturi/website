@@ -164,14 +164,14 @@ export default function About() {
         <layout class="flex">
           <values>
             <value>
-              {minimalismIcon}
-              <h3>Minimalism</h3>
-              <p>Achieving more with less through thoughtful reduction and iterations.</p>
-            </value>
-            <value>
               {precisionIcon}
               <h3>Precision</h3>
               <p>As a perfectionist, I pursue the highest quality in every choice, ensuring each detail serves a purpose.</p>
+            </value>
+            <value>
+              {minimalismIcon}
+              <h3>Minimalism</h3>
+              <p>Achieving more with less through thoughtful reduction and iterations.</p>
             </value>
           </values>
           {/* <svg width="50%" height="100%" viewBox="0 0 100 100"></svg> */}
