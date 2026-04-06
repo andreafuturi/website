@@ -8,6 +8,14 @@ about {
   --about-values-pack: flex-start;
   --about-value-flex-grow: 0;
   --about-value-text-align: right;
+  /* Apple-style readability rhythm: comfortable measure + leading + title/body spacing */
+  --about-value-title-size: clamp(1.2rem, 1rem + 0.8vw, 1.7rem);
+  --about-value-title-line-height: 1.2;
+  --about-value-body-size: clamp(0.98rem, 0.93rem + 0.25vw, 1.08rem);
+  --about-value-body-line-height: 1.55;
+  --about-value-max-measure: 34ch;
+  --about-value-title-to-body-gap: clamp(0.45rem, 0.35rem + 0.25vw, 0.75rem);
+  --about-value-block-gap: clamp(1.1rem, 0.95rem + 0.8vw, 1.9rem);
 
   & layout.flex {
     align-items: var(--about-values-row-align);
@@ -116,9 +124,26 @@ about {
   value {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: var(--about-value-title-to-body-gap);
     flex: var(--about-value-flex-grow) 1 auto;
     text-align: var(--about-value-text-align);
+    margin-block-end: var(--about-value-block-gap);
+  }
+  value:last-child {
+    margin-block-end: 0;
+  }
+  value h3 {
+    margin: 0;
+    font-size: var(--about-value-title-size);
+    line-height: var(--about-value-title-line-height);
+    letter-spacing: -0.01em;
+  }
+  value p {
+    margin: 0;
+    max-width: var(--about-value-max-measure);
+    font-size: var(--about-value-body-size);
+    line-height: var(--about-value-body-line-height);
+    text-wrap: pretty;
   }
   h1 {
     padding-bottom: 0.3rem;
@@ -177,6 +202,7 @@ about second-values {
   justify-content: flex-end;
   --about-values-pack: flex-end;
   --about-value-text-align: left;
+  --about-value-max-measure: 44ch;
   /* Clearance for fixed nav + a little breathing room */
   min-height: calc(100vh - var(--header-height));
   min-height: calc(100svh - var(--header-height));
@@ -190,6 +216,9 @@ body.about about first-values > layout:first-of-type {
   scroll-margin-top: calc(var(--header-height) + var(--about-scroll-teaser-height) + var(--about-title-stack-height));
 }
 first-values values svg {
+  margin-left: auto;
+}
+first-values value p {
   margin-left: auto;
 }
 /* Fractal — inline <svg.about-fractal-bg> in about.jsx (2×2 mirrored pattern) 🪞 */
