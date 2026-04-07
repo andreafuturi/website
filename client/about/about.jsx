@@ -154,14 +154,14 @@ export default function About() {
               </p>
             </value>
           </values>
-          <svg viewBox="0 0 862778 929594" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral about-spiral-backdrop" aria-hidden="true"><g transform="translate(404523, 434021)">
-            <AboutSpiralPaths />
-          </g>
-          </svg>
         </layout>
       </first-values>
       <second-values>
-        <layout class="flex">
+        <layout class="flex-col">
+        <svg viewBox="0 0 862778 929594" width="100%" height="50%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral about-spiral-backdrop" aria-hidden="true"><g transform="translate(404523, 434021)">
+            <AboutSpiralPaths />
+          </g>
+          </svg>
           <values>
             <value>
               {precisionIcon}
@@ -174,7 +174,6 @@ export default function About() {
               <p>Achieving more with less through thoughtful reduction and iterations.</p>
             </value>
           </values>
-          {/* <svg width="50%" height="100%" viewBox="0 0 100 100"></svg> */}
         </layout>
       </second-values>
     </about>
