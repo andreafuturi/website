@@ -115,7 +115,11 @@ about {
     grid-row: 1;
     min-width: 0;
   }
+  second-values {
+    max-height: calc(100vh - var(--about-second-fold-bottom-gap));
+    max-height: calc(100svh - var(--about-second-fold-bottom-gap));
 
+  }
   values {
     flex: 1;
     display: flex;
@@ -204,7 +208,6 @@ about layout {
 }
 
 about second-values {
-  box-sizing: border-box;
   flex-direction: column;
   justify-content: flex-end;
   --about-values-pack: flex-end;
