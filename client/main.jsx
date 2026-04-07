@@ -1,6 +1,11 @@
 import { startRouter } from "https://esm.sh/lightweight-router?debug=true";
 import hydrateInteractiveComponents from "../lib/hydration.jsx";
 
+// Load the scroll-driven animations polyfill only in browsers that lack native support.
+if (typeof CSS !== "undefined" && !CSS.supports("animation-timeline", "view()")) {
+  import("https://esm.sh/scroll-timeline-polyfill");
+}
+
 const interactiveComponents = [];
 
 startRouter({

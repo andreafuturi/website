@@ -43,13 +43,6 @@ body[class="my-story"] a[href="/my-story"] {
   color: var(--primary-color);
 }
 
-/* Path changes: smooth color (scroll branch uses animation instead) */
-@supports not (animation-timeline: view()) {
-  nav a {
-    transition: color var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-  }
-}
-
 /* On `/`, nav tracks scroll into <about> (same range as header / fractal — cover 22%) */
 @supports (animation-timeline: view()) {
   @keyframes nav-color-to-active {

@@ -83,42 +83,6 @@ header .header-cta {
   transform: translateY(-50%);
 }
 
-@supports not (animation-timeline: view()) {
-  header {
-    transition:
-      box-shadow var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
-      background-color var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
-      backdrop-filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
-      -webkit-backdrop-filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-  }
-  header .logo {
-    transition:
-      left var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
-      transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-    left: var(--global-padding-inline);
-    transform: translate(0, -50%);
-  }
-  header .header-cta {
-    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-    opacity: 0;
-    pointer-events: none;
-  }
-  body.about header {
-    box-shadow: var(--header-bar-shadow);
-    background-color: var(--header-bar-bg);
-    backdrop-filter: blur(var(--header-bar-backdrop-blur));
-    -webkit-backdrop-filter: blur(var(--header-bar-backdrop-blur));
-  }
-  body:not(.about) header .logo {
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  body.about header .header-cta {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
 @supports (animation-timeline: view()) {
   /*
    * Interpolate from same-hue transparent → solid. Plain `transparent` is rgba(0,0,0,0),
