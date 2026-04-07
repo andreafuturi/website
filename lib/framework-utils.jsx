@@ -121,7 +121,7 @@ const Title = ({ children }) => (
 //Error component
 function ErrorComponent({ error }) {
   return (
-    <div style="text-align:center;font-family:system-ui;margin-top:50vh">
+    <div style="text-align:center;font-family:system-ui;margin-top:50cqh">
       <span style="color:red">${error}</span>
       <br />
       <span>${error.stack || "No additional details available."}</span>

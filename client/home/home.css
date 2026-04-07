@@ -1,4 +1,4 @@
-/* vh → svh pairs: required fallback; see index.css :root "Viewport units" comment — do not remove duplicates */
+/* vh → cqh/cqi pairs: required fallback; see index.css :root "Viewport/container units" comment — do not remove duplicates */
 home {
   --home-hero-mask: linear-gradient(
     0deg,
@@ -32,12 +32,12 @@ home {
     object-position: top;
     object-fit: cover;
     max-height: 60vh;
-    max-height: 60svh;
+    max-height: 60cqh;
     min-height: 335px;
   }
   .texteffect {
     height: clamp(1rem, 25vh, 11rem);
-    height: clamp(1rem, 25svh, 11rem);
+    height: clamp(1rem, 25cqh, 11rem);
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
@@ -76,7 +76,7 @@ home {
     flex: 1;
     justify-content: center;
     gap: 1vh;
-    gap: 1svh;
+    gap: 1cqh;
     padding: var(--space-md) 0;
   }
 }
