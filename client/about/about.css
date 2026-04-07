@@ -209,6 +209,27 @@ about second-values {
   padding-bottom: calc(var(--fixed-menu-clearance) + var(--about-second-fold-bottom-gap));
 }
 
+/* Second-values layout: column so fractal fills top, values sit at bottom */
+about second-values > layout {
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* Second fractal SVG: fills all vertical space not used by precision/minimalism values */
+about second-values svg.about-second-fractal {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: visible;
+  display: block;
+}
+
+/* Values in second-values: don't grow, sit at the bottom */
+about second-values values {
+  flex: 0 0 auto;
+}
+
 /* Keeps <about> a snap target when body.about is set (avoids mandatory snap jumping back to <home>) */
 body.about about first-values > layout:first-of-type {
   scroll-snap-align: start;

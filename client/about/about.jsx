@@ -162,6 +162,27 @@ export default function About() {
       </first-values>
       <second-values>
         <layout class="flex">
+          <svg
+            class="spiral about-second-fractal"
+            viewBox="0 0 862778 929594"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <image
+              href="/about/images/fractal-nobg.webp"
+              xlinkHref="/about/images/fractal-nobg.webp"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="xMidYMid meet"
+            />
+            <g transform="translate(404523, 434021)">
+              <AboutSpiralPaths />
+            </g>
+          </svg>
           <values>
             <value>
               {precisionIcon}
@@ -174,7 +195,6 @@ export default function About() {
               <p>Achieving more with less through thoughtful reduction and iterations.</p>
             </value>
           </values>
-          {/* <svg width="50%" height="100%" viewBox="0 0 100 100"></svg> */}
         </layout>
       </second-values>
     </about>
