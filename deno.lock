@@ -4,7 +4,10 @@
     "https://deno.land/std/flags/mod.ts": "https://deno.land/std@0.224.0/flags/mod.ts",
     "https://deno.land/std/http/file_server.ts": "https://deno.land/std@0.224.0/http/file_server.ts",
     "https://deno.land/x/refresh/mod.ts": "https://deno.land/x/refresh@1.0.0/mod.ts",
-    "https://esm.sh/preact-render-to-string?deps=preact": "https://esm.sh/preact-render-to-string@6.6.6?deps=preact"
+    "https://esm.sh/preact": "https://esm.sh/preact@10.29.0",
+    "https://esm.sh/preact-render-to-string?deps=preact": "https://esm.sh/preact-render-to-string@6.6.6?deps=preact",
+    "https://esm.sh/preact/hooks": "https://esm.sh/preact@10.29.0/hooks",
+    "https://esm.sh/preact/jsx-runtime": "https://esm.sh/preact@10.29.0/jsx-runtime"
   },
   "remote": {
     "https://deno.land/std@0.224.0/assert/assert.ts": "09d30564c09de846855b7b071e62b5974b001bb72a4b797958fe0660e7849834",
@@ -55,13 +58,17 @@
     "https://deno.land/x/refresh@1.0.0/mod.ts": "4cdfcbeec4c7322dd09e90171272b3c03b3826b0fb813a51758682f342461607",
     "https://esm.sh/preact-render-to-string@6.6.6/X-ZHByZWFjdEAxMC4yOS4w/denonext/preact-render-to-string.mjs": "d38b4aac62a70375b29c051e6338f0d9872cf4e4a65180d2d221e6e9f6aaeb91",
     "https://esm.sh/preact-render-to-string@6.6.6?deps=preact": "532efa11e4d3d69ea24f57ef0cec4fc9a8f0213673bbf9becaa138efe8b152ae",
+    "https://esm.sh/preact@10.29.0": "ab0a2d83d903685d9d899a357f302f89a7a2616c8b3449f3d229b17cb673f0a5",
     "https://esm.sh/preact@10.29.0/denonext/preact.mjs": "a8381b8ae6391298439ec004d138a49487e60d232e364abadb59ed39deb50d22",
+    "https://esm.sh/preact@10.29.0/hooks": "4653556b138e5c746ec7a50286ddc2de65096245520284a85a9e1b4fe9d434ac",
+    "https://esm.sh/preact@10.29.0/jsx-runtime": "85f44f1dcd993527f95e7104f7537a6586f12b93860a959337ed2469868518c3",
     "https://esm.sh/svg-path-commander@2.1.11": "476fbea88285a709912aa12d2d2ed903d5fb55ff75b081527ba7de72c4b3b41c"
   },
   "workspace": {
     "packageJson": {
       "dependencies": [
         "npm:@preact/preset-vite@^2.9.2",
+        "npm:preact@^10.29.1",
         "npm:vite@^6.0.2"
       ]
     }
