@@ -38,10 +38,24 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      # Cache Deno remote dependencies by resolving all URL imports up-front.
-      # This covers server/main.jsx (esm.sh + deno.land imports) and the test
-      # files (deno.land/std/assert).
-      - name: Cache Deno dependencies
+      # Restore the Deno module cache from a previous run so the agent can work
+      # without re-downloading from deno.land, esm.sh, or cdn.skypack.dev.
+      # NOTE: those three domains must also be added to the Copilot agent's
+      # firewall allowlist in repo Settings → Copilot → Coding agent → Firewall,
+      # so that this warm-up step (and any new imports the agent creates) can
+      # reach them on the first run.
+      - name: Restore Deno module cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/deno
+          key: deno-${{ hashFiles('server/importMap.json', 'server/deno.json') }}
+          restore-keys: |
+            deno-
+
+      # Pre-fetch all remote URL imports (deno.land + esm.sh + cdn.skypack.dev)
+      # so the agent session is fully offline-capable after setup.
+      - name: Pre-fetch Deno remote dependencies
         run: |
           deno cache --config server/deno.json server/main.jsx
+          deno cache --config server/deno.json lib/server-handler.js
           deno cache --config server/deno.json tests/build_test.js tests/routing_test.js tests/ssr_test.js
