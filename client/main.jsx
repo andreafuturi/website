@@ -5,6 +5,7 @@ const interactiveComponents = [];
 
 startRouter({
   debug: false,
+  intersectionThreshold: 0.2,
   onRouteChange: currentPath => {
     //not needed?
     globalThis.dispatchEvent(new CustomEvent("app:route", { detail: { path: currentPath } }));
