@@ -72,14 +72,13 @@ header {
   -webkit-backdrop-filter: blur(0);
 }
 
-header .logo {
+header .logo,
+header .header-cta {
   position: absolute;
   top: 50%;
 }
 header .header-cta {
-  position: absolute;
   z-index: 2;
-  top: 50%;
   right: var(--global-padding-inline);
   transform: translateY(-50%);
 }
@@ -206,7 +205,8 @@ header .header-cta {
   outline-offset: 2px;
 }
 static,
-interactive, figure {
+interactive,
+figure {
   display: contents;
 }
 html {
@@ -274,6 +274,10 @@ svg:not(.about-fractal-bg) {
 
   --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
   --about-view-inset-block-end: clamp(4rem, 22svh, 14rem);
+  --space-sm: clamp(0.1rem, 1vh, 1rem);
+  --space-sm: clamp(0.1rem, 1svh, 1rem);
+  --space-md: clamp(0.3rem, 1vh, 0.8rem);
+  --space-md: clamp(0.3rem, 1svh, 0.8rem);
 
   /* Scroll keyframe end state === route fallback (header) */
   --header-bar-bg: var(--fake-white);
