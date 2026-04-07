@@ -198,14 +198,9 @@ svg:not(.about-fractal-bg) {
 
 :root {
   /*
-   * Viewport units (vh / svh / --svh): three-tier fallback. Do not collapse or dedupe.
-   *  1. `vh`  — very-old engines (no custom properties, no svh): first declaration wins.
-   *  2. `svh` — modern browsers: second declaration overrides vh at parse time.
-   *  3. `@supports not (height: 1svh)` block below — engines that have custom properties
-   *     but no svh support: inline <script> sets --svh = window.innerHeight/100 + 'px'
-   *     before first paint; the block overrides with calc(N * var(--svh, 1vh)) for a
-   *     fixed height that does not shift when mobile toolbars appear/disappear.
-   *  This applies across index.css, home.css, and about.css.
+   * Viewport heights use --svh, a JS-measured fixed value set by the inline <script> in <head>
+   * to window.innerHeight/100 px before first paint. This avoids layout shifts from mobile
+   * toolbars that can occur with vh and svh. Applied across index.css, home.css, and about.css.
    */
   --primary-color: #00bbff;
   --secondary-color: #ffc200;
@@ -215,37 +210,26 @@ svg:not(.about-fractal-bg) {
   --light-gray: #8e8e93;
   --page-bg-end: #fff;
   --on-primary: #fff;
-  --menu-height: clamp(4rem, 8vh, 5rem);
-  --menu-height: clamp(4rem, 8svh, 5rem);
+  --menu-height: clamp(4rem, calc(8 * var(--svh)), 5rem);
   --fixed-menu-clearance: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px) + 1px);
-  --logo-height: clamp(1.5rem, 3.5vh, 2.5rem);
-  --logo-height: clamp(1.5rem, 3.5svh, 2.5rem);
-  --header-padding: clamp(0.7rem, 2vh, 2rem);
-  --header-padding: clamp(0.7rem, 2svh, 2rem);
+  --logo-height: clamp(1.5rem, calc(3.5 * var(--svh)), 2.5rem);
+  --header-padding: clamp(0.7rem, calc(2 * var(--svh)), 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
   --global-padding-inline: clamp(1rem, 5vw, 2rem);
-  --scroll-to-about-padding: clamp(0.3rem, 3vh, 2rem);
-  --scroll-to-about-padding: clamp(0.3rem, 3svh, 2rem);
+  --scroll-to-about-padding: clamp(0.3rem, calc(3 * var(--svh)), 2rem);
   --scroll-to-about-fontsize: 1rem;
   --scroll-to-about-lineheight: 1.2;
   --scroll-to-about-gap: 0.7rem;
   --scroll-to-about-icon-height: 11px;
 
   --home-height: calc(
-    100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
-      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
-  );
-  --home-height: calc(
-    100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
+    100 * var(--svh) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
       2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
   );
 
-  --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
-  --about-view-inset-block-end: clamp(4rem, 22svh, 14rem);
-  --space-sm: clamp(0.1rem, 1vh, 1rem);
-  --space-sm: clamp(0.1rem, 1svh, 1rem);
-  --space-md: clamp(0.3rem, 1vh, 0.8rem);
-  --space-md: clamp(0.3rem, 1svh, 0.8rem);
+  --about-view-inset-block-end: clamp(4rem, calc(22 * var(--svh)), 14rem);
+  --space-sm: clamp(0.1rem, var(--svh), 1rem);
+  --space-md: clamp(0.3rem, var(--svh), 0.8rem);
 
   /* Scroll keyframe end state === route fallback (header) */
   --header-bar-bg: var(--fake-white);
@@ -255,24 +239,6 @@ svg:not(.about-fractal-bg) {
   --scroll-ui-transition-easing: ease-in-out;
 }
 
-/* JS-measured fixed viewport height for browsers without svh support.
- * --svh is set by the inline <script> in <head> to window.innerHeight/100 px.
- * var(--svh, 1vh) falls back to 1vh if the script did not run (no worse than before). */
-@supports not (height: 1svh) {
-  :root {
-    --menu-height: clamp(4rem, calc(8 * var(--svh, 1vh)), 5rem);
-    --logo-height: clamp(1.5rem, calc(3.5 * var(--svh, 1vh)), 2.5rem);
-    --header-padding: clamp(0.7rem, calc(2 * var(--svh, 1vh)), 2rem);
-    --scroll-to-about-padding: clamp(0.3rem, calc(3 * var(--svh, 1vh)), 2rem);
-    --home-height: calc(
-      100 * var(--svh, 1vh) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
-        2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
-    );
-    --about-view-inset-block-end: clamp(4rem, calc(22 * var(--svh, 1vh)), 14rem);
-    --space-sm: clamp(0.1rem, var(--svh, 1vh), 1rem);
-    --space-md: clamp(0.3rem, var(--svh, 1vh), 0.8rem);
-  }
-}
 
 * {
   margin: 0;

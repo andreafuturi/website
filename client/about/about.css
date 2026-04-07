@@ -1,8 +1,7 @@
-/* vh → svh pairs: required fallback; see index.css :root "Viewport units" comment — do not remove duplicates */
+/* Viewport heights use --svh; see index.css :root comment. */
 about {
   /* Tune via --about-values-*, --about-second-fold-bottom-gap on first-values / second-values */
-  --about-second-fold-bottom-gap: clamp(1.25rem, 4vh, 2.25rem);
-  --about-second-fold-bottom-gap: clamp(1.25rem, 4svh, 2.25rem);
+  --about-second-fold-bottom-gap: clamp(1.25rem, calc(4 * var(--svh)), 2.25rem);
   --about-values-row-align: stretch;
   --about-values-row-justify: center;
   --about-values-pack: flex-start;
@@ -48,11 +47,9 @@ about {
   color: var(--fake-white);
   text-align: center;
   /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
-  --about-scroll-teaser-height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
-  --about-scroll-teaser-height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
+  --about-scroll-teaser-height: calc(100 * var(--svh) - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
   /* h1 + “My Values” (approx — tweak if typography changes) */
-  --about-title-stack-height: clamp(3.25rem, 11vh, 4.5rem);
-  --about-title-stack-height: clamp(3.25rem, 11svh, 4.5rem);
+  --about-title-stack-height: clamp(3.25rem, calc(11 * var(--svh)), 4.5rem);
   .scroll-to-about {
     color: var(--fake-white);
     opacity: 1;
@@ -70,8 +67,7 @@ about {
   first-values {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: calc(100 * var(--svh));
     /* Fluid nudge left on narrow viewports — no @media (0 until line crosses zero, caps at max) 📐 */
     /* ↑ vw coeff / rem offset ratio ≈ constant → same “start sliding” width, stronger reaction to width changes */
     --about-values-graphic-slide: clamp(0px, 30rem - 52vw, 7rem);
@@ -86,15 +82,10 @@ about {
     display: grid;
     /* Skew toward <values>: was 1fr 1fr (half each); wider copy column, especially on phones 📱 */
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    margin-top: 3vh;
-    margin-top: 3svh;
+    margin-top: calc(3 * var(--svh));
     min-height: max(
       0px,
-      calc(100vh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
-    );
-    min-height: max(
-      0px,
-      calc(100svh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
+      calc(100 * var(--svh) - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
     );
     position: relative;
   }
@@ -116,8 +107,7 @@ about {
     min-width: 0;
   }
   second-values {
-    max-height: calc(100vh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
-    max-height: calc(100svh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
+    max-height: calc(100 * var(--svh) - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
     .spiral {
       scale: 3.5;
     }
@@ -471,23 +461,3 @@ body.about .scroll-to-about {
   }
 }
 
-@supports not (height: 1svh) {
-  about {
-    --about-second-fold-bottom-gap: clamp(1.25rem, calc(4 * var(--svh, 1vh)), 2.25rem);
-    --about-scroll-teaser-height: calc(100 * var(--svh, 1vh) - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
-    --about-title-stack-height: clamp(3.25rem, calc(11 * var(--svh, 1vh)), 4.5rem);
-  }
-  first-values {
-    min-height: calc(100 * var(--svh, 1vh));
-  }
-  first-values > layout:first-of-type {
-    margin-top: calc(3 * var(--svh, 1vh));
-    min-height: max(
-      0px,
-      calc(100 * var(--svh, 1vh) - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
-    );
-  }
-  second-values {
-    max-height: calc(100 * var(--svh, 1vh) - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
-  }
-}
