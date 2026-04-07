@@ -118,7 +118,9 @@ about {
   second-values {
     max-height: calc(100vh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
     max-height: calc(100svh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
-    
+    .spiral {
+      scale: 3.5;
+    }
 
   }
   values {
@@ -172,7 +174,7 @@ about {
   .spiral {
     color: var(--fake-white);
     fill: currentColor;
-
+    overflow: visible;
     & path:last-of-type {
       opacity: 1;
     }
