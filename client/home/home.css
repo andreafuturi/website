@@ -20,8 +20,7 @@ home {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.1rem, 1vh, 1rem);
-  gap: clamp(0.1rem, 1svh, 1rem);
+  gap: var(--space-sm);
   img {
     position: absolute;
     width: 100%;
@@ -60,8 +59,7 @@ home {
     overflow: visible;
   }
   logos {
-    padding: clamp(0.1rem, 1vh, 1rem) 0;
-    padding: clamp(0.1rem, 1svh, 1rem) 0;
+    padding: var(--space-sm) 0;
     display: flex;
     gap: 1rem;
     justify-content: space-evenly;
@@ -69,8 +67,7 @@ home {
   companies {
     display: flex;
     flex-direction: column;
-    gap: clamp(0.1rem, 1vh, 1rem);
-    gap: clamp(0.1rem, 1svh, 1rem);
+    gap: var(--space-sm);
     justify-content: center;
   }
   cta {
@@ -80,7 +77,6 @@ home {
     justify-content: center;
     gap: 1vh;
     gap: 1svh;
-    padding: clamp(0.3rem, 1vh, 0.8rem) 0;
-    padding: clamp(0.3rem, 1svh, 0.8rem) 0;
+    padding: var(--space-md) 0;
   }
 }
