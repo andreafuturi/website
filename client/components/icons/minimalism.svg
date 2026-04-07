@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="7 7 46 46" fill="none" aria-hidden="true">
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="7 7 46 46" fill="none" aria-hidden="true" preserveAspectRatio="xMinYMid meet">
   <circle cx="30" cy="30" r="22" stroke="currentColor" stroke-width="2" />
   <line x1="18" y1="30" x2="42" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
 </svg>

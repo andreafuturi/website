@@ -16,7 +16,7 @@ about {
   --about-value-max-measure: 34ch;
   --about-value-title-to-body-gap: clamp(0.45rem, 0.35rem + 0.25vw, 0.75rem);
   --about-value-block-gap: clamp(1.1rem, 0.95rem + 0.8vw, 1.9rem);
-  /* Icon width — height:auto follows each SVG viewBox (uniform width; tall icons get more vertical space) 📐 */
+  /* Icons: fixed box + preserveAspectRatio on each SVG (see icons/*.svg) 📐 */
   --about-value-icon-size: clamp(2.85rem, 2.6rem + 0.55vw, 3.35rem);
 
   & layout.flex {
@@ -147,6 +147,9 @@ about {
     line-height: var(--about-value-title-line-height);
     letter-spacing: -0.01em;
   }
+  values svg {
+    overflow: visible;
+  }
   value p {
     margin: 0;
     max-width: var(--about-value-max-measure);
@@ -155,7 +158,8 @@ about {
     text-wrap: pretty;
   }
   value svg {
-    height: var(--about-value-icon-size); /* aspect ratio from viewBox — no non-uniform “square letterboxing” */
+    height: var(--about-value-icon-size);
+    width: auto;
     display: block;
     flex-shrink: 0;
   }
@@ -238,8 +242,12 @@ body.about about first-values > layout:first-of-type {
   scroll-snap-stop: always;
   scroll-margin-top: calc(var(--header-height) + var(--about-scroll-teaser-height) + var(--about-title-stack-height));
 }
-first-values values svg {
-  margin-left: auto;
+/* Pin icon box to outer column edge ↔️ */
+about first-values value {
+  align-items: flex-end;
+}
+about second-values value {
+  align-items: flex-start;
 }
 first-values value p {
   margin-left: auto;
@@ -407,10 +415,10 @@ body.about .scroll-to-about {
     }
   }
 
-  /* Second-fold spiral: drifts down ~20% of its box into place (uses `translate` so `scale` on .spiral still applies) 🌀 */
+  /* Second-fold spiral: drifts down into place (uses `translate` so `scale` on .spiral still applies) 🌀 */
   @keyframes about-second-spiral-settle {
     from {
-      translate: 0 -20%;
+      translate: 0 -12%;
     }
     to {
       translate: 0 0;
