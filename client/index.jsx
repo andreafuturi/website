@@ -12,6 +12,7 @@ export default function Index({ children }) {
         <meta name="theme-color" content="#EEEEEE" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <MainJsx isDev={globalThis.dev} />
+        <script dangerouslySetInnerHTML={{ __html: "if(!CSS.supports('height','1svh'))document.documentElement.style.setProperty('--svh',(window.innerHeight/100)+'px')" }} />
         {inlineImport({ src: `${!globalThis.dev ? "dist/assets/" : ""}index.css` })}
         <Title>Andrea Futuri</Title>
       </head>

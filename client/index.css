@@ -198,10 +198,14 @@ svg:not(.about-fractal-bg) {
 
 :root {
   /*
-   * Viewport units (vh / svh): NEVER collapse to svh-only.
-   * Pattern: same property twice — first `vh` (or `100vh` inside calc/clamp) for engines without svh support,
-   * then `svh` so modern mobile browsers correct for dynamic toolbars. Order matters; the second line wins when supported.
-   * This applies across index.css, home.css, and about.css. Do not “dedupe” these pairs.
+   * Viewport units (vh / svh / --svh): three-tier fallback. Do not collapse or dedupe.
+   *  1. `vh`  — very-old engines (no custom properties, no svh): first declaration wins.
+   *  2. `svh` — modern browsers: second declaration overrides vh at parse time.
+   *  3. `@supports not (height: 1svh)` block below — engines that have custom properties
+   *     but no svh support: inline <script> sets --svh = window.innerHeight/100 + 'px'
+   *     before first paint; the block overrides with calc(N * var(--svh, 1vh)) for a
+   *     fixed height that does not shift when mobile toolbars appear/disappear.
+   *  This applies across index.css, home.css, and about.css.
    */
   --primary-color: #00bbff;
   --secondary-color: #ffc200;
@@ -249,6 +253,25 @@ svg:not(.about-fractal-bg) {
   --header-bar-backdrop-blur: 10px;
   --scroll-ui-transition-duration: 0.3s;
   --scroll-ui-transition-easing: ease-in-out;
+}
+
+/* JS-measured fixed viewport height for browsers without svh support.
+ * --svh is set by the inline <script> in <head> to window.innerHeight/100 px.
+ * var(--svh, 1vh) falls back to 1vh if the script did not run (no worse than before). */
+@supports not (height: 1svh) {
+  :root {
+    --menu-height: clamp(4rem, calc(8 * var(--svh, 1vh)), 5rem);
+    --logo-height: clamp(1.5rem, calc(3.5 * var(--svh, 1vh)), 2.5rem);
+    --header-padding: clamp(0.7rem, calc(2 * var(--svh, 1vh)), 2rem);
+    --scroll-to-about-padding: clamp(0.3rem, calc(3 * var(--svh, 1vh)), 2rem);
+    --home-height: calc(
+      100 * var(--svh, 1vh) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
+        2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
+    );
+    --about-view-inset-block-end: clamp(4rem, calc(22 * var(--svh, 1vh)), 14rem);
+    --space-sm: clamp(0.1rem, var(--svh, 1vh), 1rem);
+    --space-md: clamp(0.3rem, var(--svh, 1vh), 0.8rem);
+  }
 }
 
 * {

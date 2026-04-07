@@ -80,3 +80,15 @@ home {
     padding: var(--space-md) 0;
   }
 }
+
+@supports not (height: 1svh) {
+  home img {
+    max-height: calc(60 * var(--svh, 1vh));
+  }
+  home .texteffect {
+    height: clamp(1rem, calc(25 * var(--svh, 1vh)), 11rem);
+  }
+  home cta {
+    gap: var(--svh, 1vh);
+  }
+}
