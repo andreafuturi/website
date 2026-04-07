@@ -1,8 +1,8 @@
-/* vh → cqh/cqi pairs: required fallback; see index.css :root "Viewport/container units" comment — do not remove duplicates */
+/* vh → svh pairs: required fallback; see index.css :root "Viewport/small-viewport units" comment — do not remove duplicates */
 about {
   /* Tune via --about-values-*, --about-second-fold-bottom-gap on first-values / second-values */
   --about-second-fold-bottom-gap: clamp(1.25rem, 4vh, 2.25rem);
-  --about-second-fold-bottom-gap: clamp(1.25rem, 4cqh, 2.25rem);
+  --about-second-fold-bottom-gap: clamp(1.25rem, 4svh, 2.25rem);
   --about-values-row-align: stretch;
   --about-values-row-justify: center;
   --about-values-pack: flex-start;
@@ -49,10 +49,10 @@ about {
   text-align: center;
   /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
   --about-scroll-teaser-height: calc(100vh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
-  --about-scroll-teaser-height: calc(100cqh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
+  --about-scroll-teaser-height: calc(100svh - var(--home-height) - var(--menu-height) - var(--header-height) - var(--scroll-to-about-padding) * 2);
   /* h1 + “My Values” (approx — tweak if typography changes) */
   --about-title-stack-height: clamp(3.25rem, 11vh, 4.5rem);
-  --about-title-stack-height: clamp(3.25rem, 11cqh, 4.5rem);
+  --about-title-stack-height: clamp(3.25rem, 11svh, 4.5rem);
   .scroll-to-about {
     color: var(--fake-white);
     opacity: 1;
@@ -71,7 +71,7 @@ about {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    min-height: 100cqh;
+    min-height: 100svh;
     /* Fluid nudge left on narrow viewports — no @media (0 until line crosses zero, caps at max) 📐 */
     /* ↑ vw coeff / rem offset ratio ≈ constant → same “start sliding” width, stronger reaction to width changes */
     --about-values-graphic-slide: clamp(0px, 30rem - 52cqi, 7rem);
@@ -87,14 +87,14 @@ about {
     /* Skew toward <values>: was 1fr 1fr (half each); wider copy column, especially on phones 📱 */
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     margin-top: 3vh;
-    margin-top: 3cqh;
+    margin-top: 3svh;
     min-height: max(
       0px,
       calc(100vh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
     );
     min-height: max(
       0px,
-      calc(100cqh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
+      calc(100svh - var(--header-height) - var(--menu-height) - var(--about-scroll-teaser-height) - var(--about-title-stack-height))
     );
     position: relative;
   }
@@ -117,7 +117,7 @@ about {
   }
   second-values {
     max-height: calc(100vh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
-    max-height: calc(100cqh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
+    max-height: calc(100svh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
     .spiral {
       scale: 3.5;
     }
