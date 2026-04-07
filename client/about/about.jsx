@@ -157,7 +157,7 @@ export default function About() {
         </layout>
       </first-values>
       <second-values>
-        <svg viewBox="0 0 862778 929594" width="100%" height="50%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral about-spiral-backdrop" aria-hidden="true"><g transform="translate(404523, 434021)">
+        <svg viewBox="0 0 862778 929594" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" class="spiral about-spiral-backdrop about-second-spiral" aria-hidden="true"><g transform="translate(404523, 434021)">
             <AboutSpiralPaths />
           </g>
           </svg>

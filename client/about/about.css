@@ -116,8 +116,9 @@ about {
     min-width: 0;
   }
   second-values {
-    max-height: calc(100vh - var(--about-second-fold-bottom-gap));
-    max-height: calc(100svh - var(--about-second-fold-bottom-gap));
+    max-height: calc(100vh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
+    max-height: calc(100svh - var(--fixed-menu-clearance) - var(--about-second-fold-bottom-gap) - var(--header-height));
+    
 
   }
   values {
@@ -209,14 +210,24 @@ about layout {
 
 about second-values {
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   --about-values-pack: flex-end;
   --about-value-text-align: left;
   --about-value-max-measure: 44ch;
-  /* Clearance for fixed nav + a little breathing room */
-  min-height: calc(100vh - var(--header-height));
-  min-height: calc(100svh - var(--header-height));
   padding-bottom: calc(var(--fixed-menu-clearance) + var(--about-second-fold-bottom-gap));
+}
+
+/* Spiral fills whatever height <values> does not use (override global `values { flex: 1 }` on this fold) 🌀 */
+about second-values > svg.about-second-spiral {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+about second-values > values {
+  flex: 0 0 auto;
 }
 
 /* Keeps <about> a snap target when body.about is set (avoids mandatory snap jumping back to <home>) */
