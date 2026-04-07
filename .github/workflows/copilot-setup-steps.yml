@@ -40,10 +40,8 @@ jobs:
 
       # Restore the Deno module cache from a previous run so the agent can work
       # without re-downloading from deno.land, esm.sh, or cdn.skypack.dev.
-      # NOTE: those three domains must also be added to the Copilot agent's
-      # firewall allowlist in repo Settings → Copilot → Coding agent → Firewall,
-      # so that this warm-up step (and any new imports the agent creates) can
-      # reach them on the first run.
+      # The pre-fetch step below populates ~/.cache/deno so the agent never
+      # needs outbound access to those domains during its own session.
       - name: Restore Deno module cache
         uses: actions/cache@v4
         with:
