@@ -43,8 +43,8 @@ about {
   view-timeline-axis: block;
   view-timeline-inset: 0 var(--about-view-inset-block-end);
   /* Phase-2 band (WAAPI reads these). animation-range must use literals — var() breaks in animation-range in several browsers */
-  --about-phase2-cover-start: 40%;
-  --about-phase2-cover-end: 65%;
+  --about-phase2-cover-start: 35%;
+  --about-phase2-cover-end: 60%;
   color: var(--fake-white);
   text-align: center;
   /* Teaser link block — reused so first <layout> can min-height to the real viewport fold 📏 */
@@ -407,6 +407,16 @@ body.about .scroll-to-about {
     }
   }
 
+  /* Second-fold spiral: drifts down ~20% of its box into place (uses `translate` so `scale` on .spiral still applies) 🌀 */
+  @keyframes about-second-spiral-settle {
+    from {
+      translate: 0 -20%;
+    }
+    to {
+      translate: 0 0;
+    }
+  }
+
   /* Fractal: two ranges on --route-scroll; track 2 uses forwards only (not both) so phase-2 blur is not applied before cover 22% */
   about > svg.about-fractal-bg {
     animation-name: about-fractal-blur, about-fractal-phase2;
@@ -415,7 +425,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 22% cover 65%;
+      cover 22% cover 60%;
   }
 
   about::after {
@@ -425,7 +435,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 40% cover 65%;
+      cover 35% cover 60%;
   }
 
   /* Phase-2 dark transition: color drives text + SVG fill; include second-values .spiral (base `.spiral` color overrides parent inheritance) */
@@ -434,7 +444,17 @@ body.about .scroll-to-about {
   second-values .spiral {
     animation: about-to-dark linear both;
     animation-timeline: --route-scroll;
-    animation-range: cover 40% cover 65%;
+    animation-range: cover 35% cover 60%;
+  }
+
+  about second-values > svg.about-second-spiral {
+    animation-name: about-second-spiral-settle, about-to-dark;
+    animation-timing-function: linear, linear;
+    animation-fill-mode: both, both;
+    animation-timeline: --route-scroll, --route-scroll;
+    animation-range:
+      cover 35% cover 60%,
+      cover 35% cover 60%;
   }
 
   first-values h1,
@@ -445,7 +465,7 @@ body.about .scroll-to-about {
     animation-timeline: --route-scroll, --route-scroll;
     animation-range:
       entry 0% cover 22%,
-      cover 38% cover 60%;
+      cover 33% cover 57%;
   }
 
   /* Fractal+spiral SVG + value cards share one fade (same range as h1/p out) 🌀 */
@@ -462,7 +482,15 @@ body.about .scroll-to-about {
     animation-timeline: auto, --route-scroll;
     animation-range:
       normal,
-      entry 0% cover 40%;
+      entry 0% cover 35%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    about second-values > svg.about-second-spiral {
+      animation: about-to-dark linear both;
+      animation-timeline: --route-scroll;
+      animation-range: cover 35% cover 60%;
+    }
   }
 }
 
