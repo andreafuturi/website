@@ -5,6 +5,10 @@
 ### Project overview
 Andrea Futuri's portfolio site — a Deno SSR + Preact framework ("Singularity") with Vite for client-side dev tooling. See `README.md` and `docs/` for framework details.
 
+### Markup — stay minimal
+
+Do **not** add wrapper `div`s (or extra nodes) unless there is no reasonable way to achieve the layout or behavior with the existing tree — prefer grid/flex on a parent, `display: contents` where appropriate, and sizing on the real element (e.g. SVG + `object-fit`). Extra markup should be the exception and called out in review.
+
 ### Services
 
 | Service | Command | Port | Notes |

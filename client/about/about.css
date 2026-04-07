@@ -16,6 +16,8 @@ about {
   --about-value-max-measure: 34ch;
   --about-value-title-to-body-gap: clamp(0.45rem, 0.35rem + 0.25vw, 0.75rem);
   --about-value-block-gap: clamp(1.1rem, 0.95rem + 0.8vw, 1.9rem);
+  /* Icon width — height:auto follows each SVG viewBox (uniform width; tall icons get more vertical space) 📐 */
+  --about-value-icon-size: clamp(2.85rem, 2.6rem + 0.55vw, 3.35rem);
 
   & layout.flex {
     align-items: var(--about-values-row-align);
@@ -144,6 +146,11 @@ about {
     font-size: var(--about-value-body-size);
     line-height: var(--about-value-body-line-height);
     text-wrap: pretty;
+  }
+  value svg {
+    height: var(--about-value-icon-size); /* aspect ratio from viewBox — no non-uniform “square letterboxing” */
+    display: block;
+    flex-shrink: 0;
   }
   h1 {
     padding-bottom: 0.3rem;
