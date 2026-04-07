@@ -4,9 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="http://localhost:9000/index.css" />
-  <style>
-    /* Inline home CSS */
-  </style>
+  <link rel="stylesheet" href="http://localhost:9000/home/home.css" />
+  <link rel="stylesheet" href="http://localhost:9000/components/menu.css" />
   <title>Andrea Futuri - Test</title>
 </head>
 <body class="">
@@ -14,7 +13,7 @@
     <a href="/">
       <svg class="logo" width="130" height="36" viewBox="0 0 130 36" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M15.5673 28.5906L20.7575 35.734H31.138L20.7575 21.4404L25.9478 14.297L41.5184 35.7374H51.8989L25.9478 0L0 35.734H10.3804L15.5673 28.5906Z" />
-        <path d="M70.7182 25.7433H66.29V30H64.4189V18.9606H71.6382V20.5978H66.29V24.2464H70.7182V25.7433ZM82.4406 25.4626V18.9606H84.3273V25.4938C84.3273 28.3472 82.3782 30.3898 79.6495 30.3898C76.9053 30.3898 74.9562 28.3472 74.9562 25.4938V18.9606H76.8429V25.4626C76.8429 27.1778 77.9344 28.7526 79.6495 28.7682C81.3179 28.7682 82.4406 27.3649 82.4406 25.4626ZM90.8992 30V20.5666H87.3597V18.9606H96.2942V20.5666H92.7703V30H90.8992ZM106.824 25.4626V18.9606H108.711V25.4938C108.711 28.3472 106.761 30.3898 104.033 30.3898C101.289 30.3898 99.3395 28.3472 99.3395 25.4938V18.9606H101.226V25.4626C101.226 27.1778 102.318 28.7526 104.033 28.7682C105.701 28.7682 106.824 27.3649 106.824 25.4626ZM117.73 20.5042H114.737V24.5115H117.73C119.165 24.5115 120.225 23.6851 120.225 22.5468C120.225 21.2527 119.181 20.5042 117.73 20.5042ZM114.737 26.0083V30H112.866V18.9606H117.949C120.366 18.9606 122.096 20.4418 122.096 22.5468C122.096 24.0281 121.02 25.3379 119.524 25.7277L122.283 30H120.132L117.699 26.0083H114.737ZM125.979 18.9606H127.85V30H125.979V18.9606Z" />
+        <path d="M70.7182 25.7433H66.29V30H64.4189V18.9606H71.6382V20.5978H66.29V24.2464H70.7182V25.7433ZM82.4406 25.4626V18.9606H84.3273V25.4938C84.3273 28.3472 82.3782 30.3898 79.6495 30.3898C76.9053 30.3898 74.9562 28.3472 74.9562 25.4938V18.9606H76.8429V25.4626C76.8429 27.1778 77.9344 28.7526 79.6495 28.7682C81.3179 28.7682 82.4406 27.3649 82.4406 25.4626ZM90.8992 30V20.5666H87.3597V18.9606H96.2942V20.5666H92.7703V30H90.8992ZM106.824 25.4626V18.9606H108.711V25.4938C108.711 28.3472 106.762 30.3898 104.033 30.3898C101.289 30.3898 99.3395 28.3472 99.3395 25.4938V18.9606H101.226V25.4626C101.226 27.1778 102.318 28.7526 104.033 28.7682C105.701 28.7682 106.824 27.3649 106.824 25.4626ZM117.73 20.5042H114.737V24.5115H117.73C119.165 24.5115 120.225 23.6851 120.225 22.5468C120.225 21.2527 119.181 20.5042 117.73 20.5042ZM114.737 26.0083V30H112.866V18.9606H117.949C120.366 18.9606 122.096 20.4418 122.096 22.5468C122.096 24.0281 121.02 25.3379 119.524 25.7277L122.283 30H120.132L117.699 26.0083H114.737ZM125.979 18.9606H127.85V30H125.979V18.9606Z" />
       </svg>
     </a>
     <a class="header-cta" href="/cv.pdf" download aria-label="Download CV as PDF">DOWNLOAD AS CV</a>
@@ -22,69 +21,6 @@
   <router>
     <route scroll path="/">
       <home id="home">
-        <style>
-          /* vh → svh pairs: required fallback; see index.css :root "Viewport units" comment — do not remove duplicates */
-          home {
-            --home-hero-mask: linear-gradient(0deg, rgba(166, 166, 166, 0) 10%, rgba(115, 115, 115, 0.5) 18%, #737373 39%, #737373 100%, rgba(217, 217, 217, 0) 100%);
-            --home-texteffect-mask: linear-gradient(0deg, rgba(166, 166, 166, 0) 0%, rgba(115, 115, 115, 0.5) 5%, #737373 86%, #737373 41%, rgba(217, 217, 217, 0) 100%);
-            min-height: var(--home-height);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-          }
-          home img {
-            position: absolute;
-            width: 100%;
-            inset: 0;
-            -webkit-mask: var(--home-hero-mask);
-            mask: var(--home-hero-mask);
-            z-index: -1;
-            object-position: top;
-            object-fit: cover;
-            max-height: 60vh;
-            max-height: 60svh;
-            min-height: 335px;
-          }
-          home .texteffect {
-            height: clamp(1rem, 25vh, 11rem);
-            height: clamp(1rem, 25svh, 11rem);
-            font-weight: 700;
-            font-size: 1.113rem;
-            line-height: 1.263rem;
-            letter-spacing: 0.1em;
-            opacity: 0.05;
-            -webkit-mask: var(--home-texteffect-mask);
-            mask: var(--home-texteffect-mask);
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scrollbar-width: none;
-            list-style: none;
-          }
-          home .texteffect > li { scroll-snap-align: start; }
-          home svg { overflow: visible; }
-          home logos {
-            padding: var(--space-sm) 0;
-            display: flex;
-            gap: 1rem;
-            justify-content: space-evenly;
-          }
-          home companies {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-            justify-content: center;
-          }
-          home cta {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            justify-content: center;
-            gap: 1vh;
-            gap: 1svh;
-            padding: var(--space-md) 0;
-          }
-        </style>
         <img width="565" height="440" src="http://localhost:9000/images/hero.webp" alt="hero" />
         <ul class="texteffect" role="list" aria-label="Rotating names">
           <li>アンドレア フトゥリ</li>
@@ -113,34 +49,6 @@
     <a href="/services">🛠 Services</a>
     <a href="/portfolio">💼 Portfolio</a>
     <a href="/my-story">📖 My Story</a>
-    <style>
-      nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-sizing: border-box;
-        min-height: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px));
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        font-weight: 400;
-        font-size: 0.725rem;
-        background: rgba(18,18,18,0.8);
-      }
-      nav a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--fake-white);
-        text-decoration: none;
-      }
-    </style>
   </nav>
 </body>
 </html>
