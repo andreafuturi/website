@@ -1,0 +1,31 @@
+name: Remove Copilot Auto-Assignees
+
+# When the Copilot coding agent opens a PR it automatically assigns itself
+# and the repository owner. This workflow removes those assignees so PRs
+# stay unassigned until a human explicitly assigns them.
+on:
+    pull_request:
+        types: [opened]
+
+jobs:
+    remove-assignees:
+        runs-on: ubuntu-latest
+        if: github.event.pull_request.user.login == 'Copilot'
+
+        permissions:
+            pull-requests: write
+
+        steps:
+            - name: Remove all assignees from Copilot PR
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const assignees = context.payload.pull_request.assignees.map(a => a.login);
+                      if (assignees.length === 0) return;
+                      await github.rest.issues.removeAssignees({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          issue_number: context.payload.pull_request.number,
+                          assignees,
+                      });
+                      console.log(`Removed assignees: ${assignees.join(', ')}`);
