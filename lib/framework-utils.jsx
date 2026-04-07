@@ -109,8 +109,8 @@ const fastrefresh = `((l) => {
   s();
 })(location);`;
 function addRouteTitle(appTitle) {
-  let path = globalThis.location.pathname.split("/").filter(Boolean);
-  let title = path.length ? path[0] : "home";
+  const path = globalThis.location.pathname.split("/").filter(Boolean);
+  const title = path.length ? path[0] : "home";
   return title.charAt(0).toUpperCase() + title.slice(1) + " | " + appTitle;
 }
 const Title = ({ children }) => (
