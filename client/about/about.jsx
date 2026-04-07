@@ -191,8 +191,8 @@ function initSpiralMorph() {
     if (!paths.length) return;
 
     const cs = getComputedStyle(aboutEl);
-    const rangeStart = `cover ${cs.getPropertyValue("--about-phase2-cover-start").trim() || "32%"}`;
-    const rangeEnd = `cover ${cs.getPropertyValue("--about-phase2-cover-end").trim() || "58%"}`;
+    const rangeStart = `cover ${cs.getPropertyValue("--about-phase2-cover-start").trim() || "40%"}`;
+    const rangeEnd = `cover ${cs.getPropertyValue("--about-phase2-cover-end").trim() || "65%"}`;
 
     const blockEnd = getComputedStyle(document.documentElement).getPropertyValue("--about-view-inset-block-end").trim();
     const inset = cs.getPropertyValue("view-timeline-inset").trim() || (blockEnd ? `0 ${blockEnd}` : "auto");
