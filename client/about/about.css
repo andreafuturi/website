@@ -275,47 +275,10 @@ about::after {
   pointer-events: none;
 }
 
-/* Route-based: mirror scroll end state + smooth on path change (no view timelines) */
-@supports not (animation-timeline: view()) {
-  about > svg.about-fractal-bg {
-    transition:
-      filter var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing),
-      transform var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-  }
-
-  about::after {
-    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-  }
-
-  body.about about > svg.about-fractal-bg {
-    filter: blur(var(--about-fractal-blur-end));
-    transform: scale(var(--about-fractal-scale-end));
-  }
-
-  body.about about::after {
-    opacity: var(--fractal-veil-opacity-end);
-  }
-
-  first-values h1,
-  first-values p {
-    transition: opacity var(--scroll-ui-transition-duration) var(--scroll-ui-transition-easing);
-  }
-
-  body.about first-values h1,
-  body.about first-values p {
-    opacity: 1;
-  }
-}
-
 body.about .scroll-to-about {
   pointer-events: none;
 }
 
-@supports not (animation-timeline: view()) {
-  body.about .scroll-to-about {
-    opacity: 0;
-  }
-}
 @keyframes scroll-to-about-animation {
   from {
     transform: translateY(0);
