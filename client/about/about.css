@@ -426,9 +426,10 @@ body.about .scroll-to-about {
       cover 32% cover 58%;
   }
 
-  /* Phase-2 dark transition: color drives both text and SVG fill (via currentColor on .spiral) */
+  /* Phase-2 dark transition: color drives text + SVG fill; include second-values .spiral (base `.spiral` color overrides parent inheritance) */
   second-values,
-  first-values .spiral {
+  first-values .spiral,
+  second-values .spiral {
     animation: about-to-dark linear both;
     animation-timeline: --route-scroll;
     animation-range: cover 32% cover 58%;
