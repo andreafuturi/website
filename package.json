@@ -5,7 +5,8 @@
   "type": "module",
   "packageManager": "npm@10.9.4",
   "scripts": {
-   "start": "npm run dev-client & npm run dev-server",
+    "prestart": "bash -lc 'command -v deno >/dev/null 2>&1 || { set -eo pipefail; curl -fsSL https://deno.land/install.sh | sh; }'",
+    "start": "bash -lc 'export PATH=\"$HOME/.deno/bin:$PATH\"; npm run dev-client & npm run dev-server'",
     "lint": "deno lint --config server/deno.json",
     "test": "deno test --config server/deno.json --allow-net --allow-read --allow-run --allow-env tests/",
     "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx",
