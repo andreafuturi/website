@@ -388,6 +388,18 @@ body.about .scroll-to-about {
     }
   }
 
+  /* First spiral: gentle CCW spin tied to route scroll (negative = counter-clockwise) 🌀 */
+  @keyframes about-first-spiral-rotate {
+    from {
+      rotate: 0deg;
+      scale: 1;
+    }
+    to {
+      rotate: -30deg;
+      scale: 0.8;
+    }
+  }
+
   /* Fractal: two ranges on --route-scroll; track 2 uses forwards only (not both) so phase-2 blur is not applied before cover 22% */
   about > svg.about-fractal-bg {
     animation-name: about-fractal-blur, about-fractal-phase2;
@@ -428,6 +440,15 @@ body.about .scroll-to-about {
       cover 35% cover 60%;
   }
 
+  /* Rotate existing first spiral svg; keeps translateX transform untouched */
+  first-values > layout:first-of-type > svg.about-values-graphic {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: about-first-spiral-rotate linear both;
+    animation-timeline: --route-scroll;
+    animation-range: cover 35% cover 60%;
+  }
+
   first-values h1,
   first-values p {
     animation-name: about-content-fade-in, about-first-fold-fade-out;
@@ -461,6 +482,10 @@ body.about .scroll-to-about {
       animation: about-to-dark linear both;
       animation-timeline: --route-scroll;
       animation-range: cover 35% cover 60%;
+    }
+
+    first-values > layout:first-of-type > svg.about-values-graphic {
+      animation: none;
     }
   }
 }
