@@ -28,5 +28,8 @@ Deno.test("SSR: home page includes dev mode script in dev", async () => {
   const res = await fetch(BASE + "/");
   const html = await res.text();
   assert(html.includes("globalThis.dev=true"), "Dev mode should inject dev flag");
-  assert(html.includes("localhost:3456"), "Dev mode should reference Vite dev server");
+  assert(
+    /localhost:\d+\/main\.jsx/.test(html),
+    "Dev mode should reference Vite dev server (localhost:<port>/main.jsx)",
+  );
 });
