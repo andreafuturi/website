@@ -21,11 +21,41 @@ const serverConfig = {
 };
 
 const handler = createServerHandler(serverConfig);
+const formatServerUrls = (hostname, port) => {
+  const localHost = hostname === "0.0.0.0" ? "localhost" : hostname;
+  const urls = [`  Local:   http://${localHost}:${port}/`];
+
+  if (hostname === "0.0.0.0") {
+    for (const iface of Deno.networkInterfaces()) {
+      if (iface.family !== "IPv4") {
+        continue;
+      }
+
+      // Skip loopback and link-local addresses.
+      if (iface.address.startsWith("127.") || iface.address.startsWith("169.254.")) {
+        continue;
+      }
+
+      urls.push(`  Network: http://${iface.address}:${port}/`);
+    }
+  }
+
+  return urls.join("\n");
+};
+
+const createListenOptions = (port) => ({
+  hostname: "0.0.0.0",
+  port,
+  onListen: ({ hostname, port }) => {
+    console.log(formatServerUrls(hostname, port));
+  },
+});
+
 try {
-  Deno.serve(handler);
+  Deno.serve(createListenOptions(8000), handler);
 } catch (e) {
   if (e instanceof Deno.errors.AddrInUse) {
-    Deno.serve({ port: 0 }, handler);
+    Deno.serve(createListenOptions(0), handler);
   } else {
     throw e;
   }
