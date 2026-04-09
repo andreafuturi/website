@@ -2,8 +2,11 @@ import { startRouter } from "https://esm.sh/lightweight-router?debug=true";
 import hydrateInteractiveComponents from "../lib/hydration.jsx";
 
 // Load the scroll-driven animations polyfill only in browsers that lack native support.
+// Uses <script> tag injection (not dynamic import) because the polyfill is a classic script, not an ES module.
 if (typeof CSS === "undefined" || !CSS.supports("animation-timeline", "view()")) {
-  import("https://cdn.jsdelivr.net/npm/@webkit/scroll-timeline-polyfill@0.1.5/dist/scroll-timeline-polyfill.min.js");
+  const script = document.createElement("script");
+  script.src = "https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js";
+  document.head.appendChild(script);
 }
 
 const interactiveComponents = [];
