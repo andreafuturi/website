@@ -11,7 +11,7 @@
     "prod-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx",
     "dev-server": "deno run --unstable --allow-env --watch --no-check --allow-read --allow-ffi --allow-run --allow-write --allow-net --allow-sys=networkInterfaces server/main.jsx --dev",
     "dev-client": "vite client --host",
-    "preview": "npm run build:watch & npm run prod-server",
+    "preview": "concurrently --names build,server,tunnel \"npm run build:watch\" \"npm run prod-server\" \"cloudflared tunnel --url http://localhost:8000\"",
     "build": "vite build client --outDir dist",
     "build:watch": "vite build client --outDir dist --watch",
     "final": "deno pack server or deno bundle server",
