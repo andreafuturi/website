@@ -1,24 +1,10 @@
 const websiteRoot = new URL("..", import.meta.url);
-
-function isFreePort(port) {
-  try {
-    const listener = Deno.listen({ hostname: "0.0.0.0", port });
-    listener.close();
-    return true;
-  } catch (error) {
-    if (error instanceof Deno.errors.AddrInUse) return false;
-    throw error;
-  }
-}
-
-function firstFreePort(start, maxAttempts = 200) {
-  for (let port = start; port <= start + maxAttempts; port += 1) {
-    if (isFreePort(port)) return port;
-  }
-  throw new Error(`No free port in range ${start}-${start + maxAttempts}`);
-}
-
-const vitePort = firstFreePort(5173);
+const vitePort = (() => {
+  const listener = Deno.listen({ hostname: "0.0.0.0", port: 0 });
+  const { port } = listener.addr;
+  listener.close();
+  return port;
+})();
 
 const baseEnv = Deno.env.toObject();
 const io = { stdin: "inherit", stdout: "inherit", stderr: "inherit" };
@@ -51,10 +37,11 @@ const app = new Deno.Command("deno", {
   ...io,
 }).spawn();
 
-const safeKill = (proc, signal = "SIGTERM") => {
-  try { proc.kill(signal); } catch { /* process already exited */ }
+const stop = (signal = "SIGTERM") => {
+  for (const proc of [vite, app]) {
+    try { proc.kill(signal); } catch { /* process already exited */ }
+  }
 };
-const stop = (signal = "SIGTERM") => (safeKill(vite, signal), safeKill(app, signal));
 
 Deno.addSignalListener("SIGINT", () => stop("SIGINT"));
 Deno.addSignalListener("SIGTERM", () => stop("SIGTERM"));
