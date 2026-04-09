@@ -3,10 +3,17 @@ import hydrateInteractiveComponents from "../lib/hydration.jsx";
 
 // Load the scroll-driven animations polyfill only in browsers that lack native support.
 // Uses <script> tag injection (not dynamic import) because the polyfill is a classic script, not an ES module.
-if (typeof CSS === "undefined" || !CSS.supports("animation-timeline", "view()")) {
+const _cssSupports = typeof CSS !== "undefined" && CSS.supports("animation-timeline", "view()");
+alert("DEBUG: CSS defined=" + (typeof CSS !== "undefined") + " | supports animation-timeline=" + _cssSupports + " | UA=" + navigator.userAgent);
+if (!_cssSupports) {
+  alert("DEBUG: injecting polyfill script...");
   const script = document.createElement("script");
   script.src = "https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js";
+  script.onload = () => alert("DEBUG: polyfill loaded OK");
+  script.onerror = (e) => alert("DEBUG: polyfill FAILED to load: " + e);
   document.head.appendChild(script);
+} else {
+  alert("DEBUG: native support detected, polyfill skipped");
 }
 
 const interactiveComponents = [];
