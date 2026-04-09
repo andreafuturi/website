@@ -72,10 +72,12 @@ export const inlineImport = withoutHydration(({ src, selfExecute, perInstance = 
 });
 
 function MainJsx({ isDev = false }) {
+  // Fallback matches Vite `server.port` default (5173)
+  const viteDevPort = globalThis.Deno?.env?.get("VITE_DEV_PORT") ?? "5173";
   return (
     <>
       {isDev && <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' *;" />}
-      <script rel="preconnect" type="module" crossorigin src={isDev ? "http://localhost:3456/main.jsx" : "/dist/assets/index.js"}></script>
+      <script rel="preconnect" type="module" crossorigin src={isDev ? `http://localhost:${viteDevPort}/main.jsx` : "/dist/assets/index.js"}></script>
       {isDev && <script>{fastrefresh}</script>}
     </>
   );

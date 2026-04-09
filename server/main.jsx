@@ -20,6 +20,13 @@ const serverConfig = {
   },
 };
 
-// Create and start server
 const handler = createServerHandler(serverConfig);
-Deno.serve(handler);
+try {
+  Deno.serve(handler);
+} catch (e) {
+  if (e instanceof Deno.errors.AddrInUse) {
+    Deno.serve({ port: 0 }, handler);
+  } else {
+    throw e;
+  }
+}
