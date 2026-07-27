@@ -3,12 +3,18 @@ html {
   font-size: 17px;
   accent-color: var(--primary-color);
   caret-color: var(--primary-color);
+  height: 100%;
+  box-sizing: border-box;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
   padding: var(--header-height) 0 0;
   color: var(--fake-black);
   background: linear-gradient(to bottom, var(--fake-white), var(--page-bg-end));
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 a {
   color: var(--primary-color);
@@ -170,7 +176,9 @@ header .header-cta {
 }
 static,
 interactive,
-figure {
+figure,
+router,
+route {
   display: contents;
 }
 html {
@@ -197,12 +205,6 @@ svg:not(.about-fractal-bg) {
 }
 
 :root {
-  /*
-   * Viewport units (vh / svh): NEVER collapse to svh-only.
-   * Pattern: same property twice — first `vh` (or `100vh` inside calc/clamp) for engines without svh support,
-   * then `svh` so modern mobile browsers correct for dynamic toolbars. Order matters; the second line wins when supported.
-   * This applies across index.css, home.css, and about.css. Do not “dedupe” these pairs.
-   */
   --primary-color: #00bbff;
   --secondary-color: #ffc200;
   --fake-white: #eeeeee;
@@ -211,37 +213,21 @@ svg:not(.about-fractal-bg) {
   --light-gray: #8e8e93;
   --page-bg-end: #fff;
   --on-primary: #fff;
-  --menu-height: clamp(4rem, 8vh, 5rem);
-  --menu-height: clamp(4rem, 8svh, 5rem);
+  --menu-height: clamp(4rem, 8vmin, 5rem);
   --fixed-menu-clearance: calc(var(--menu-height) + env(safe-area-inset-bottom, 0px) + 1px);
-  --logo-height: clamp(1.5rem, 3.5vh, 2.5rem);
-  --logo-height: clamp(1.5rem, 3.5svh, 2.5rem);
-  --header-padding: clamp(0.7rem, 2vh, 2rem);
-  --header-padding: clamp(0.7rem, 2svh, 2rem);
+  --logo-height: clamp(1.5rem, 3.5vmin, 2.5rem);
+  --header-padding: clamp(0.7rem, 2vmin, 2rem);
   --header-height: calc(var(--logo-height) + var(--header-padding) * 2);
   --global-padding-inline: clamp(1rem, 5vw, 2rem);
-  --scroll-to-about-padding: clamp(0.3rem, 3vh, 2rem);
-  --scroll-to-about-padding: clamp(0.3rem, 3svh, 2rem);
+  --scroll-to-about-padding: clamp(0.3rem, 3vmin, 2rem);
   --scroll-to-about-fontsize: 1rem;
   --scroll-to-about-lineheight: 1.2;
   --scroll-to-about-gap: 0.7rem;
   --scroll-to-about-icon-height: 11px;
 
-  --home-height: calc(
-    100vh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
-      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
-  );
-  --home-height: calc(
-    100svh - var(--menu-height) - var(--header-height) - var(--scroll-to-about-fontsize) * var(--scroll-to-about-lineheight) - var(--scroll-to-about-padding) *
-      2 - var(--scroll-to-about-gap) - var(--scroll-to-about-icon-height)
-  );
-
-  --about-view-inset-block-end: clamp(4rem, 22vh, 14rem);
-  --about-view-inset-block-end: clamp(4rem, 22svh, 14rem);
-  --space-sm: clamp(0.1rem, 1vh, 1rem);
-  --space-sm: clamp(0.1rem, 1svh, 1rem);
-  --space-md: clamp(0.3rem, 1vh, 0.8rem);
-  --space-md: clamp(0.3rem, 1svh, 0.8rem);
+  --about-view-inset-block-end: clamp(4rem, 22lvh, 14rem);
+  --space-sm: clamp(0.1rem, 1vmin, 1rem);
+  --space-md: clamp(0.3rem, 1vmin, 0.8rem);
 
   /* Scroll keyframe end state === route fallback (header) */
   --header-bar-bg: var(--fake-white);
