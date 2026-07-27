@@ -1,4 +1,4 @@
-/* vh → svh pairs: required fallback; see index.css :root "Viewport units" comment — do not remove duplicates */
+/* Viewport heights use --svh; see index.css :root comment. */
 home {
   --home-hero-mask: linear-gradient(
     0deg,
@@ -31,13 +31,11 @@ home {
     z-index: -1;
     object-position: top;
     object-fit: cover;
-    max-height: 60vh;
-    max-height: 60svh;
+    max-height: calc(60 * var(--svh));
     min-height: 335px;
   }
   .texteffect {
-    height: clamp(1rem, 25vh, 11rem);
-    height: clamp(1rem, 25svh, 11rem);
+    height: clamp(1rem, calc(25 * var(--svh)), 11rem);
     font-weight: 700;
     font-size: 1.113rem;
     line-height: 1.263rem;
@@ -75,8 +73,8 @@ home {
     flex-direction: column;
     flex: 1;
     justify-content: center;
-    gap: 1vh;
-    gap: 1svh;
+    gap: var(--svh);
     padding: var(--space-md) 0;
   }
 }
+
